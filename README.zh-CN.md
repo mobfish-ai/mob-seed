@@ -48,15 +48,18 @@
 ### 手动安装
 
 ```bash
-# 克隆到你的项目
+# 克隆仓库
 git clone https://github.com/mobfish-ai/mob-seed.git
+cd mob-seed
 
-# 插件结构：
-# mob-seed/
-# ├── .claude-plugin/    # 插件元数据
-# ├── commands/          # 斜杠命令
-# └── skills/            # 技能
+# 安装到用户目录（所有项目可用）
+./install.sh user
+
+# 或安装到项目目录（仅该项目可用）
+./install.sh project
 ```
+
+安装后重启 Claude Code 以加载插件。
 
 ## 快速开始
 

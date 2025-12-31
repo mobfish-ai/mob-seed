@@ -48,15 +48,18 @@
 ### Manual Installation
 
 ```bash
-# Clone to your project
+# Clone the repository
 git clone https://github.com/mobfish-ai/mob-seed.git
+cd mob-seed
 
-# The plugin structure:
-# mob-seed/
-# ├── .claude-plugin/    # Plugin metadata
-# ├── commands/          # Slash commands
-# └── skills/            # Skills
+# Install to user scope (available in all projects)
+./install.sh user
+
+# Or install to project scope (only available in that project)
+./install.sh project
 ```
+
+After installation, restart Claude Code to load the plugin.
 
 ## Quick Start
 
