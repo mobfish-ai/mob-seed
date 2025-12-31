@@ -35,20 +35,27 @@
 
 ## 安装
 
-### 通过 Claude Code 插件市场（推荐）
+### 通过插件市场（推荐）
 
 ```bash
-claude plugin install mobfish-ai/mob-seed
+# 第一步：添加市场
+/plugin marketplace add mobfish-ai/mob-seed
+
+# 第二步：安装插件
+/plugin install mob-seed
 ```
 
 ### 手动安装
 
 ```bash
-# 克隆到用户级技能目录
-git clone https://github.com/mobfish-ai/mob-seed.git ~/.claude/skills/mob-seed
+# 克隆到你的项目
+git clone https://github.com/mobfish-ai/mob-seed.git
 
-# 或克隆到项目级目录
-git clone https://github.com/mobfish-ai/mob-seed.git .claude/skills/mob-seed
+# 插件结构：
+# mob-seed/
+# ├── .claude-plugin/    # 插件元数据
+# ├── commands/          # 斜杠命令
+# └── skills/            # 技能
 ```
 
 ## 快速开始

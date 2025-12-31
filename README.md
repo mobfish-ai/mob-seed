@@ -35,20 +35,27 @@
 
 ## Installation
 
-### Via Claude Code Plugin Marketplace (Recommended)
+### Via Plugin Marketplace (Recommended)
 
 ```bash
-claude plugin install mobfish-ai/mob-seed
+# Step 1: Add the marketplace
+/plugin marketplace add mobfish-ai/mob-seed
+
+# Step 2: Install the plugin
+/plugin install mob-seed
 ```
 
 ### Manual Installation
 
 ```bash
-# Clone to your Claude skills directory
-git clone https://github.com/mobfish-ai/mob-seed.git ~/.claude/skills/mob-seed
+# Clone to your project
+git clone https://github.com/mobfish-ai/mob-seed.git
 
-# Or clone to project-level
-git clone https://github.com/mobfish-ai/mob-seed.git .claude/skills/mob-seed
+# The plugin structure:
+# mob-seed/
+# ├── .claude-plugin/    # Plugin metadata
+# ├── commands/          # Slash commands
+# └── skills/            # Skills
 ```
 
 ## Quick Start
