@@ -3,7 +3,7 @@
   "description": "Mobfish AI Plugin Marketplace - SEED Methodology Tools",
   "owner": {
     "name": "Mobfish AI",
-    "email": "dev@mobfish.ai"
+    "email": "kelvin@mobfish.ai"
   },
   "plugins": [
     {
@@ -13,7 +13,7 @@
       "source": "./",
       "author": {
         "name": "Mobfish AI",
-        "email": "dev@mobfish.ai"
+        "email": "kelvin@mobfish.ai"
       }
     }
   ]

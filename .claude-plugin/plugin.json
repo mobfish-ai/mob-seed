@@ -4,7 +4,7 @@
   "description": "SEED Methodology - Spec-Driven Development with OpenSpec Native Support",
   "author": {
     "name": "Mobfish AI",
-    "email": "dev@mobfish.ai"
+    "email": "kelvin@mobfish.ai"
   },
   "homepage": "https://github.com/mobfish-ai/mob-seed",
   "repository": "https://github.com/mobfish-ai/mob-seed",
@@ -17,19 +17,6 @@
     "code-generation",
     "automation"
   ],
-  "commands": [
-    "mob-seed",
-    "mob-seed-init",
-    "mob-seed-spec",
-    "mob-seed-emit",
-    "mob-seed-exec",
-    "mob-seed-defend",
-    "mob-seed-status",
-    "mob-seed-diff",
-    "mob-seed-sync",
-    "mob-seed-archive"
-  ],
-  "skills": [
-    "mob-seed"
-  ]
+  "commands": "./commands/",
+  "skills": "./skills/"
 }
