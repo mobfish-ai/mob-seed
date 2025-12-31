@@ -1,0 +1,38 @@
+{
+  "$schema": "../../schemas/stack.schema.json",
+
+  "name": "typescript",
+  "displayName": "TypeScript / Deno",
+  "version": "1.0.0",
+
+  "extensions": [".ts", ".tsx", ".mts"],
+  "runtime": "deno",
+
+  "commands": {
+    "test": "deno test",
+    "build": "deno check",
+    "lint": "deno lint",
+    "format": "deno fmt"
+  },
+
+  "patterns": {
+    "source": "src/**/*.ts",
+    "test": "test/**/*.test.ts",
+    "types": "src/**/*.types.ts",
+    "module": "**/mod.ts"
+  },
+
+  "features": [
+    "strict-types",
+    "esm-only",
+    "jsr-imports",
+    "no-any"
+  ],
+
+  "prompts": {
+    "code": "code.prompt.md",
+    "test": "test.prompt.md"
+  },
+
+  "template": "spec.template.md"
+}

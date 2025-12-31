@@ -1,0 +1,35 @@
+{
+  "$schema": "../../schemas/stack.schema.json",
+
+  "name": "javascript",
+  "displayName": "JavaScript / Node.js",
+  "version": "1.0.0",
+
+  "extensions": [".js", ".mjs", ".cjs"],
+  "runtime": "node",
+
+  "commands": {
+    "test": "node --test",
+    "lint": "eslint",
+    "format": "prettier --write"
+  },
+
+  "patterns": {
+    "source": "src/**/*.js",
+    "test": "test/**/*.test.js",
+    "scripts": "scripts/**/*.sh"
+  },
+
+  "features": [
+    "esm",
+    "commonjs",
+    "async-await"
+  ],
+
+  "prompts": {
+    "code": "code.prompt.md",
+    "test": "test.prompt.md"
+  },
+
+  "template": "spec.template.md"
+}

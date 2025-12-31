@@ -1,0 +1,82 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "stack.schema.json",
+  "title": "Stack Pack Configuration",
+  "description": "技术栈包配置规范 - 定义一个技术栈的元数据、命令、模式和提示",
+  "type": "object",
+  "required": ["name", "displayName", "version", "extensions", "runtime"],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "JSON Schema 引用"
+    },
+    "name": {
+      "type": "string",
+      "description": "技术栈唯一标识符（小写字母、数字、连字符）",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "displayName": {
+      "type": "string",
+      "description": "显示名称，可包含版本信息如 'Vue 3 + TypeScript'"
+    },
+    "version": {
+      "type": "string",
+      "description": "技术栈包版本号（语义化版本）",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "extensions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^\\.[a-z0-9]+$"
+      },
+      "description": "支持的文件扩展名列表，如 ['.ts', '.tsx']",
+      "minItems": 1
+    },
+    "runtime": {
+      "type": "string",
+      "description": "运行时环境，如 'node', 'deno', 'vite', 'cargo'"
+    },
+    "commands": {
+      "type": "object",
+      "description": "常用命令配置",
+      "properties": {
+        "test": { "type": "string", "description": "测试命令" },
+        "build": { "type": "string", "description": "构建命令" },
+        "lint": { "type": "string", "description": "代码检查命令" },
+        "format": { "type": "string", "description": "代码格式化命令" },
+        "dev": { "type": "string", "description": "开发服务器命令" }
+      },
+      "additionalProperties": { "type": "string" }
+    },
+    "patterns": {
+      "type": "object",
+      "description": "文件模式配置（glob 模式）",
+      "properties": {
+        "source": { "type": "string", "description": "源代码文件模式" },
+        "test": { "type": "string", "description": "测试文件模式" },
+        "types": { "type": "string", "description": "类型定义文件模式" }
+      },
+      "additionalProperties": { "type": "string" }
+    },
+    "features": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "技术栈特性标签，如 ['strict-types', 'esm-only']"
+    },
+    "prompts": {
+      "type": "object",
+      "description": "派生提示文件配置",
+      "properties": {
+        "code": { "type": "string", "description": "代码派生提示文件" },
+        "test": { "type": "string", "description": "测试派生提示文件" }
+      },
+      "additionalProperties": { "type": "string" }
+    },
+    "template": {
+      "type": "string",
+      "description": "规格模板文件名"
+    }
+  },
+  "additionalProperties": false
+}

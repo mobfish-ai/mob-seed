@@ -1,0 +1,270 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "seed.config.schema.json",
+  "title": "SEED Configuration",
+  "description": "SEED 方法论配置规范 - 支持 OpenSpec 兼容模式",
+  "type": "object",
+  "required": ["version"],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "JSON Schema 引用"
+    },
+    "_comment": {
+      "type": "string",
+      "description": "配置文件描述"
+    },
+    "version": {
+      "type": "string",
+      "description": "配置文件版本号（语义化版本）",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "openspec": {
+      "type": "object",
+      "description": "OpenSpec 兼容模式配置",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "是否启用 OpenSpec 兼容模式",
+          "default": false
+        },
+        "root": {
+          "type": "string",
+          "description": "OpenSpec 根目录",
+          "default": "openspec"
+        },
+        "specsDir": {
+          "type": "string",
+          "description": "真相源目录（相对于 root）",
+          "default": "specs"
+        },
+        "changesDir": {
+          "type": "string",
+          "description": "变更提案目录（相对于 root）",
+          "default": "changes"
+        },
+        "archiveDir": {
+          "type": "string",
+          "description": "归档目录（相对于 root）",
+          "default": "archive"
+        }
+      },
+      "additionalProperties": false
+    },
+    "spec": {
+      "type": "object",
+      "description": "规格文件配置",
+      "properties": {
+        "_comment": {
+          "type": "string"
+        },
+        "format": {
+          "type": "string",
+          "description": "规格文件格式",
+          "enum": ["fspec", "openspec", "markdown"],
+          "default": "fspec"
+        },
+        "extension": {
+          "type": "string",
+          "description": "规格文件扩展名",
+          "default": ".fspec.md"
+        },
+        "directory": {
+          "type": "string",
+          "description": "规格文件目录（非 OpenSpec 模式）",
+          "default": "specs"
+        },
+        "deltaFormat": {
+          "type": "boolean",
+          "description": "是否使用 Delta 格式（ADDED/MODIFIED/REMOVED）",
+          "default": true
+        },
+        "required_sections": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "必需的规格章节"
+        },
+        "templates": {
+          "type": "object",
+          "description": "规格模板配置",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "stacks": {
+      "type": "object",
+      "description": "技术栈包配置",
+      "properties": {
+        "_comment": {
+          "type": "string"
+        },
+        "directory": {
+          "type": "string",
+          "description": "技术栈包目录",
+          "default": "stacks"
+        },
+        "autoDiscover": {
+          "type": "boolean",
+          "description": "是否自动发现技术栈包",
+          "default": true
+        },
+        "default": {
+          "type": "string",
+          "description": "默认技术栈",
+          "default": "javascript"
+        }
+      },
+      "additionalProperties": false
+    },
+    "emit": {
+      "type": "object",
+      "description": "派生配置",
+      "properties": {
+        "_comment": {
+          "type": "string"
+        },
+        "engine": {
+          "type": "string",
+          "description": "派生引擎",
+          "default": "internal"
+        },
+        "targets": {
+          "type": "object",
+          "description": "派生目标配置",
+          "properties": {
+            "code": {
+              "type": "object",
+              "properties": {
+                "enabled": { "type": "boolean" },
+                "path": { "type": "string" },
+                "overwrite": { "type": "boolean" }
+              }
+            },
+            "test": {
+              "type": "object",
+              "properties": {
+                "enabled": { "type": "boolean" },
+                "path": { "type": "string" },
+                "overwrite": { "type": "boolean" }
+              }
+            },
+            "docs": {
+              "type": "object",
+              "properties": {
+                "enabled": { "type": "boolean" },
+                "path": { "type": "string" },
+                "overwrite": { "type": "boolean" }
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        "ai_models": {
+          "type": "object",
+          "description": "AI 模型配置",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "execute": {
+      "type": "object",
+      "description": "执行配置",
+      "properties": {
+        "_comment": {
+          "type": "string"
+        },
+        "ci_trigger": {
+          "type": "string",
+          "enum": ["manual", "auto", "on_push"],
+          "default": "manual"
+        },
+        "auto_commit": {
+          "type": "boolean",
+          "default": false
+        },
+        "auto_pr": {
+          "type": "boolean",
+          "default": false
+        },
+        "test_command": {
+          "type": "string"
+        },
+        "build_command": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "defend": {
+      "type": "object",
+      "description": "守护配置",
+      "properties": {
+        "_comment": {
+          "type": "string"
+        },
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "check_on_commit": {
+          "type": "boolean",
+          "default": true
+        },
+        "check_on_push": {
+          "type": "boolean",
+          "default": false
+        },
+        "forbidden_patterns": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "enforce_spec_first": {
+          "type": "boolean",
+          "default": true
+        },
+        "block_manual_edits": {
+          "type": "boolean",
+          "default": false
+        },
+        "warn_on_violation": {
+          "type": "boolean",
+          "default": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "output": {
+      "type": "object",
+      "description": "输出配置",
+      "properties": {
+        "_comment": {
+          "type": "string"
+        },
+        "directory": {
+          "type": "string"
+        },
+        "report_file": {
+          "type": "string"
+        },
+        "manifest_file": {
+          "type": "string"
+        },
+        "log_file": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,104 @@
+{
+  "$schema": "../schemas/seed.config.schema.json",
+  "_comment": "SEED 方法论配置 - 种子法则（OpenSpec 原生版）",
+
+  "version": "2.0.0",
+
+  "openspec": {
+    "_comment": "OpenSpec 原生模式配置（默认启用）",
+    "enabled": true,
+    "root": "openspec",
+    "specsDir": "specs",
+    "changesDir": "changes",
+    "archiveDir": "archive"
+  },
+
+  "spec": {
+    "_comment": "S: Single-source 单源定义配置",
+    "format": "fspec",
+    "extension": ".fspec.md",
+    "directory": "openspec/specs",
+    "deltaFormat": true,
+    "required_sections": [
+      "overview",
+      "requirements",
+      "constraints",
+      "acceptance"
+    ],
+    "templates": {
+      "feature": "templates/feature.fspec.md",
+      "api": "templates/api.fspec.md",
+      "component": "templates/component.fspec.md",
+      "typescript": "templates/typescript.fspec.md",
+      "vue": "templates/vue.fspec.md"
+    }
+  },
+
+  "stacks": {
+    "_comment": "技术栈包配置 - 详见 stacks/ 目录中的 stack.json",
+    "directory": "stacks",
+    "autoDiscover": true,
+    "default": "javascript"
+  },
+
+  "emit": {
+    "_comment": "E: Emit 自动派生配置",
+    "engine": "internal",
+    "targets": {
+      "code": {
+        "enabled": true,
+        "path": "src/",
+        "overwrite": false
+      },
+      "test": {
+        "enabled": true,
+        "path": "test/",
+        "overwrite": false
+      },
+      "docs": {
+        "enabled": true,
+        "path": "docs/",
+        "overwrite": true
+      }
+    },
+    "ai_models": {
+      "analysis": "claude",
+      "generation": "claude",
+      "review": "claude"
+    }
+  },
+
+  "execute": {
+    "_comment": "E: Execute 自动执行配置",
+    "ci_trigger": "manual",
+    "auto_commit": false,
+    "auto_pr": false,
+    "test_command": "npm test",
+    "build_command": "npm run build"
+  },
+
+  "defend": {
+    "_comment": "D: Defend 守护规范配置",
+    "enabled": true,
+    "check_on_commit": true,
+    "check_on_push": false,
+    "forbidden_patterns": [
+      "手动复制",
+      "TODO: sync",
+      "FIXME: update",
+      "手动更新",
+      "manually"
+    ],
+    "enforce_spec_first": true,
+    "block_manual_edits": false,
+    "warn_on_violation": true
+  },
+
+  "output": {
+    "_comment": "输出配置",
+    "directory": "output/mob-seed",
+    "report_file": "seed-report.md",
+    "manifest_file": "seed-manifest.json",
+    "log_file": "seed-log.txt"
+  }
+}

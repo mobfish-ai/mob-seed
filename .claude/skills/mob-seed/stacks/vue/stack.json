@@ -1,0 +1,41 @@
+{
+  "$schema": "../../schemas/stack.schema.json",
+
+  "name": "vue",
+  "displayName": "Vue 3 + TypeScript",
+  "version": "1.0.0",
+
+  "extensions": [".vue"],
+  "runtime": "vite",
+
+  "commands": {
+    "dev": "vite",
+    "build": "vite build",
+    "test": "vitest",
+    "lint": "eslint --ext .vue,.ts",
+    "format": "prettier --write"
+  },
+
+  "patterns": {
+    "source": "src/**/*.vue",
+    "components": "src/components/**/*.vue",
+    "composables": "src/composables/**/*.ts",
+    "stores": "src/stores/**/*.ts",
+    "test": "src/**/*.spec.ts"
+  },
+
+  "features": [
+    "composition-api",
+    "script-setup",
+    "typescript",
+    "pinia",
+    "vue-router"
+  ],
+
+  "prompts": {
+    "code": "code.prompt.md",
+    "test": "test.prompt.md"
+  },
+
+  "template": "spec.template.md"
+}
