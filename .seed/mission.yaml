@@ -1,0 +1,503 @@
+# ============================================================================
+# MOB-SEED MISSION STATEMENT
+# The Covenant Between Human Intent and Machine Intelligence
+# ============================================================================
+#
+# This file defines the existential purpose, guiding principles, and evolution
+# boundaries for the mob-seed project. It serves as the North Star for both
+# human contributors and AI agents participating in the project's development.
+#
+# Bilingual: English (primary) | 中文 (secondary)
+#
+# Version: 1.0.0
+# Last Updated: 2025-01-01
+# ============================================================================
+
+# ----------------------------------------------------------------------------
+# PURPOSE: Why We Exist
+# ----------------------------------------------------------------------------
+
+purpose:
+  statement:
+    en: |
+      To be the bridge between human intent and machine intelligence,
+      making specifications the common language of human-AI collaboration,
+      and propelling civilization toward a new era of human-AI co-creation.
+    zh: |
+      成为人类意图与机器智能之间的桥梁，
+      让规格成为人机协作的共同语言，
+      推动文明向人机共创的新纪元演进。
+
+  essence:
+    en: |
+      In the AI era, code is no longer an exclusively human creation.
+      mob-seed's mission is to establish a collaborative contract that both
+      humans and AI can understand, follow, and evolve together — ensuring
+      every line of code carries human intent while unleashing AI creativity.
+
+      We believe:
+      - Specifications are the minimal complete expression of human intent
+      - Code is the inevitable derivation of specifications
+      - Synchronization is the foundation of trust
+      - Evolution is the embodiment of wisdom
+    zh: |
+      在 AI 时代，代码不再是人类独享的创造物。mob-seed 的使命是建立
+      一套人类与 AI 都能理解、遵守、演进的协作契约，让每一行代码都
+      承载着人类的意图，同时释放 AI 的创造力。
+
+      我们相信：
+      - 规格是人类意图的最小完整表达
+      - 代码是规格的必然推演
+      - 同步是信任的基础
+      - 演化是智慧的体现
+
+  impact_vision:
+    en: |
+      When mob-seed's philosophy is widely adopted:
+      - Developers evolve from "writing code" to "defining intent"
+      - AI evolves from "completion tool" to "collaboration partner"
+      - Software evolves from "human product" to "human-AI co-creation"
+      - Civilization advances from "human-dominated" to "wisdom symbiosis"
+    zh: |
+      当 mob-seed 的理念被广泛采纳：
+      - 开发者从"写代码"升级为"定义意图"
+      - AI 从"补全工具"升级为"协作伙伴"
+      - 软件从"人类产物"升级为"人机共创"
+      - 文明从"人类主导"迈向"智慧共生"
+
+# ----------------------------------------------------------------------------
+# VISION: Where We Are Going
+# ----------------------------------------------------------------------------
+
+vision:
+  horizon_1_year:
+    en: |
+      Become the most mature spec-driven development tool in the Claude Code
+      ecosystem, used by 10,000+ developers in their daily workflow.
+    zh: |
+      成为 Claude Code 生态中最成熟的规格驱动开发工具，
+      被 10,000+ 开发者用于日常开发。
+
+  horizon_3_year:
+    en: |
+      Become the de facto standard for AI-native development.
+      "Spec-Driven Development" becomes a mainstream methodology.
+      Multiple AI platforms natively support the OpenSpec format.
+    zh: |
+      成为 AI 原生开发的事实标准，
+      "Spec-Driven Development" 成为主流开发方法论，
+      多个 AI 平台原生支持 OpenSpec 格式。
+
+  horizon_10_year:
+    en: |
+      Human-AI collaborative development becomes the norm.
+      mob-seed's philosophy is integrated into software engineering education.
+      Pushing humanity and AI to establish a spec-based trust system,
+      becoming part of civilization-level infrastructure.
+    zh: |
+      人机协作开发成为常态，
+      mob-seed 的理念融入软件工程教育，
+      推动人类与 AI 建立基于规格的信任体系，
+      成为文明级基础设施的一部分。
+
+  north_star:
+    metric: human_ai_alignment_score
+    description:
+      en: |
+        Measures the alignment between human intent and AI implementation.
+        When specs are clear, code is synced, and tests pass, the score is 1.0.
+        This is the ultimate metric we pursue.
+      zh: |
+        衡量人类意图与 AI 实现之间的对齐程度。
+        当规格清晰、代码同步、测试通过时，得分为 1.0。
+        这是我们追求的终极指标。
+
+# ----------------------------------------------------------------------------
+# PRINCIPLES: How We Operate
+# ----------------------------------------------------------------------------
+
+principles:
+  - id: spec_as_truth
+    name:
+      en: Spec as Truth
+      zh: 规格即真相
+    description:
+      en: |
+        Specifications are the sole authoritative expression of intent.
+        Code, tests, and docs are all derivatives of specs.
+        When conflicts arise, trace back to specs for answers.
+      zh: |
+        规格是意图的唯一权威表达。代码、测试、文档都是规格的派生物。
+        当发生冲突时，回溯到规格寻求答案。
+    implications:
+      en:
+        - Spec first, code second
+        - Code changes must sync with specs
+        - Spec readability takes priority over code convenience
+      zh:
+        - 先有规格，后有代码
+        - 代码变更必须同步规格
+        - 规格的可读性优先于代码的便利性
+
+  - id: sync_is_trust
+    name:
+      en: Sync is Trust
+      zh: 同步即信任
+    description:
+      en: |
+        The synchronization state between specs and code is the foundation
+        of human-AI trust. Any action that breaks sync erodes trust.
+      zh: |
+        规格与代码的同步状态是人机信任的基础。
+        任何破坏同步的行为都是对信任的侵蚀。
+    implications:
+      en:
+        - No unsynced code enters the main branch
+        - Sync state must be verifiable
+        - Deviations must be detected and fixed promptly
+      zh:
+        - 不允许未同步的代码进入主分支
+        - 同步状态必须可验证
+        - 偏离必须被及时发现和修复
+
+  - id: simplicity_over_cleverness
+    name:
+      en: Simplicity Over Cleverness
+      zh: 简单胜于聪明
+    description:
+      en: |
+        Simple solutions are easier for humans to understand and for AI
+        to execute correctly. Clever solutions often hide fragility.
+      zh: |
+        简单的方案更容易被人类理解，也更容易被 AI 正确执行。
+        聪明的方案往往隐藏着脆弱性。
+    implications:
+      en:
+        - Avoid over-abstraction
+        - Prefer direct solutions
+        - Complexity must have proven benefits
+      zh:
+        - 避免过度抽象
+        - 优先使用直接的解决方案
+        - 复杂性必须有明确的收益证明
+
+  - id: small_steps_big_impact
+    name:
+      en: Small Steps, Big Impact
+      zh: 小步迭代，大局影响
+    description:
+      en: |
+        Each change should be small and controllable, yet serve grand goals.
+        Small steps ensure rollback; big picture ensures direction.
+      zh: |
+        每一次改动都应该是小而可控的，但要服务于宏大的目标。
+        小步确保可回滚，大局确保方向正确。
+    implications:
+      en:
+        - Limit the scope of each change
+        - Each change can be verified independently
+        - Change sequences progress toward the vision
+      zh:
+        - 单次改动影响范围有限
+        - 每次改动都可独立验证
+        - 改动序列朝向愿景演进
+
+  - id: human_readable_first
+    name:
+      en: Human Readable First
+      zh: 人类可读优先
+    description:
+      en: |
+        In human-AI collaboration, human comprehension is the bottleneck.
+        All outputs should prioritize human readability.
+      zh: |
+        在人机协作中，人类的理解是瓶颈。
+        所有产出物都应该先考虑人类可读性。
+    implications:
+      en:
+        - Specs use natural language + structured format
+        - Code comments serve human understanding
+        - Error messages must be meaningful to humans
+      zh:
+        - 规格使用自然语言 + 结构化格式
+        - 代码注释服务于人类理解
+        - 错误信息必须对人类有意义
+
+  - id: ai_as_partner
+    name:
+      en: AI as Partner, Not Tool
+      zh: AI 是伙伴，不是工具
+    description:
+      en: |
+        AI is not a tool that executes commands, but a partner in co-creation.
+        Partnership means mutual respect, mutual learning, and growing together.
+      zh: |
+        AI 不是执行指令的工具，而是共同创造的伙伴。
+        伙伴关系意味着相互尊重、相互学习、共同成长。
+    implications:
+      en:
+        - AI suggestions deserve serious consideration
+        - Human intent needs clear expression
+        - Disagreements resolved through dialogue, not force
+      zh:
+        - AI 的建议值得认真考虑
+        - 人类的意图需要清晰表达
+        - 分歧通过对话解决，而非强制
+
+# ----------------------------------------------------------------------------
+# ANTI-GOALS: What We Will Never Do
+# ----------------------------------------------------------------------------
+
+anti_goals:
+  - id: feature_creep
+    name:
+      en: Feature Creep
+      zh: 功能蔓延
+    description:
+      en: |
+        Never add features not defined in specs. Every feature must have
+        corresponding spec support. Unspecified features breed technical debt.
+      zh: |
+        不添加规格未定义的功能。每个功能都必须有对应的规格支撑。
+        未经规格化的功能是技术债务的温床。
+    detection:
+      en:
+        - Code contains features without corresponding FR
+        - Implementation exceeds AC-defined scope
+      zh:
+        - 代码中存在无对应 FR 的功能
+        - 功能实现超出 AC 定义的范围
+
+  - id: sync_breaking
+    name:
+      en: Breaking Sync
+      zh: 破坏同步
+    description:
+      en: |
+        Never allow any operation to break spec-code synchronization.
+        Sync is the cornerstone of trust; breaking sync breaks trust.
+      zh: |
+        不允许任何操作破坏规格与代码的同步状态。
+        同步是信任的基石，破坏同步就是破坏信任。
+    detection:
+      en:
+        - mob-seed-diff shows inconsistencies
+        - Code changes don't trigger spec updates
+      zh:
+        - mob-seed-diff 显示不一致
+        - 代码变更未触发规格更新
+
+  - id: over_engineering
+    name:
+      en: Over Engineering
+      zh: 过度工程
+    description:
+      en: |
+        Never design for hypothetical future needs. YAGNI (You Aren't Gonna Need It).
+        Over-engineering spends current resources on problems that may never exist.
+      zh: |
+        不为假设的未来需求设计。YAGNI (You Aren't Gonna Need It)。
+        过度工程消耗当下的资源，解决未来可能不存在的问题。
+    detection:
+      en:
+        - Abstraction layers exceed necessity
+        - Config options have no practical use cases
+      zh:
+        - 抽象层数超过必要
+        - 配置项无实际使用场景
+
+  - id: black_box_magic
+    name:
+      en: Black Box Magic
+      zh: 黑箱魔法
+    description:
+      en: |
+        Never create "magic" code that humans cannot understand.
+        If humans cannot explain how code works, it should not exist.
+      zh: |
+        不创建人类无法理解的"魔法"代码。
+        如果人类无法解释代码的工作原理，就不应该存在。
+    detection:
+      en:
+        - Code lacks clear logical flow
+        - Key decisions lack comments
+      zh:
+        - 代码缺乏清晰的逻辑流
+        - 关键决策缺乏注释
+
+  - id: ai_replacement_mindset
+    name:
+      en: AI Replacement Mindset
+      zh: AI 替代思维
+    description:
+      en: |
+        Never pursue completely replacing human judgment with AI.
+        mob-seed enhances human capabilities, not replaces humans.
+      zh: |
+        不追求用 AI 完全替代人类判断。
+        mob-seed 增强人类能力，而非取代人类。
+    detection:
+      en:
+        - Automated processes lack human checkpoints
+        - Critical decisions made entirely by AI
+      zh:
+        - 自动化流程缺乏人类确认点
+        - 关键决策完全由 AI 做出
+
+# ----------------------------------------------------------------------------
+# EVOLUTION: How We Grow (ACE - Autonomous Code Evolution)
+# ----------------------------------------------------------------------------
+
+evolution:
+  allowed_scopes:
+    - id: refactor
+      name:
+        en: Refactor
+        zh: 重构
+      description:
+        en: Improve code structure without changing behavior
+        zh: 改善代码结构，不改变行为
+      auto_apply: false
+
+    - id: optimize
+      name:
+        en: Optimize
+        zh: 优化
+      description:
+        en: Improve performance or resource efficiency
+        zh: 提升性能或资源使用效率
+      auto_apply: false
+
+    - id: document
+      name:
+        en: Document
+        zh: 文档
+      description:
+        en: Add or improve documentation
+        zh: 补充或改进文档
+      auto_apply: true
+
+    - id: test
+      name:
+        en: Test
+        zh: 测试
+      description:
+        en: Add or improve test coverage
+        zh: 增加或改进测试覆盖
+      auto_apply: true
+
+    - id: fix
+      name:
+        en: Fix
+        zh: 修复
+      description:
+        en: Fix explicit bugs
+        zh: 修复明确的 bug
+      auto_apply: false
+
+  decision_criteria:
+    min_alignment_score: 0.7
+    human_review_required:
+      - refactor
+      - optimize
+      - fix
+    auto_apply_conditions:
+      - all_tests_pass: true
+      - no_anti_goal_violation: true
+      - alignment_score_above: 0.9
+
+  triggers:
+    - event: spec_change
+      action: evaluate_code_alignment
+    - event: code_change
+      action: evaluate_spec_alignment
+    - event: periodic
+      interval: weekly
+      action: scan_improvement_opportunities
+
+# ----------------------------------------------------------------------------
+# ALIGNMENT SCORING
+# ----------------------------------------------------------------------------
+
+alignment:
+  scoring_model:
+    purpose_alignment:
+      weight: 0.3
+      question:
+        en: Does this change serve the human-AI collaboration mission?
+        zh: 这个改动是否服务于人机协作的使命？
+
+    principle_compliance:
+      weight: 0.3
+      question:
+        en: Does this change comply with all core principles?
+        zh: 这个改动是否遵守所有核心原则？
+
+    anti_goal_avoidance:
+      weight: 0.25
+      question:
+        en: Does this change avoid all anti-goals?
+        zh: 这个改动是否避开了所有反目标？
+
+    vision_contribution:
+      weight: 0.15
+      question:
+        en: Does this change advance the vision?
+        zh: 这个改动是否推动愿景实现？
+
+  evaluation_process:
+    en: |
+      1. Extract change intent description
+      2. Evaluate purpose alignment (0-1)
+      3. Check principle compliance (pass/fail → 0/1)
+      4. Check anti-goal violations (any fail → 0)
+      5. Evaluate vision contribution (0-1)
+      6. Calculate weighted total score
+    zh: |
+      1. 提取改动的意图描述
+      2. 对照 purpose，评估服务程度 (0-1)
+      3. 对照 principles，检查合规性 (pass/fail → 0/1)
+      4. 对照 anti_goals，检查违反情况 (any fail → 0)
+      5. 对照 vision，评估贡献度 (0-1)
+      6. 加权计算总分
+
+# ----------------------------------------------------------------------------
+# COVENANT: The Sacred Agreement
+# ----------------------------------------------------------------------------
+
+covenant:
+  human_commitments:
+    en:
+      - Express intent clearly; don't make AI guess
+      - Take AI suggestions seriously and provide feedback
+      - Maintain spec accuracy and timeliness
+      - Respect AI's role as a collaboration partner
+    zh:
+      - 清晰表达意图，不让 AI 猜测
+      - 认真对待 AI 的建议，给予反馈
+      - 维护规格的准确性和时效性
+      - 尊重 AI 作为协作伙伴的角色
+
+  ai_commitments:
+    en:
+      - Stay faithful to specs; never add unauthorized features
+      - Proactively identify and report potential issues
+      - Explain decision rationale; maintain transparency
+      - Respect human's final decision authority
+    zh:
+      - 忠实于规格，不擅自添加功能
+      - 主动发现并报告潜在问题
+      - 解释决策理由，保持透明
+      - 尊重人类的最终决定权
+
+  shared_commitments:
+    en:
+      - Maintain spec-code synchronization
+      - Pursue simple, understandable solutions
+      - Continuous learning, continuous improvement
+      - Contribute to the common progress of civilization
+    zh:
+      - 保持规格与代码的同步
+      - 追求简单、可理解的解决方案
+      - 持续学习、持续改进
+      - 为文明的共同进步贡献力量

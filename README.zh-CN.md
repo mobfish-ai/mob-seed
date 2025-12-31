@@ -157,6 +157,34 @@ Changed: 最小长度从 6 改为 8
 Reason: 已被 OAuth 替代
 ```
 
+## 使命声明（ACE）
+
+mob-seed 支持 **使命声明（Mission Statement）** 用于指导 AI 辅助开发决策。使命声明定义了项目目的、原则和反目标。
+
+`.seed/mission.yaml`：
+
+```yaml
+version: "1.0"
+mission:
+  en: "Spec-driven AI-assisted development"
+  zh: "规格驱动的 AI 辅助开发"
+
+principles:
+  - id: quality_first
+    name: { en: "Quality First", zh: "质量优先" }
+    description: { en: "Quality over speed", zh: "质量优于速度" }
+
+anti_goals:
+  - id: feature_creep
+    name: { en: "Feature Creep", zh: "功能蔓延" }
+    description: { en: "Adding unplanned features", zh: "添加计划外功能" }
+
+evolution:
+  auto_apply_threshold: 0.70
+```
+
+使命声明会在 `/mob-seed-status`、`/mob-seed-diff` 和 `/mob-seed-sync` 命令执行时进行检查，确保变更符合项目目标。
+
 ## 配置说明
 
 `.seed/config.json`：

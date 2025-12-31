@@ -151,6 +151,34 @@ Changed: Minimum length from 6 to 8
 Reason: Replaced by OAuth
 ```
 
+## Mission Statement (ACE)
+
+mob-seed supports **Mission Statement** for AI-guided development decisions. The mission defines project purpose, principles, and anti-goals.
+
+`.seed/mission.yaml`:
+
+```yaml
+version: "1.0"
+mission:
+  en: "Spec-driven AI-assisted development"
+  zh: "规格驱动的 AI 辅助开发"
+
+principles:
+  - id: quality_first
+    name: { en: "Quality First", zh: "质量优先" }
+    description: { en: "Quality over speed", zh: "质量优于速度" }
+
+anti_goals:
+  - id: feature_creep
+    name: { en: "Feature Creep", zh: "功能蔓延" }
+    description: { en: "Adding unplanned features", zh: "添加计划外功能" }
+
+evolution:
+  auto_apply_threshold: 0.70
+```
+
+The mission is checked during `/mob-seed-status`, `/mob-seed-diff`, and `/mob-seed-sync` to ensure changes align with project goals.
+
 ## Configuration
 
 `.seed/config.json`:
@@ -162,6 +190,10 @@ Reason: Replaced by OAuth
     "root": "openspec",
     "specsDir": "specs",
     "changesDir": "changes"
+  },
+  "mission": {
+    "enabled": true,
+    "path": ".seed/mission.yaml"
   },
   "emit": {
     "targets": {

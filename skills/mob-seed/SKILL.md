@@ -70,10 +70,17 @@ allowed-tools: Read, Write, Edit, Bash, Task, TodoWrite
 │   ├── seed.config.json     # SEED 配置
 │   └── loader.js            # 配置加载器
 ├── lib/
-│   └── lifecycle/           # OpenSpec 生命周期模块
-│       ├── types.js         # 状态定义与转换规则
-│       ├── parser.js        # 规格解析器（元数据、Delta）
-│       └── archiver.js      # 归档逻辑（Delta 合并）
+│   ├── lifecycle/           # OpenSpec 生命周期模块
+│   │   ├── types.js         # 状态定义与转换规则
+│   │   ├── parser.js        # 规格解析器（元数据、Delta）
+│   │   └── archiver.js      # 归档逻辑（Delta 合并）
+│   ├── mission/             # Mission Statement 模块（ACE 自演化）
+│   │   ├── loader.js        # Mission 加载器（双语支持）
+│   │   └── types.js         # Mission 类型定义
+│   └── stacks/              # 技术栈配置模块
+│       ├── types.js         # 栈类型定义
+│       ├── loader.js        # 栈配置加载器
+│       └── resolver.js      # 栈依赖解析器
 ├── prompts/
 │   ├── spec-create.md       # S: 规格创建指导
 │   ├── spec-validate.md     # S: 规格验证
@@ -106,9 +113,9 @@ allowed-tools: Read, Write, Edit, Bash, Task, TodoWrite
 | `/mob-seed-exec` | E: 自动执行 | exec-ci.md, emit.sh |
 | `/mob-seed-defend` | D: 守护规范 | defend-check.md, defend-check.sh |
 | `/mob-seed-init` | 项目初始化 | templates/, config/ |
-| `/mob-seed-status` | 状态查看 | lifecycle/parser.js |
-| `/mob-seed-diff` | 差异对比 | diff.sh |
-| `/mob-seed-sync` | 强制同步 | emit-engine.js |
+| `/mob-seed-status` | 状态查看 | lifecycle/parser.js, mission/loader.js |
+| `/mob-seed-diff` | 差异对比 | diff.sh, mission/loader.js |
+| `/mob-seed-sync` | 强制同步 | emit-engine.js, mission/loader.js |
 | `/mob-seed-archive` | 归档提案 | lifecycle/archiver.js |
 
 ---
@@ -253,6 +260,32 @@ openspec/
 | `types.js` | 状态定义 | `canTransition()`, `getStateDisplay()` |
 | `parser.js` | 规格解析 | `parseMetadata()`, `parseDeltaRequirements()` |
 | `archiver.js` | 归档逻辑 | `archiveProposal()`, `mergeDeltaToSpec()` |
+
+### Mission 模块（ACE 自演化）
+
+Mission Statement 定义项目的使命、原则和反目标，用于指导 AI 辅助开发决策。
+
+| 模块 | 职责 | 主要函数 |
+|------|------|----------|
+| `types.js` | 类型定义 | `MissionSchema`, `AlignmentResult` |
+| `loader.js` | 加载与评估 | `loadMission()`, `evaluateAlignment()`, `canAutoApply()` |
+
+**配置文件**: `.seed/mission.yaml`
+
+```yaml
+version: "1.0"
+mission:
+  en: "Spec-driven AI-assisted development"
+  zh: "规格驱动的 AI 辅助开发"
+principles:
+  - id: quality_first
+    name: { en: "Quality First", zh: "质量优先" }
+anti_goals:
+  - id: feature_creep
+    name: { en: "Feature Creep", zh: "功能蔓延" }
+evolution:
+  auto_apply_threshold: 0.70
+```
 
 ### Delta 规格格式
 

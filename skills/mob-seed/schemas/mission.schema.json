@@ -1,0 +1,227 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://mobfish.ai/schemas/mission.schema.json",
+  "title": "SEED Mission Statement Schema",
+  "description": "Schema for mob-seed mission statement defining project purpose, principles, and evolution boundaries",
+  "type": "object",
+  "required": ["purpose", "principles", "anti_goals"],
+  "properties": {
+    "purpose": {
+      "type": "object",
+      "description": "The fundamental reason for the project's existence",
+      "required": ["statement"],
+      "properties": {
+        "statement": {
+          "type": "string",
+          "description": "One-paragraph mission statement"
+        },
+        "essence": {
+          "type": "string",
+          "description": "Expanded explanation of the mission"
+        },
+        "impact_vision": {
+          "type": "string",
+          "description": "The impact when the mission is achieved"
+        }
+      }
+    },
+    "vision": {
+      "type": "object",
+      "description": "Aspirational future states at different time horizons",
+      "properties": {
+        "horizon_1_year": {
+          "type": "string"
+        },
+        "horizon_3_year": {
+          "type": "string"
+        },
+        "horizon_10_year": {
+          "type": "string"
+        },
+        "north_star": {
+          "type": "object",
+          "properties": {
+            "metric": {
+              "type": "string",
+              "description": "The ultimate metric to optimize for"
+            },
+            "description": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "principles": {
+      "type": "array",
+      "description": "Core beliefs that guide all decisions",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "description"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z_]+$"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "implications": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "minItems": 1
+    },
+    "anti_goals": {
+      "type": "array",
+      "description": "Explicit boundaries that protect the mission",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "description"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z_]+$"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "detection": {
+            "type": "string",
+            "description": "How to detect violations"
+          }
+        }
+      },
+      "minItems": 1
+    },
+    "evolution": {
+      "type": "object",
+      "description": "Guidelines for autonomous evolution (ACE)",
+      "properties": {
+        "allowed_scopes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "name"],
+            "properties": {
+              "id": {
+                "type": "string",
+                "enum": ["refactor", "optimize", "document", "test", "fix"]
+              },
+              "name": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "auto_apply": {
+                "type": "boolean",
+                "default": false
+              }
+            }
+          }
+        },
+        "decision_criteria": {
+          "type": "object",
+          "properties": {
+            "min_alignment_score": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1,
+              "default": 0.7
+            },
+            "human_review_required": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "auto_apply_conditions": {
+              "type": "array",
+              "items": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "triggers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["event", "action"],
+            "properties": {
+              "event": {
+                "type": "string"
+              },
+              "action": {
+                "type": "string"
+              },
+              "interval": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "alignment": {
+      "type": "object",
+      "description": "Scoring model for evaluating change alignment",
+      "properties": {
+        "scoring_model": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "weight": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "question": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "evaluation_process": {
+          "type": "string"
+        }
+      }
+    },
+    "covenant": {
+      "type": "object",
+      "description": "The agreement between human and AI participants",
+      "properties": {
+        "human_commitments": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "ai_commitments": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "shared_commitments": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

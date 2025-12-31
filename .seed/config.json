@@ -11,6 +11,12 @@
     "archiveDir": "archive"
   },
 
+  "mission": {
+    "enabled": true,
+    "path": ".seed/mission.yaml",
+    "language": "en"
+  },
+
   "paths": {
     "specs": "openspec/specs",
     "src": "skills/mob-seed",
