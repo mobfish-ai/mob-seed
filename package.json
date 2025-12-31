@@ -1,0 +1,36 @@
+{
+  "name": "mob-seed",
+  "version": "1.0.0",
+  "description": "SEED Methodology - Spec-Driven Development with OpenSpec Native Support",
+  "type": "commonjs",
+  "scripts": {
+    "test": "node --test skills/mob-seed/test/**/*.test.js",
+    "test:lifecycle": "node --test skills/mob-seed/test/lifecycle/*.test.js",
+    "test:stacks": "node --test skills/mob-seed/test/stacks/*.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mobfish-ai/mob-seed.git"
+  },
+  "keywords": [
+    "seed",
+    "spec-driven",
+    "openspec",
+    "fspec",
+    "code-generation",
+    "automation",
+    "claude-code"
+  ],
+  "author": {
+    "name": "Mobfish AI",
+    "email": "kelvin@mobfish.ai"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mobfish-ai/mob-seed/issues"
+  },
+  "homepage": "https://github.com/mobfish-ai/mob-seed#readme",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
