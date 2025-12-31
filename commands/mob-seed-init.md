@@ -1,7 +1,7 @@
 ---
 description: SEED 初始化 - 创建 OpenSpec 标准目录结构
 allowed-tools: Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion
-argument-hint: [--migrate] [--force]
+argument-hint: [--force]
 ---
 
 # mob-seed-init
@@ -13,7 +13,6 @@ argument-hint: [--migrate] [--force]
 ```
 .claude/skills/mob-seed/
 ├── lib/lifecycle/
-│   ├── migrator.js         # 迁移工具（--migrate 使用）
 │   └── parser.js           # 规格解析
 ├── adapters/
 │   └── seed-utils.js       # 工具模块
@@ -30,18 +29,17 @@ argument-hint: [--migrate] [--force]
 
 ## 执行步骤
 
-### 步骤0: 检查参数并分支
+### 步骤0: 检查参数
 
 **参数检查**：
-- 无参数：进入 **OpenSpec 模式**（步骤 1，默认）
-- `--migrate`：进入迁移模式（步骤 2）
+- 无参数：进入 **OpenSpec 初始化**（步骤 1）
 - `--force`：强制重新初始化
 
 **检查已初始化**：
 - 如果 `.seed/config.json` 存在且无 `--force`：显示当前配置，询问是否重新初始化
 - 如果有 `--force`：备份后重新初始化
 
-### 步骤1: OpenSpec 模式（默认）
+### 步骤1: 创建 OpenSpec 目录结构
 
 创建 OpenSpec 标准目录结构：
 
@@ -84,64 +82,7 @@ openspec/
 3. 查看状态: /mob-seed-status
 ```
 
-跳转到步骤3完成。
-
-### 步骤2: 迁移模式（--migrate）
-
-迁移现有 `specs/` 到 OpenSpec 结构，使用 `lib/lifecycle/migrator.js` 模块：
-
-```javascript
-const {
-  checkMigrationPreConditions,
-  migrateToOpenSpec,
-  generateMigrationReport
-} = require('./lib/lifecycle/migrator');
-
-// 1. 检查前置条件
-const preCheck = checkMigrationPreConditions(projectRoot);
-if (!preCheck.canMigrate) {
-  console.log('❌ 无法迁移:', preCheck.issues.join(', '));
-  return;
-}
-
-// 2. 执行迁移（先 dry-run 预览）
-const preview = migrateToOpenSpec(projectRoot, { dryRun: true });
-console.log(generateMigrationReport(preview));
-
-// 3. 用户确认后执行实际迁移
-const result = migrateToOpenSpec(projectRoot, {
-  dryRun: false,
-  updateState: true,      // 更新状态为 archived
-  removeOriginal: false   // 保留原文件（备份在 specs.bak/）
-});
-console.log(generateMigrationReport(result));
-```
-
-**迁移规则**：
-| 源路径 | 目标路径 | 说明 |
-|--------|----------|------|
-| `specs/user-auth.fspec.md` | `openspec/specs/user/auth.fspec.md` | 按 `-` 分割提取 domain |
-| `specs/auth.fspec.md` | `openspec/specs/auth/spec.fspec.md` | 单词作为 domain |
-| `specs/auth/oauth.fspec.md` | `openspec/specs/auth/oauth.fspec.md` | 保持子目录结构 |
-
-**输出示例**：
-```
-✅ 迁移完成
-
-备份: specs.bak/
-
-迁移记录:
-┌────────────────────────────────────────────────────────────┐
-│ 原路径                      → 新路径                        │
-├────────────────────────────────────────────────────────────┤
-│ specs/user-auth.fspec.md    → openspec/specs/user/auth.fspec.md │
-│ specs/api-v1.fspec.md       → openspec/specs/api/v1.fspec.md    │
-└────────────────────────────────────────────────────────────┘
-```
-
-跳转到步骤3完成。
-
-### 步骤3: 保存配置并完成
+### 步骤2: 保存配置并完成
 
 ```bash
 mkdir -p .seed
@@ -166,7 +107,6 @@ mkdir -p .seed
 | 参数 | 说明 |
 |------|------|
 | （无参数） | **创建 OpenSpec 标准目录结构** |
-| `--migrate` | 迁移现有 specs/ 到 OpenSpec 结构 |
 | `--force` | 强制重新初始化（备份现有配置） |
 
 ## 示例用法
@@ -174,9 +114,6 @@ mkdir -p .seed
 ```bash
 # 初始化 OpenSpec 结构（默认）
 /mob-seed-init
-
-# 迁移现有项目到 OpenSpec 结构
-/mob-seed-init --migrate
 
 # 强制重新初始化
 /mob-seed-init --force

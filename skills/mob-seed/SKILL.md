@@ -73,8 +73,7 @@ allowed-tools: Read, Write, Edit, Bash, Task, TodoWrite
 │   └── lifecycle/           # OpenSpec 生命周期模块
 │       ├── types.js         # 状态定义与转换规则
 │       ├── parser.js        # 规格解析器（元数据、Delta）
-│       ├── archiver.js      # 归档逻辑（Delta 合并）
-│       └── migrator.js      # 迁移工具（specs/ → openspec/）
+│       └── archiver.js      # 归档逻辑（Delta 合并）
 ├── prompts/
 │   ├── spec-create.md       # S: 规格创建指导
 │   ├── spec-validate.md     # S: 规格验证
@@ -106,7 +105,7 @@ allowed-tools: Read, Write, Edit, Bash, Task, TodoWrite
 | `/mob-seed-emit` | E: 自动派生 | emit-*.md, emit-engine.js |
 | `/mob-seed-exec` | E: 自动执行 | exec-ci.md, emit.sh |
 | `/mob-seed-defend` | D: 守护规范 | defend-check.md, defend-check.sh |
-| `/mob-seed-init` | 项目初始化 | templates/, config/, migrator.js |
+| `/mob-seed-init` | 项目初始化 | templates/, config/ |
 | `/mob-seed-status` | 状态查看 | lifecycle/parser.js |
 | `/mob-seed-diff` | 差异对比 | diff.sh |
 | `/mob-seed-sync` | 强制同步 | emit-engine.js |
@@ -254,7 +253,6 @@ openspec/
 | `types.js` | 状态定义 | `canTransition()`, `getStateDisplay()` |
 | `parser.js` | 规格解析 | `parseMetadata()`, `parseDeltaRequirements()` |
 | `archiver.js` | 归档逻辑 | `archiveProposal()`, `mergeDeltaToSpec()` |
-| `migrator.js` | 迁移工具 | `migrateToOpenSpec()`, `generateMigrationReport()` |
 
 ### Delta 规格格式
 

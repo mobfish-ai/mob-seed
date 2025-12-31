@@ -1,0 +1,38 @@
+{
+  "version": "2.0.0",
+  "created": "2025-12-31T22:10:00+08:00",
+  "updated": "2025-12-31T22:10:00+08:00",
+
+  "openspec": {
+    "enabled": true,
+    "root": "openspec",
+    "specsDir": "specs",
+    "changesDir": "changes",
+    "archiveDir": "archive"
+  },
+
+  "paths": {
+    "specs": "openspec/specs",
+    "src": "skills/mob-seed",
+    "test": "test",
+    "docs": "docs",
+    "output": ".seed/output"
+  },
+
+  "patterns": {
+    "spec": "*.fspec.md",
+    "code": "*.js",
+    "test": "*.test.js"
+  },
+
+  "emit": {
+    "codeTemplate": "skeleton",
+    "testTemplate": "node-test",
+    "docTemplate": "markdown"
+  },
+
+  "sync": {
+    "autoBackup": true,
+    "defaultDirection": "spec"
+  }
+}
