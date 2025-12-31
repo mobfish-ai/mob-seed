@@ -1,16 +1,20 @@
 {
   "name": "mobfish-ai",
   "description": "Mobfish AI Plugin Marketplace - SEED Methodology Tools",
+  "owner": {
+    "name": "Mobfish AI",
+    "email": "dev@mobfish.ai"
+  },
   "plugins": [
     {
       "name": "mob-seed",
-      "description": "🌱 SEED Methodology - Spec-Driven Development with OpenSpec Native Support",
+      "description": "SEED Methodology - Spec-Driven Development with OpenSpec Native Support",
       "version": "1.0.0",
-      "source": "https://github.com/mobfish-ai/mob-seed",
-      "homepage": "https://github.com/mobfish-ai/mob-seed",
-      "author": "mobfish-ai",
-      "license": "MIT",
-      "tags": ["seed", "spec-driven", "openspec", "automation"]
+      "source": "./",
+      "author": {
+        "name": "Mobfish AI",
+        "email": "dev@mobfish.ai"
+      }
     }
   ]
 }

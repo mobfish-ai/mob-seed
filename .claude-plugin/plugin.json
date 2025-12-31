@@ -1,8 +1,11 @@
 {
   "name": "mob-seed",
   "version": "1.0.0",
-  "description": "🌱 SEED Methodology - Spec-Driven Development with OpenSpec Native Support",
-  "author": "mobfish-ai",
+  "description": "SEED Methodology - Spec-Driven Development with OpenSpec Native Support",
+  "author": {
+    "name": "Mobfish AI",
+    "email": "dev@mobfish.ai"
+  },
   "homepage": "https://github.com/mobfish-ai/mob-seed",
   "repository": "https://github.com/mobfish-ai/mob-seed",
   "license": "MIT",
