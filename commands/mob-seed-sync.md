@@ -62,8 +62,38 @@ const SPECS_DIR = config.paths.specs;  // 可能是 "specs", "docs/specs" 等
 2. 如果未提供参数，扫描 `{config.paths.specs}/` 目录
 
 **如果没有规格文件**：
+
+首先检测是否存在代码目录：
+```javascript
+// 检测常见代码目录
+const codeDirs = ['src/', 'lib/', 'skills/', 'commands/', 'adapters/'];
+const existingCode = codeDirs.filter(dir => fs.existsSync(dir));
 ```
-⚠️ 未找到规格文件
+
+**情况A: 有代码但无规格（逆向同步场景）**：
+```
+🔍 检测到代码但无规格文件
+
+发现以下代码目录：
+- lib/ (15 个文件)
+- skills/ (8 个文件)
+- commands/ (5 个文件)
+
+这是一个已有代码的项目，建议执行逆向同步：
+从代码生成初始规格文件
+
+是否执行逆向同步？[Y/n]
+```
+
+用户确认后，执行逆向同步：
+1. 扫描代码目录，识别模块结构
+2. 提取函数签名、类定义、导出接口
+3. 生成 fspec.md 规格文件到 `{specs_dir}/`
+4. 生成 CODEBASE_SPEC.md 概览文档
+
+**情况B: 无代码无规格（空项目）**：
+```
+⚠️ 未找到规格文件和代码
 
 请先创建规格文件：
 /mob-seed-spec "功能名称"
@@ -228,7 +258,7 @@ const SPECS_DIR = config.paths.specs;  // 可能是 "specs", "docs/specs" 等
 ```
 用户执行 /mob-seed-sync
         ↓
-    检查 seed/ 目录
+    检查 .seed/ 目录
         ↓
    ┌────┴────┐
    ↓         ↓
@@ -240,12 +270,95 @@ const SPECS_DIR = config.paths.specs;  // 可能是 "specs", "docs/specs" 等
  Y → 执行  ↓         ↓
  init    无文件    有文件
    ↓       ↓         ↓
- 继续流程  询问是否  ┌────┴────┐
-          创建      ↓         ↓
-           ↓      单个       多个
-         Y → 引导  直接执行   列表选择
-         创建规格     ↓         ↓
-              └───────┴─────────┘
-                      ↓
-                  执行同步
+ 继续流程  检测代码   ┌────┴────┐
+           ↓        ↓         ↓
+      ┌───┴───┐   单个       多个
+      ↓       ↓   直接执行   列表选择
+    有代码   无代码   ↓         ↓
+      ↓       ↓     └────┬────┘
+    逆向    创建          ↓
+    同步    示例      执行同步
+      ↓       ↓
+      └───────┴─────────────┘
+                  ↓
+              执行同步
+```
+
+## 逆向同步详细流程
+
+当检测到"有代码但无规格"时，执行以下步骤：
+
+### 步骤R1: 扫描代码结构
+
+```javascript
+// 扫描代码目录
+const scanResult = {
+  directories: ['lib/', 'skills/', 'commands/'],
+  modules: [],
+  totalFiles: 0
+};
+
+// 识别模块
+for (const dir of scanResult.directories) {
+  const modules = identifyModules(dir);
+  scanResult.modules.push(...modules);
+}
+```
+
+### 步骤R2: 分析模块接口
+
+对每个模块提取：
+- 导出的函数/类
+- 函数参数和返回类型
+- JSDoc 注释
+- 依赖关系
+
+### 步骤R3: 生成规格文件
+
+```
+📝 正在生成规格文件...
+
+⏳ 分析 lib/lifecycle/ ...
+✅ 生成 specs/lifecycle.fspec.md
+   - 3 个功能需求 (FR)
+   - 5 个验收标准 (AC)
+
+⏳ 分析 lib/stacks/ ...
+✅ 生成 specs/stacks.fspec.md
+   - 2 个功能需求 (FR)
+   - 4 个验收标准 (AC)
+
+---
+✅ 逆向同步完成
+
+生成规格: 2 个
+功能需求: 5 个
+验收标准: 9 个
+
+下一步:
+1. 审查生成的规格文件
+2. 补充业务细节和边界条件
+3. 运行 /mob-seed-sync 验证同步状态
+```
+
+### 步骤R4: 生成项目概览
+
+生成 `CODEBASE_SPEC.md`：
+```markdown
+# 项目代码规格概览
+
+## 模块结构
+
+| 模块 | 路径 | 功能 | 规格文件 |
+|------|------|------|----------|
+| lifecycle | lib/lifecycle/ | 生命周期管理 | specs/lifecycle.fspec.md |
+| stacks | lib/stacks/ | 技术栈支持 | specs/stacks.fspec.md |
+
+## 依赖关系
+
+[模块依赖图]
+
+## 同步状态
+
+✅ 所有代码已有对应规格
 ```
