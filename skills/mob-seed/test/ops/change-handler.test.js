@@ -139,7 +139,12 @@ describe('change-handler', () => {
   });
 
   describe('watchFspec', () => {
-    it('should return a watcher object', () => {
+    // fs.watch with recursive option requires Node 20+ on Linux
+    const supportsRecursiveWatch = process.platform === 'darwin' ||
+      process.platform === 'win32' ||
+      parseInt(process.versions.node.split('.')[0], 10) >= 20;
+
+    it('should return a watcher object', { skip: !supportsRecursiveWatch }, () => {
       const watcher = watchFspec(testDir, () => {});
 
       assert.ok(watcher);
