@@ -174,19 +174,39 @@ for (const specFile of mergedSpecFiles) {
 }
 ```
 
-#### 4.4 更新 AC 完成状态（重要）
+#### 4.4 基于测试结果更新 AC 完成状态（重要）
 
 ```javascript
-const { markACsCompleted } = require('./lib/lifecycle/parser');
+const { getTestResults } = require('./lib/quality/phase-gate');
+const { updateACStatus } = require('./lib/lifecycle/parser');
 
-// 将所有已通过验证的 AC 标记为完成
+// 获取测试结果，确定哪些 AC 已通过
+const testResults = await getTestResults(proposalName);
+
 for (const specFile of mergedSpecFiles) {
-  // 替换 `- [ ] AC-xxx` 为 `- [x] AC-xxx`
-  markACsCompleted(specFile);
+  const acs = extractACs(specFile);
+
+  for (const ac of acs) {
+    // 根据测试映射检查 AC 是否有对应的通过测试
+    const testPassed = testResults.some(t =>
+      t.covers.includes(ac.id) && t.status === 'pass'
+    );
+
+    if (testPassed) {
+      // 只有通过测试的 AC 才标记为完成
+      updateACStatus(specFile, ac.id, 'completed');  // [ ] → [x]
+    } else {
+      // 未通过或未覆盖的 AC 保持未完成状态
+      console.warn(`⚠️ ${ac.id} 未通过测试验证，保持未完成状态`);
+    }
+  }
 }
 ```
 
-**说明**：归档意味着所有 AC 都已通过验证，因此自动标记为完成。
+**重要原则**：
+- ✅ 只有通过测试验证的 AC 才标记为 `[x]`
+- ❌ 禁止无条件标记所有 AC 为完成
+- ⚠️ 未覆盖的 AC 应触发警告
 
 ### 步骤 5: 生成归档报告
 
