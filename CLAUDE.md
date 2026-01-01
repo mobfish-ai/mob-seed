@@ -441,6 +441,50 @@ git show <commit-hash> --stat
 - [ ] README.zh-CN.md（中英同步）
 - [ ] 版本号（4 个文件同步）
 
+### 14. 单源版本管理
+
+**问题**: 版本号分散在多个文件中，容易遗漏导致不一致。
+
+**解决方案**: `package.json` 作为唯一真相源，其他文件通过脚本同步。
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  package.json (真相源)                                       │
+│       │                                                      │
+│       ├──► .claude-plugin/plugin.json     (脚本同步)         │
+│       ├──► .claude-plugin/marketplace.json (脚本同步)        │
+│       └──► skills/mob-seed/package.json   (脚本同步)         │
+│                                                              │
+│  ❌ .seed/config.json 不含版本号（配置文件，非版本文件）       │
+│                                                              │
+└─────────────────────────────────────────────────────────────┘
+```
+
+**版本同步工具**:
+```bash
+# 检查版本一致性
+node scripts/bump-version.js --check
+
+# 同步到指定版本
+node scripts/bump-version.js 2.1.2
+
+# 递增版本
+node scripts/bump-version.js --patch  # 2.1.1 → 2.1.2
+node scripts/bump-version.js --minor  # 2.1.1 → 2.2.0
+node scripts/bump-version.js --major  # 2.1.1 → 3.0.0
+
+# 预览模式
+node scripts/bump-version.js 2.1.2 --dry-run
+```
+
+**版本文件清单（4 个）**:
+1. `package.json` - 根目录
+2. `.claude-plugin/plugin.json` - 插件定义
+3. `.claude-plugin/marketplace.json` - 市场配置
+4. `skills/mob-seed/package.json` - 技能包
+
+**禁止**: 在 `.seed/config.json` 中添加版本号
+
 ## 快速开始
 
 ```bash

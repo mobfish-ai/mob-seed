@@ -337,12 +337,12 @@ describe('unified-command', () => {
       fs.mkdirSync(seedDir, { recursive: true });
       fs.writeFileSync(
         path.join(seedDir, 'config.json'),
-        JSON.stringify({ version: '2.0.0', custom: true })
+        JSON.stringify({ openspec: { enabled: true }, custom: true })
       );
 
       const config = loadSeedConfig(testDir);
 
-      assert.strictEqual(config.version, '2.0.0');
+      assert.strictEqual(config.openspec.enabled, true);
       assert.strictEqual(config.custom, true);
     });
 
