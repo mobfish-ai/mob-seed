@@ -126,6 +126,30 @@ output/mob-seed/
 2. 运行 `/mob-seed-emit --docs` 更新文档
 ```
 
+### 步骤7: 归档提示（重要）
+
+**当所有检查通过且规格处于 `implementing` 状态时**，必须提示用户：
+
+```markdown
+## ✅ 所有检查通过
+
+规格 `{spec-name}` 已完全同步，可以归档。
+
+**下一步操作**:
+```bash
+/mob-seed-archive {proposal-path}
+```
+
+⚠️ **重要**:
+- 本命令 (`/mob-seed-defend`) 只做检查，不执行归档
+- 归档操作请使用 `/mob-seed-archive`，它会：
+  1. 合并规格到 `openspec/specs/`（真相源）
+  2. 移动提案到 `openspec/archive/`
+  3. 更新状态为 `archived`
+```
+
+**禁止**: 在此命令中手动执行 `mv` 或修改文件位置。
+
 ## 示例用法
 
 ```bash
@@ -141,3 +165,9 @@ output/mob-seed/
 # 严格模式（CI 中使用）
 /mob-seed-defend specs/user-auth.fspec.md --strict
 ```
+
+## 注意事项
+
+- `/mob-seed-defend` 是**只读**命令，不会修改文件位置
+- 归档操作请使用 `/mob-seed-archive`
+- 参见 CLAUDE.md 经验教训 #7 和 #8
