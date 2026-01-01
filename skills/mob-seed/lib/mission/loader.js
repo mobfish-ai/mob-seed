@@ -1,11 +1,12 @@
 /**
  * Mission Statement 加载器
  *
- * 负责加载、验证和评估 mission.yaml 文件
+ * 负责加载、验证和评估 mission.md 文件（YAML frontmatter + Markdown）
+ * 同时兼容旧版 mission.yaml 格式
  * 用于 ACE (Autonomous Code Evolution) 机制
  *
  * @module mission/loader
- * @see docs/plans/MOB-SEED-OPENSOURCE.md
+ * @see .seed/mission.md
  */
 
 const fs = require('fs');
@@ -142,24 +143,74 @@ function parseValue(value) {
 }
 
 /**
- * 查找 mission.yaml 文件
+ * 从 Markdown 文件中提取 YAML frontmatter
+ * @param {string} content - 文件内容
+ * @returns {{ frontmatter: string, body: string }} 分离的 frontmatter 和 body
+ */
+function extractFrontmatter(content) {
+  const lines = content.split('\n');
+
+  // 检查是否以 --- 开头
+  if (lines[0].trim() !== '---') {
+    return { frontmatter: '', body: content };
+  }
+
+  // 找到结束的 ---
+  let endIndex = -1;
+  for (let i = 1; i < lines.length; i++) {
+    if (lines[i].trim() === '---') {
+      endIndex = i;
+      break;
+    }
+  }
+
+  if (endIndex === -1) {
+    return { frontmatter: '', body: content };
+  }
+
+  return {
+    frontmatter: lines.slice(1, endIndex).join('\n'),
+    body: lines.slice(endIndex + 1).join('\n')
+  };
+}
+
+/**
+ * 查找 mission 文件（支持 .md 和 .yaml）
  * @param {string} [startDir] - 起始目录
  * @returns {string|null} 文件路径或 null
  */
 function findMissionPath(startDir = process.cwd()) {
-  // 优先级1: .seed/mission.yaml
+  // 优先级1: .seed/mission.md (推荐)
+  const seedMissionMd = path.join(startDir, '.seed/mission.md');
+  if (fs.existsSync(seedMissionMd)) {
+    return seedMissionMd;
+  }
+
+  // 优先级2: .seed/mission.yaml (兼容)
   const seedMission = path.join(startDir, '.seed/mission.yaml');
   if (fs.existsSync(seedMission)) {
     return seedMission;
   }
 
-  // 优先级2: openspec/mission.yaml
+  // 优先级3: openspec/mission.md
+  const openspecMissionMd = path.join(startDir, 'openspec/mission.md');
+  if (fs.existsSync(openspecMissionMd)) {
+    return openspecMissionMd;
+  }
+
+  // 优先级4: openspec/mission.yaml
   const openspecMission = path.join(startDir, 'openspec/mission.yaml');
   if (fs.existsSync(openspecMission)) {
     return openspecMission;
   }
 
-  // 优先级3: mission.yaml（项目根）
+  // 优先级5: mission.md（项目根）
+  const rootMissionMd = path.join(startDir, 'mission.md');
+  if (fs.existsSync(rootMissionMd)) {
+    return rootMissionMd;
+  }
+
+  // 优先级6: mission.yaml（项目根）
   const rootMission = path.join(startDir, 'mission.yaml');
   if (fs.existsSync(rootMission)) {
     return rootMission;
@@ -186,17 +237,35 @@ function loadMission(options = {}) {
 
   try {
     const content = fs.readFileSync(resolvedPath, 'utf-8');
-    const mission = parseYaml(content);
+
+    let mission;
+
+    // 根据文件类型解析
+    if (resolvedPath.endsWith('.md')) {
+      // Markdown 格式: 解析 YAML frontmatter
+      const { frontmatter, body } = extractFrontmatter(content);
+      if (!frontmatter) {
+        console.warn(`警告: ${resolvedPath} 缺少 YAML frontmatter`);
+        return null;
+      }
+      mission = parseYaml(frontmatter);
+      // 保存 markdown body 供后续使用
+      mission._body = body;
+    } else {
+      // YAML 格式: 直接解析
+      mission = parseYaml(content);
+    }
 
     // 添加元数据
     mission._meta = {
       path: resolvedPath,
+      format: resolvedPath.endsWith('.md') ? 'markdown' : 'yaml',
       loadedAt: new Date().toISOString()
     };
 
     return mission;
   } catch (error) {
-    console.warn(`警告: 无法解析 mission.yaml: ${error.message}`);
+    console.warn(`警告: 无法解析 mission 文件: ${error.message}`);
     return null;
   }
 }
@@ -541,5 +610,6 @@ module.exports = {
   getLocalizedArray,
   // 内部函数导出供测试
   parseYaml,
-  parseValue
+  parseValue,
+  extractFrontmatter
 };

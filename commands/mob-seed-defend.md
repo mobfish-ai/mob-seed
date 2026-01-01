@@ -1,7 +1,7 @@
 ---
-description: SEED D阶段 - 守护规格与代码的同步
+description: SEED D阶段 - 守护规格与代码的同步（含原则验证）
 allowed-tools: Read, Write, Edit, Bash, Glob, Grep
-argument-hint: <spec-path> [--check] [--fix] [--report] [--strict]
+argument-hint: <spec-path> [--check] [--fix] [--report] [--strict] [--no-cache]
 ---
 
 # mob-seed-defend
@@ -15,6 +15,8 @@ argument-hint: <spec-path> [--check] [--fix] [--report] [--strict]
 - 漂移检测: `prompts/defend-drift.md`
 - 检查引擎: `adapters/defend-checker.js`
 - **项目配置**: `.seed/config.json`（由 `/mob-seed-init` 生成）
+- **使命声明**: `.seed/mission.md`（原则与反目标定义）
+- **检查缓存**: `.seed/check-cache.json`（检查结果缓存）
 
 ## 执行步骤
 
@@ -53,6 +55,46 @@ fi
 | `--fix` | 自动修复可修复的问题 | - |
 | `--report` | 生成详细报告 | - |
 | `--strict` | 严格模式（警告也算失败）| - |
+| `--no-cache` | 强制重新检查（忽略缓存）| - |
+
+### 步骤1.5: 检查缓存（性能优化）
+
+**缓存机制**：避免重复检查，提升效率。
+
+```javascript
+// .seed/check-cache.json 结构
+{
+  "version": "1.0.0",
+  "entries": {
+    "specs/auth.fspec.md": {
+      "specHash": "sha256:abc123...",
+      "codeHashes": {
+        "skills/lib/auth.js": "sha256:def456...",
+        "test/auth.test.js": "sha256:ghi789..."
+      },
+      "result": {
+        "syncStatus": "pass",
+        "principleScore": 0.95,
+        "antiGoalViolations": []
+      },
+      "checkedAt": "2025-01-01T14:00:00Z"
+    }
+  }
+}
+```
+
+**缓存策略**：
+1. 计算当前文件的内容 hash（规格 + 代码 + 测试）
+2. 对比缓存中的 hash
+3. 若 hash 一致 → 返回缓存结果
+4. 若 hash 不一致 → 执行完整检查 → 更新缓存
+
+**自动失效条件**：
+- 文件内容变更（hash 不匹配）
+- 依赖文件变更
+- 使用 `--no-cache` 参数
+- PR 检查（强制完整扫描）
+- 缓存文件超过 24 小时
 
 ### 步骤2: 同步检查
 
@@ -64,6 +106,83 @@ fi
 
 > ⚠️ **重要**: 文档从代码派生，不是从规格派生！
 > 派生链: `Spec → Code → Docs`
+
+### 步骤2.5: 原则验证（默认执行）
+
+> ⚠️ **重要**: 原则验证是默认行为，无需额外参数。
+>
+> 读取 `.seed/mission.md`，验证当前改动是否符合 SEED 核心哲学。
+
+#### 2.5.1 SEED 四字诀验证
+
+对每个改动验证：
+
+| 检查项 | 问题 | 失败条件 |
+|--------|------|----------|
+| **S**pec | 规格是单一真相源？ | 代码有规格未定义的功能 |
+| **E**mit | 产物是从规格/代码派生？ | 存在手动创建的派生产物 |
+| **E**xec | 派生产物可执行验证？ | 测试未覆盖或失败 |
+| **D**efend | 防止手动篡改？ | 代码修改未同步规格 |
+
+**派生链验证**:
+```
+✅ Spec → Code → Docs （正确）
+❌ Spec → Docs （跳过代码，错误）
+❌ Code without Spec （无规格，错误）
+```
+
+#### 2.5.2 原则合规检查
+
+对照 `mission.md#principles`：
+
+| 原则 | 检查内容 |
+|------|----------|
+| `spec_as_truth` | 规格是否是唯一权威来源 |
+| `sync_is_trust` | 代码是否与规格同步 |
+| `simplicity_over_cleverness` | 是否有过度抽象 |
+| `small_steps_big_impact` | 改动范围是否可控 |
+| `human_readable_first` | 产出是否人类可读 |
+| `ai_as_partner` | 是否有人类确认点 |
+
+#### 2.5.3 反目标检测
+
+对照 `mission.md#anti_goals`：
+
+| 反目标 | 检测规则 |
+|--------|----------|
+| `feature_creep` | 代码中存在无对应 FR 的功能 |
+| `sync_breaking` | 代码变更未触发规格更新 |
+| `over_engineering` | 抽象层数超过必要 |
+| `black_box_magic` | 关键决策缺乏注释 |
+| `ai_replacement_mindset` | 自动化流程缺乏人类确认点 |
+
+#### 2.5.4 对齐分数计算
+
+```javascript
+// 对齐分数模型（来自 mission.md#alignment）
+const score = {
+  purpose_alignment: 0.3,      // 是否服务人机协作使命
+  principle_compliance: 0.3,   // 是否遵守核心原则
+  anti_goal_avoidance: 0.25,   // 是否避开反目标
+  vision_contribution: 0.15    // 是否推动愿景实现
+};
+
+// 最终分数 = 加权求和
+// 阈值: >= 0.7 通过, < 0.7 失败
+```
+
+**输出示例**：
+```
+📊 原则验证结果
+
+SEED 四字诀: ✅ S ✅ E ✅ E ✅ D
+派生链: ✅ Spec → Code → Docs
+
+原则合规: 6/6 通过
+反目标检测: 0 违规
+
+对齐分数: 0.92 ✅ (阈值: 0.70)
+```
 
 ### 步骤3: 漂移检测
 
@@ -108,6 +227,16 @@ output/mob-seed/
 
 ```markdown
 # 守护报告: {模块名}
+
+## SEED 原则验证
+
+| 检查项 | 状态 | 说明 |
+|--------|------|------|
+| SEED 四字诀 | ✅ S ✅ E ✅ E ✅ D | 核心哲学验证 |
+| 派生链 | ✅ Spec→Code→Docs | 正确派生顺序 |
+| 原则合规 | ✅ 6/6 | 所有原则遵守 |
+| 反目标 | ✅ 0 违规 | 无反目标违规 |
+| 对齐分数 | ✅ 0.92 | 阈值: 0.70 |
 
 ## 同步状态
 
@@ -174,3 +303,145 @@ output/mob-seed/
 - `/mob-seed-defend` 是**只读**命令，不会修改文件位置
 - 归档操作请使用 `/mob-seed-archive`
 - 参见 CLAUDE.md 经验教训 #7 和 #8
+
+## Git Hooks 集成
+
+### 分层检查策略
+
+不同 Git 操作触发不同深度的检查：
+
+| 操作 | 检查深度 | 耗时 | 可跳过 |
+|------|----------|------|--------|
+| `commit` | 快速检查 | ~1s | ✅ `--force` |
+| `push` | 增量检查 | ~5s | ❌ |
+| `PR` | 完整检查 | ~30s | ❌ |
+
+### pre-commit hook
+
+**快速检查**：仅检查 staged 文件
+
+```bash
+#!/bin/bash
+# .git/hooks/pre-commit
+
+# 跳过检查（紧急情况）
+if [ "$SKIP_SEED_CHECK" = "1" ]; then
+    echo "⚠️ SEED 检查已跳过"
+    exit 0
+fi
+
+# 获取 staged 文件
+STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACM)
+
+# 过滤规格相关文件
+SPEC_FILES=$(echo "$STAGED_FILES" | grep -E '\.(fspec\.md|js|ts)$')
+
+if [ -n "$SPEC_FILES" ]; then
+    echo "🔍 SEED 快速检查..."
+
+    # 检查缓存
+    if node .seed/scripts/check-cache.js --files="$SPEC_FILES"; then
+        echo "✅ 使用缓存结果"
+        exit 0
+    fi
+
+    # 快速同步检查（仅 staged 文件）
+    node .seed/scripts/quick-defend.js --files="$SPEC_FILES"
+
+    if [ $? -ne 0 ]; then
+        echo "❌ SEED 检查失败"
+        echo "使用 SKIP_SEED_CHECK=1 git commit 跳过（不推荐）"
+        exit 1
+    fi
+fi
+
+exit 0
+```
+
+### pre-push hook
+
+**增量检查**：检查所有未推送的 commits
+
+```bash
+#!/bin/bash
+# .git/hooks/pre-push
+
+echo "🔍 SEED 增量检查..."
+
+# 获取未推送的 commits 涉及的文件
+UNPUSHED_FILES=$(git diff --name-only origin/main...HEAD)
+
+# 增量检查（使用缓存）
+node .seed/scripts/incremental-defend.js --files="$UNPUSHED_FILES"
+
+if [ $? -ne 0 ]; then
+    echo "❌ SEED 检查失败，推送被阻止"
+    echo "请修复问题后重新推送"
+    exit 1
+fi
+
+# 更新缓存
+node .seed/scripts/update-cache.js --files="$UNPUSHED_FILES"
+
+exit 0
+```
+
+### CI 集成 (PR 完整检查)
+
+```yaml
+# .github/workflows/seed-defend.yml
+name: SEED Defend
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  seed-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: SEED Full Check
+        run: |
+          echo "🔍 SEED 完整检查..."
+          node .seed/scripts/full-defend.js --no-cache --report
+        env:
+          SEED_STRICT: true
+
+      - name: Upload Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: seed-defend-report
+          path: output/mob-seed/defend-report-*.json
+```
+
+## 检查场景对比
+
+| 场景 | 触发 | 范围 | 缓存 | 原则检查 | 对齐分数 |
+|------|------|------|------|----------|----------|
+| 开发中 commit | pre-commit | staged 文件 | ✅ | 快速 | ❌ |
+| 推送前 push | pre-push | 未推送 commits | ✅ | 完整 | ❌ |
+| PR 创建 | CI | 全项目 | ❌ | 完整 | ✅ |
+| 定期扫描 | Cron | 全项目 | ❌ | 完整 | ✅ |
+
+## 安装 Git Hooks
+
+```bash
+# 自动安装 hooks
+/mob-seed-init --hooks
+
+# 手动安装
+cp .seed/hooks/pre-commit .git/hooks/
+cp .seed/hooks/pre-push .git/hooks/
+chmod +x .git/hooks/pre-*
+```

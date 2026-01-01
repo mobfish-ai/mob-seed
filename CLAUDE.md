@@ -6,7 +6,7 @@
 mob-seed/                        # 项目根目录
 ├── .seed/                       # SEED 配置目录
 │   ├── config.json              # 核心配置
-│   └── mission.yaml             # 使命声明
+│   └── mission.md               # 使命声明 (YAML frontmatter + Markdown)
 ├── openspec/                    # OpenSpec 规格目录
 │   ├── specs/                   # 稳定规格
 │   ├── changes/                 # 变更提案 (implementing)
@@ -90,6 +90,41 @@ draft → review → implementing → archived
 - `changes/` 目录: 正在实现的变更提案
 - `specs/` 目录: 稳定规格
 - `archive/` 目录: 已归档历史
+
+## 核心规则 ⚠️
+
+> **完整定义见 [.seed/mission.md](.seed/mission.md)**
+>
+> 以下是快速检查清单，详细说明请阅读 mission.md。
+
+### 派生链（不可违反）
+
+```
+Spec → Code → Docs
+规格 → 代码 → 文档
+```
+
+### 快速检查清单
+
+每次操作前，必须确认：
+
+| 规则 | 检查项 | ✅ 正确 | ❌ 错误 |
+|------|--------|---------|---------|
+| 规则 1 | 规格是真相源 | 先写规格再派生代码 | 先写代码再补规格 |
+| 规则 2 | 代码是文档真相源 | Code → Docs | Spec → Docs |
+| 规则 3 | 测试验证完成 | 基于测试标记 AC | 无测试直接标记 |
+| 规则 4 | 命令职责分离 | defend 只读 | defend 改文件 |
+
+### 常见违规
+
+| 模式 | 违反 | 正确做法 |
+|------|------|----------|
+| Spec → Docs | 规则 2 | Spec → Code → Docs |
+| 无测试标记 AC | 规则 3 | 测试通过再标记 |
+| 检查命令改文件 | 规则 4 | 分离检查和修改 |
+| 手动创建代码 | 规则 1 | 从规格派生 |
+
+> 💡 **提示**: 运行 `/mob-seed-defend` 自动检查这些规则
 
 ## 经验教训
 

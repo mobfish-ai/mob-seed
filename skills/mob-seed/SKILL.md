@@ -270,7 +270,7 @@ Mission Statement 定义项目的使命、原则和反目标，用于指导 AI �
 | `types.js` | 类型定义 | `MissionSchema`, `AlignmentResult` |
 | `loader.js` | 加载与评估 | `loadMission()`, `evaluateAlignment()`, `canAutoApply()` |
 
-**配置文件**: `.seed/mission.yaml`
+**配置文件**: `.seed/mission.md`
 
 ```yaml
 version: "1.0"

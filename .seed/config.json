@@ -13,7 +13,7 @@
 
   "mission": {
     "enabled": true,
-    "path": ".seed/mission.yaml",
+    "path": ".seed/mission.md",
     "language": "en"
   },
 

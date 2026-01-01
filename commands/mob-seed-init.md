@@ -20,7 +20,7 @@ argument-hint: [--force]
 │   └── seed-utils.js       # 工具模块
 └── templates/
     └── openspec/           # OpenSpec 模板
-        ├── mission.yaml    # Mission Statement 模板
+        ├── mission.md    # Mission Statement 模板
         ├── project.md      # 项目约定模板
         └── AGENTS.md       # AI 工作流模板
 ```
@@ -59,7 +59,7 @@ project/
 │   └── AGENTS.md                 # AI 工作流指令
 ├── .seed/
 │   ├── config.json               # SEED 配置
-│   └── mission.yaml              # Mission Statement（项目使命）
+│   └── mission.md              # Mission Statement（项目使命）
 └── ...
 ```
 
@@ -69,7 +69,7 @@ project/
 3. 复制 `project.md` 模板到 `openspec/project.md`
 4. 复制 `AGENTS.md` 模板到 `openspec/AGENTS.md`
 5. 生成 `.seed/config.json`
-6. 复制 `mission.yaml` 模板到 `.seed/mission.yaml`（替换 `{{TIMESTAMP}}` 为当前时间）
+6. 复制 `mission.md` 模板到 `.seed/mission.md`（替换 `{{TIMESTAMP}}` 为当前时间）
 
 **输出**：
 ```
@@ -83,10 +83,10 @@ openspec/
 
 .seed/
 ├── config.json     # SEED 配置
-└── mission.yaml    # 项目使命声明（ACE 自演化指南）
+└── mission.md    # 项目使命声明（ACE 自演化指南）
 
 下一步:
-1. 编辑 .seed/mission.yaml 定义项目使命和原则
+1. 编辑 .seed/mission.md 定义项目使命和原则
 2. 编辑 openspec/project.md 填写项目信息
 3. 创建规格提案: /mob-seed-spec --proposal "feature-name"
 4. 查看状态: /mob-seed-status
@@ -148,7 +148,7 @@ mkdir -p .seed
 
   "mission": {
     "enabled": true,
-    "path": ".seed/mission.yaml",
+    "path": ".seed/mission.md",
     "language": "en"
   },
 
@@ -183,5 +183,5 @@ mkdir -p .seed
 | 字段 | 说明 | 默认值 |
 |------|------|--------|
 | `enabled` | 是否启用 Mission Statement | `true` |
-| `path` | Mission 文件路径 | `.seed/mission.yaml` |
+| `path` | Mission 文件路径 | `.seed/mission.md` |
 | `language` | 默认显示语言 (`en`/`zh`) | `en` |
