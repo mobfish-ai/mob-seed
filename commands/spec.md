@@ -4,7 +4,7 @@ allowed-tools: Read, Write, Edit, Bash, Task, TodoWrite, AskUserQuestion
 argument-hint: <功能名称> [--create|--validate|--edit|--submit|--reopen] [--template=feature|api|component]
 ---
 
-# mob-seed-spec - 单源规格定义
+# mob-seed:spec - 单源规格定义
 
 执行内容：$ARGUMENTS
 
@@ -34,7 +34,7 @@ argument-hint: <功能名称> [--create|--validate|--edit|--submit|--reopen] [--
     └── seed-utils.js       # 工具模块
 ```
 
-**项目配置**: `.seed/config.json`（由 `/mob-seed-init` 生成）
+**项目配置**: `.seed/config.json`（由 `/mob-seed:init` 生成）
 
 ---
 
@@ -44,7 +44,7 @@ argument-hint: <功能名称> [--create|--validate|--edit|--submit|--reopen] [--
 
 1. **检查 SEED 是否已初始化**：
    - 检查 `.seed/config.json` 是否存在
-   - 如不存在，提示用户运行 `/mob-seed-init`
+   - 如不存在，提示用户运行 `/mob-seed:init`
 
 2. **检测 OpenSpec 模式**：
    - 检查 `config.openspec.enabled` 是否为 `true`
@@ -222,32 +222,32 @@ fi
 
 ```bash
 # 创建功能规格（默认模板）
-/mob-seed-spec "用户登录" --create
+/mob-seed:spec "用户登录" --create
 
 # 使用 API 模板创建
-/mob-seed-spec "获取用户信息" --template=api
+/mob-seed:spec "获取用户信息" --template=api
 
 # 验证规格完整性
-/mob-seed-spec "用户登录" --validate
+/mob-seed:spec "用户登录" --validate
 
 # 编辑现有规格
-/mob-seed-spec "用户登录" --edit
+/mob-seed:spec "用户登录" --edit
 ```
 
 ### OpenSpec 模式（生命周期管理）
 
 ```bash
 # 创建变更提案（在 openspec/changes/ 下）
-/mob-seed-spec "add-oauth" --create
+/mob-seed:spec "add-oauth" --create
 
 # 提交审查（draft → review）
-/mob-seed-spec "add-oauth" --submit
+/mob-seed:spec "add-oauth" --submit
 
 # 重新开启已归档规格（archived → draft）
-/mob-seed-spec "user-login" --reopen
+/mob-seed:spec "user-login" --reopen
 
 # 验证变更提案
-/mob-seed-spec "add-oauth" --validate
+/mob-seed:spec "add-oauth" --validate
 ```
 
 ## 生命周期状态机
@@ -265,8 +265,8 @@ fi
 | 转换 | 命令 | 说明 |
 |------|------|------|
 | draft → review | `--submit` | 提交规格审查 |
-| review → implementing | `/mob-seed-emit` | 批准并开始派生 |
-| implementing → archived | `/mob-seed-defend` | 验证通过后归档 |
+| review → implementing | `/mob-seed:emit` | 批准并开始派生 |
+| implementing → archived | `/mob-seed:defend` | 验证通过后归档 |
 | archived → draft | `--reopen` | 重新开启修改 |
 
 ---

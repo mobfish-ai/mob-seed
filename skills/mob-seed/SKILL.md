@@ -74,13 +74,17 @@ allowed-tools: Read, Write, Edit, Bash, Task, TodoWrite
 │   │   ├── types.js         # 状态定义与转换规则
 │   │   ├── parser.js        # 规格解析器（元数据、Delta）
 │   │   └── archiver.js      # 归档逻辑（Delta 合并）
-│   ├── mission/             # Mission Statement 模块（ACE 自演化）
+│   ├── mission/             # Mission Statement 模块
 │   │   ├── loader.js        # Mission 加载器（双语支持）
 │   │   └── types.js         # Mission 类型定义
-│   └── stacks/              # 技术栈配置模块
-│       ├── types.js         # 栈类型定义
-│       ├── loader.js        # 栈配置加载器
-│       └── resolver.js      # 栈依赖解析器
+│   ├── stacks/              # 技术栈配置模块
+│   │   ├── types.js         # 栈类型定义
+│   │   ├── loader.js        # 栈配置加载器
+│   │   └── resolver.js      # 栈依赖解析器
+│   └── workflow/            # 工作流模块
+│       ├── unified-command.js  # 统一命令入口（状态面板 + 路由）
+│       ├── flow-router.js      # 工作流路由（Quick/Standard/Full）
+│       └── pre-impl-confirmation.js  # 实现前确认
 ├── prompts/
 │   ├── spec-create.md       # S: 规格创建指导
 │   ├── spec-validate.md     # S: 规格验证
@@ -94,6 +98,8 @@ allowed-tools: Read, Write, Edit, Bash, Task, TodoWrite
 │   ├── api.fspec.md         # API 规格模板
 │   └── component.fspec.md   # 组件规格模板
 ├── adapters/
+│   ├── seed-utils.js        # 核心工具函数
+│   ├── defend-checker.js    # 漂移检测与同步检查
 │   └── emit-engine.js       # 派生引擎
 └── scripts/
     ├── emit.sh              # 派生执行脚本
@@ -107,16 +113,25 @@ allowed-tools: Read, Write, Edit, Bash, Task, TodoWrite
 
 | 命令 | 说明 | 引用资源 |
 |------|------|----------|
-| `/mob-seed` | 主入口（智能路由） | 全部 |
-| `/mob-seed-spec` | S: 规格定义 | spec-*.md, templates/ |
-| `/mob-seed-emit` | E: 自动派生 | emit-*.md, emit-engine.js |
-| `/mob-seed-exec` | E: 自动执行 | exec-ci.md, emit.sh |
-| `/mob-seed-defend` | D: 守护规范 | defend-check.md, defend-check.sh |
-| `/mob-seed-init` | 项目初始化 | templates/, config/ |
-| `/mob-seed-status` | 状态查看 | lifecycle/parser.js, mission/loader.js |
-| `/mob-seed-diff` | 差异对比 | diff.sh, mission/loader.js |
-| `/mob-seed-sync` | 强制同步 | emit-engine.js, mission/loader.js |
-| `/mob-seed-archive` | 归档提案 | lifecycle/archiver.js |
+| `/mob-seed:seed` | 智能入口（状态面板 + 建议行动） | unified-command.js, 全部 |
+| `/mob-seed:init` | 项目初始化 | templates/, config/ |
+| `/mob-seed:spec` | S: 规格定义 | spec-*.md, templates/, lifecycle/ |
+| `/mob-seed:emit` | E: 自动派生 | emit-*.md, emit-engine.js |
+| `/mob-seed:exec` | E: 自动执行 | exec-ci.md, emit.sh |
+| `/mob-seed:defend` | D: 守护规范（含 --diff, --sync） | defend-check.md, defend-check.sh |
+| `/mob-seed:archive` | 归档提案 | lifecycle/archiver.js |
+
+### 命令架构
+
+```
+/mob-seed:seed            # 智能入口（状态面板 + 建议行动）
+├── /mob-seed:init        # 项目初始化
+├── /mob-seed:spec        # S: 规格定义（含 --edit, --submit）
+├── /mob-seed:emit        # E: 自动派生
+├── /mob-seed:exec        # E: 自动执行
+├── /mob-seed:defend      # D: 守护规范（含 --diff, --sync）
+└── /mob-seed:archive     # 归档提案
+```
 
 ---
 
@@ -261,7 +276,7 @@ openspec/
 | `parser.js` | 规格解析 | `parseMetadata()`, `parseDeltaRequirements()` |
 | `archiver.js` | 归档逻辑 | `archiveProposal()`, `mergeDeltaToSpec()` |
 
-### Mission 模块（ACE 自演化）
+### Mission 模块
 
 Mission Statement 定义项目的使命、原则和反目标，用于指导 AI 辅助开发决策。
 

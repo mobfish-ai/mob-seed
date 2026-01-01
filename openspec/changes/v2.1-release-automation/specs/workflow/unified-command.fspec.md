@@ -146,9 +146,11 @@ function detectDrift();
 
 ## 派生产物 (Derived Outputs)
 
+> 路径遵循 `.seed/config.json` 配置，相对于 `skills/mob-seed/` 目录
+
 | 类型 | 路径 | 说明 |
 |------|------|------|
-| 代码 | lib/workflow/unified-command.js | 统一命令入口 |
-| 测试 | test/workflow/unified-command.test.js | 单元测试 |
+| 代码 | skills/mob-seed/lib/workflow/unified-command.js | 统一命令入口 |
+| 测试 | skills/mob-seed/test/workflow/unified-command.test.js | 单元测试 |
 | 文档 | docs/api/unified-command.md | API 文档 |
-| 命令 | commands/mob-seed/index.md | 主入口命令文件 |
+| 命令 | commands/mob-seed/seed.md | 主入口命令文件 |

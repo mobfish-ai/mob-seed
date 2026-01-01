@@ -98,18 +98,25 @@
 
 ## 派生产物映射
 
-在规格中预定义产物路径，供 E 阶段（Emit）使用：
+在规格中预定义产物路径，供 E 阶段（Emit）使用。
+
+**重要**: 路径必须遵循 `.seed/config.json` 中的 `paths` 配置：
+- `paths.src` - 代码目录（如 `skills/mob-seed/lib`）
+- `paths.test` - 测试目录（如 `skills/mob-seed/test`）
+- `paths.docs` - 文档目录（如 `docs`）
 
 ```markdown
 ## 派生产物 (Derived Outputs)
 
+> 路径遵循 `.seed/config.json` 配置
+
 | 类型 | 路径 | 说明 |
 |------|------|------|
-| 代码 | src/auth/login.js | 登录逻辑实现 |
-| 代码 | src/components/LoginForm.jsx | 登录表单组件 |
-| 测试 | test/auth/login.test.js | 登录单元测试 |
-| 测试 | test/e2e/login.spec.js | 登录 E2E 测试 |
-| 文档 | docs/auth/login.md | 登录功能文档 |
+| 代码 | {config.paths.src}/auth/login.js | 登录逻辑实现 |
+| 代码 | {config.paths.src}/components/LoginForm.jsx | 登录表单组件 |
+| 测试 | {config.paths.test}/auth/login.test.js | 登录单元测试 |
+| 测试 | {config.paths.test}/e2e/login.spec.js | 登录 E2E 测试 |
+| 文档 | {config.paths.docs}/auth/login.md | 登录功能文档 |
 ```
 
 ## 常见问题

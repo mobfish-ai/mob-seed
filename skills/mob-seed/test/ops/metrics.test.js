@@ -271,8 +271,8 @@ describe('metrics', () => {
   describe('generateReport', () => {
     it('should generate Markdown report', () => {
       const timeRange = {
-        start: new Date('2025-01-01'),
-        end: new Date('2025-01-07')
+        start: new Date('2026-01-01'),
+        end: new Date('2026-01-07')
       };
 
       const report = generateReport(timeRange);
@@ -283,8 +283,8 @@ describe('metrics', () => {
 
     it('should include core metrics table', () => {
       const timeRange = {
-        start: new Date('2025-01-01'),
-        end: new Date('2025-01-07')
+        start: new Date('2026-01-01'),
+        end: new Date('2026-01-07')
       };
 
       const report = generateReport(timeRange);
@@ -294,13 +294,13 @@ describe('metrics', () => {
 
     it('should include time range', () => {
       const timeRange = {
-        start: new Date('2025-01-01'),
-        end: new Date('2025-01-07')
+        start: new Date('2026-01-01'),
+        end: new Date('2026-01-07')
       };
 
       const report = generateReport(timeRange);
 
-      assert.ok(report.includes('2025'));
+      assert.ok(report.includes('2026'));
     });
   });
 

@@ -67,7 +67,7 @@ cd mob-seed
 mob-seed/                          # 项目根目录
 ├── .seed/                         # SEED 配置
 │   ├── config.json               # 核心配置（路径、模式、派生设置）
-│   └── mission.md              # 使命声明（ACE）
+│   └── mission.md              # 使命声明
 ├── openspec/                      # OpenSpec 规格
 │   ├── specs/                    # 稳定规格（已归档）
 │   ├── changes/                  # 变更提案（实现中）
@@ -184,7 +184,7 @@ Changed: 最小长度从 6 改为 8
 Reason: 已被 OAuth 替代
 ```
 
-## 使命声明（ACE）
+## 使命声明
 
 mob-seed 支持 **使命声明（Mission Statement）** 用于指导 AI 辅助开发决策。使命声明定义了项目目的、原则和反目标。
 

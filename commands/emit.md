@@ -4,7 +4,7 @@ allowed-tools: Read, Write, Edit, Bash, Task, TodoWrite, AskUserQuestion
 argument-hint: <规格文件> [--code|--test|--docs|--all] [--dry-run]
 ---
 
-# mob-seed-emit - 自动派生
+# mob-seed:emit - 自动派生
 
 执行内容：$ARGUMENTS
 
@@ -29,7 +29,7 @@ argument-hint: <规格文件> [--code|--test|--docs|--all] [--dry-run]
     └── seed-utils.js       # 工具模块
 ```
 
-**项目配置**: `.seed/config.json`（由 `/mob-seed-init` 生成）
+**项目配置**: `.seed/config.json`（由 `/mob-seed:init` 生成）
 
 ---
 
@@ -39,7 +39,7 @@ argument-hint: <规格文件> [--code|--test|--docs|--all] [--dry-run]
 
 1. **检查 SEED 是否已初始化**：
    - 检查 `.seed/config.json` 是否存在
-   - 如不存在，提示用户运行 `/mob-seed-init`
+   - 如不存在，提示用户运行 `/mob-seed:init`
 
 2. **加载配置获取路径**：
 ```javascript
@@ -207,19 +207,19 @@ fi
 
 ```bash
 # 全量派生（默认）
-/mob-seed-emit "specs/user-login.fspec.md"
+/mob-seed:emit "specs/user-login.fspec.md"
 
 # 只生成代码
-/mob-seed-emit "specs/user-login.fspec.md" --code
+/mob-seed:emit "specs/user-login.fspec.md" --code
 
 # 只生成测试
-/mob-seed-emit "specs/user-login.fspec.md" --test
+/mob-seed:emit "specs/user-login.fspec.md" --test
 
 # 预览模式
-/mob-seed-emit "specs/user-login.fspec.md" --dry-run
+/mob-seed:emit "specs/user-login.fspec.md" --dry-run
 
 # 指定多个派生类型
-/mob-seed-emit "specs/user-login.fspec.md" --code --test
+/mob-seed:emit "specs/user-login.fspec.md" --code --test
 ```
 
 ---
@@ -272,7 +272,7 @@ fi
 
 ```bash
 # 强制覆盖
-/mob-seed-emit "specs/user-login.fspec.md" --force
+/mob-seed:emit "specs/user-login.fspec.md" --force
 ```
 
 ---

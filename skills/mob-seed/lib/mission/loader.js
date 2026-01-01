@@ -3,7 +3,7 @@
  *
  * 负责加载、验证和评估 mission.md 文件（YAML frontmatter + Markdown）
  * 同时兼容旧版 mission.yaml 格式
- * 用于 ACE (Autonomous Code Evolution) 机制
+ * 用于 Mission Statement 机制，指导 AI 辅助开发决策
  *
  * @module mission/loader
  * @see .seed/mission.md
@@ -323,7 +323,7 @@ function validateMission(mission) {
   }
 
   if (!mission.evolution) {
-    warnings.push('建议添加 evolution 字段定义 ACE 演化规则');
+    warnings.push('建议添加 evolution 字段定义演化规则');
   }
 
   if (!mission.alignment) {
@@ -578,7 +578,7 @@ function getMissionSummary(mission, lang = 'en') {
 
   // 演化规则
   if (mission.evolution) {
-    lines.push(isZh ? '## 演化规则 (ACE)' : '## Evolution Rules (ACE)');
+    lines.push(isZh ? '## 演化规则' : '## Evolution Rules');
     const minScore = mission.evolution.decision_criteria?.min_alignment_score || 0.7;
     lines.push(isZh
       ? `- 最低对齐分数: ${minScore}`

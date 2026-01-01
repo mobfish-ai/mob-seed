@@ -59,7 +59,7 @@ describe('task-sync', () => {
 
   describe('parseTaskLine', () => {
     it('should parse completed task', () => {
-      const line = '- [x] TASK-001: 需求分析 <!-- completed:2025-01-01T10:30 -->';
+      const line = '- [x] TASK-001: 需求分析 <!-- completed:2026-01-01T10:30 -->';
       const task = parseTaskLine(line);
 
       assert.strictEqual(task.id, 'TASK-001');
@@ -68,7 +68,7 @@ describe('task-sync', () => {
     });
 
     it('should parse in_progress task', () => {
-      const line = '- [ ] TASK-002: 代码实现 <!-- in_progress:2025-01-01T11:00 -->';
+      const line = '- [ ] TASK-002: 代码实现 <!-- in_progress:2026-01-01T11:00 -->';
       const task = parseTaskLine(line);
 
       assert.strictEqual(task.id, 'TASK-002');
@@ -107,7 +107,7 @@ describe('task-sync', () => {
         id: 'TASK-001',
         content: '需求分析',
         status: 'completed',
-        timestamp: '2025-01-01T10:30:00+08:00'
+        timestamp: '2026-01-01T10:30:00+08:00'
       };
       const line = formatTaskLine(task);
 
@@ -148,17 +148,17 @@ describe('task-sync', () => {
       const content = `# Tasks: Test Feature
 
 > 状态: in_progress
-> 创建时间: 2025-01-01 10:00
-> 最后更新: 2025-01-01 14:30
+> 创建时间: 2026-01-01 10:00
+> 最后更新: 2026-01-01 14:30
 
 ## 任务列表
 
-- [x] TASK-001: 需求分析 <!-- completed:2025-01-01T10:30 -->
-- [ ] TASK-002: 代码实现 <!-- in_progress:2025-01-01T11:00 -->
+- [x] TASK-001: 需求分析 <!-- completed:2026-01-01T10:30 -->
+- [ ] TASK-002: 代码实现 <!-- in_progress:2026-01-01T11:00 -->
 - [ ] TASK-003: 测试验证 <!-- pending -->
 
 ${SYNC_ANCHOR}
-<!-- LAST_SYNC: 2025-01-01T14:30:00+08:00 -->
+<!-- LAST_SYNC: 2026-01-01T14:30:00+08:00 -->
 `;
       const filePath = path.join(testDir, 'tasks.md');
       fs.writeFileSync(filePath, content);
@@ -293,7 +293,7 @@ ${SYNC_ANCHOR}
 - [ ] TASK-002: 进行中的任务 <!-- in_progress -->
 
 ${SYNC_ANCHOR}
-<!-- LAST_SYNC: 2025-01-01T14:30:00+08:00 -->
+<!-- LAST_SYNC: 2026-01-01T14:30:00+08:00 -->
 `;
       const filePath = path.join(testDir, 'recovery.md');
       fs.writeFileSync(filePath, content);
@@ -315,8 +315,8 @@ ${SYNC_ANCHOR}
 - [x] TASK-001: 完成的任务 <!-- completed -->
 
 ${SYNC_ANCHOR}
-<!-- LAST_SYNC: 2025-01-01T14:30:00+08:00 -->
-<!-- SESSION_COMPLETE: 2025-01-01T15:00:00+08:00 -->
+<!-- LAST_SYNC: 2026-01-01T14:30:00+08:00 -->
+<!-- SESSION_COMPLETE: 2026-01-01T15:00:00+08:00 -->
 `;
       const filePath = path.join(testDir, 'completed.md');
       fs.writeFileSync(filePath, content);
@@ -336,14 +336,14 @@ ${SYNC_ANCHOR}
       const content = `# Tasks: Conflict Test
 
 ${SYNC_ANCHOR}
-<!-- LAST_SYNC: 2025-01-01T10:00:00+08:00 -->
+<!-- LAST_SYNC: 2026-01-01T10:00:00+08:00 -->
 `;
       const filePath = path.join(testDir, 'conflict.md');
       fs.writeFileSync(filePath, content);
 
       // Simulate memory state with older sync time
       const memoryState = {
-        lastSync: '2025-01-01T09:00:00+08:00'
+        lastSync: '2026-01-01T09:00:00+08:00'
       };
 
       const conflict = detectConflict(filePath, memoryState);
@@ -356,13 +356,13 @@ ${SYNC_ANCHOR}
       const content = `# Tasks: In Sync Test
 
 ${SYNC_ANCHOR}
-<!-- LAST_SYNC: 2025-01-01T10:00:00+08:00 -->
+<!-- LAST_SYNC: 2026-01-01T10:00:00+08:00 -->
 `;
       const filePath = path.join(testDir, 'in-sync.md');
       fs.writeFileSync(filePath, content);
 
       const memoryState = {
-        lastSync: '2025-01-01T10:00:00+08:00'
+        lastSync: '2026-01-01T10:00:00+08:00'
       };
 
       const conflict = detectConflict(filePath, memoryState);

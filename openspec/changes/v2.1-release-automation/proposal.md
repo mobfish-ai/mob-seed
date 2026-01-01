@@ -1,8 +1,9 @@
 # 变更提案: v2.1-release-automation
 
-> 状态: draft
+> 状态: ready_to_archive
 > 创建: 2026-01-01
 > 作者: Claude
+> 进度跟踪: 见 tasks.md（执行记录）
 
 ## 概述
 
@@ -699,39 +700,48 @@ commands/
 
 ## 实施路径
 
-### Phase 1: 基础设施 (P0)
+> **重要**: 本节与 `tasks.md` 保持完全同步。修改任一文件时必须同步更新另一文件。
+
+### Phase 1: 基础设施 (P0) ✅
 1. 版本同步工具 (`bump-version.js`)
 2. 发布脚本 (`release.sh`)
 3. CI 版本检查
 4. 同步当前版本到 2.0.0
 
-### Phase 2: 命令体系重构 (P0)
+### Phase 2: 规格设计 ✅
+1. 编写 8 个 fspec 规格文件（详见 `specs/` 目录）
+
+### Phase 3: 命令体系重构 (P0)
 1. 创建 `commands/mob-seed/` 子命令目录
 2. 迁移命令文件到子命令模式
 3. 删除废弃命令（status/sync/diff/edit）
-4. 实现统一智能入口逻辑
+4. 实现统一智能入口逻辑 (`lib/workflow/unified-command.js`)
 5. 合并 prompts 文件为 `prompts/seed.md`
 6. 更新 SKILL.md 命令说明
 
-### Phase 3: 闭环自动化 (P0)
-1. 行动建议引擎
+### Phase 4: 闭环自动化 (P0)
+1. 行动建议引擎 (`lib/workflow/action-suggest.js`)
 2. 链式触发机制
-3. Git hooks 更新
-
-### Phase 4: 状态进化 (P1)
-1. AC 自动更新
-2. 归档自动提示
-3. 进度面板
+3. 用户确认后自动执行建议
+4. Git hooks 更新
 
 ### Phase 5: Mission 集成 (P1)
-1. 会话级缓存
-2. Mission 集成检查
+1. 会话级缓存 (`lib/cache/session-cache.js`)
+2. Mission 集成检查 (`lib/mission/integration.js`)
 3. 各 SEED 阶段对齐验证
+4. 文件变更监听自动失效缓存
 
-### Phase 6: 用户体验 (P2)
-1. 交互式确认
-2. 智能上下文
-3. 错误恢复
+### Phase 6: 状态进化 (P1)
+1. 状态自动进化器 (`lib/workflow/state-evolution.js`)
+2. AC 测试通过后自动更新状态
+3. AC 全完成后自动提示归档
+4. 进度可视化面板
+
+### Phase 7: 用户体验 (P2)
+1. 交互式确认流程 (`lib/ux/interactive-prompt.js`)
+2. 智能上下文感知
+3. 错误恢复机制 (`--resume`)
+4. 编写发布指南 `docs/guide/releasing.md`
 
 ## 预期收益
 

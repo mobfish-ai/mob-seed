@@ -83,11 +83,14 @@
 
 ## 派生产物 (Derived Outputs)
 
+> **路径规范**: 所有路径必须遵循 `.seed/config.json` 中的 `paths` 配置。
+> 例如: 若 `paths.src = "skills/mob-seed/lib"`，则代码路径为 `skills/mob-seed/lib/{module}/{file}.js`
+
 | 类型 | 路径 | 说明 |
 |------|------|------|
-| 代码 | src/{module}/{file}.js | 主要实现 |
-| 测试 | test/{module}/{file}.test.js | 单元测试 |
-| 文档 | docs/{module}/{file}.md | 使用文档 |
+| 代码 | {config.paths.src}/{module}/{file}.js | 主要实现 |
+| 测试 | {config.paths.test}/{module}/{file}.test.js | 单元测试 |
+| 文档 | {config.paths.docs}/{module}/{file}.md | 使用文档 |
 
 ---
 

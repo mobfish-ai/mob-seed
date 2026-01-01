@@ -165,7 +165,7 @@ describe('Archiver', () => {
 
 > 状态: archived
 > 版本: 1.0.0
-> 最后更新: 2025-01-01
+> 最后更新: 2026-01-01
 
 ## Requirements
 

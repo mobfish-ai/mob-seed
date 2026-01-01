@@ -21,6 +21,7 @@ const path = require('path');
 const VERSION_FILES = [
   { path: 'package.json', field: 'version' },
   { path: '.claude-plugin/plugin.json', field: 'version' },
+  { path: '.claude-plugin/marketplace.json', field: 'plugins[0].version', nested: true },
   { path: 'skills/mob-seed/package.json', field: 'version' }
 ];
 
@@ -101,15 +102,49 @@ function writeJsonFile(filePath, data) {
 }
 
 /**
+ * 获取嵌套字段值
+ * @param {object} obj - 对象
+ * @param {string} fieldPath - 字段路径 (如 'plugins[0].version')
+ * @returns {*}
+ */
+function getNestedValue(obj, fieldPath) {
+  const parts = fieldPath.replace(/\[(\d+)\]/g, '.$1').split('.');
+  let value = obj;
+  for (const part of parts) {
+    if (value == null) return null;
+    value = value[part];
+  }
+  return value;
+}
+
+/**
+ * 设置嵌套字段值
+ * @param {object} obj - 对象
+ * @param {string} fieldPath - 字段路径 (如 'plugins[0].version')
+ * @param {*} value - 新值
+ */
+function setNestedValue(obj, fieldPath, value) {
+  const parts = fieldPath.replace(/\[(\d+)\]/g, '.$1').split('.');
+  let current = obj;
+  for (let i = 0; i < parts.length - 1; i++) {
+    current = current[parts[i]];
+  }
+  current[parts[parts.length - 1]] = value;
+}
+
+/**
  * 读取所有版本
  * @returns {Array<{path: string, version: string|null, exists: boolean}>}
  */
 function readAllVersions() {
-  return VERSION_FILES.map(({ path: filePath, field }) => {
+  return VERSION_FILES.map(({ path: filePath, field, nested }) => {
     const data = readJsonFile(filePath);
+    const version = data
+      ? (nested ? getNestedValue(data, field) : data[field])
+      : null;
     return {
       path: filePath,
-      version: data ? data[field] : null,
+      version,
       exists: data !== null
     };
   });
@@ -155,7 +190,7 @@ function updateAllVersions(newVersion, options = {}) {
   const updated = [];
   const errors = [];
 
-  for (const { path: filePath, field } of VERSION_FILES) {
+  for (const { path: filePath, field, nested } of VERSION_FILES) {
     const data = readJsonFile(filePath);
 
     if (!data) {
@@ -163,8 +198,13 @@ function updateAllVersions(newVersion, options = {}) {
       continue;
     }
 
-    const oldVersion = data[field];
-    data[field] = newVersion;
+    const oldVersion = nested ? getNestedValue(data, field) : data[field];
+
+    if (nested) {
+      setNestedValue(data, field, newVersion);
+    } else {
+      data[field] = newVersion;
+    }
 
     if (!dryRun) {
       try {
@@ -322,6 +362,8 @@ module.exports = {
   validateSemver,
   parseSemver,
   incrementVersion,
+  getNestedValue,
+  setNestedValue,
   readAllVersions,
   checkConsistency,
   updateAllVersions,

@@ -83,7 +83,7 @@
  * @property {MissionVision} [vision] - 愿景
  * @property {MissionPrinciple[]} principles - 核心原则
  * @property {MissionAntiGoal[]} anti_goals - 反目标
- * @property {MissionEvolution} [evolution] - ACE 演化配置
+ * @property {MissionEvolution} [evolution] - 演化配置
  * @property {MissionAlignment} [alignment] - 对齐评分
  * @property {MissionCovenant} [covenant] - 人机契约
  */

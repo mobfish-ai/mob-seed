@@ -106,7 +106,7 @@
     },
     "evolution": {
       "type": "object",
-      "description": "Guidelines for autonomous evolution (ACE)",
+      "description": "Guidelines for autonomous evolution",
       "properties": {
         "allowed_scopes": {
           "type": "array",

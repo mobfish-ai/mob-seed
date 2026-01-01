@@ -4,7 +4,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob, Grep
 argument-hint: <spec-path> [--check] [--fix] [--report] [--strict] [--no-cache]
 ---
 
-# mob-seed-defend
+# mob-seed:defend
 
 执行内容：$ARGUMENTS
 
@@ -14,7 +14,7 @@ argument-hint: <spec-path> [--check] [--fix] [--report] [--strict] [--no-cache]
 - 同步检查: `prompts/defend-sync.md`
 - 漂移检测: `prompts/defend-drift.md`
 - 检查引擎: `adapters/defend-checker.js`
-- **项目配置**: `.seed/config.json`（由 `/mob-seed-init` 生成）
+- **项目配置**: `.seed/config.json`（由 `/mob-seed:init` 生成）
 - **使命声明**: `.seed/mission.md`（原则与反目标定义）
 - **检查缓存**: `.seed/check-cache.json`（检查结果缓存）
 
@@ -24,7 +24,7 @@ argument-hint: <spec-path> [--check] [--fix] [--report] [--strict] [--no-cache]
 
 1. **检查 SEED 是否已初始化**：
    - 检查 `.seed/config.json` 是否存在
-   - 如不存在，提示用户运行 `/mob-seed-init`
+   - 如不存在，提示用户运行 `/mob-seed:init`
 
 2. **加载配置获取路径**：
 ```javascript
@@ -255,7 +255,7 @@ output/mob-seed/
 ## 修复建议
 
 1. 实现 FR-003 对应的功能
-2. 运行 `/mob-seed-emit --docs` 更新文档
+2. 运行 `/mob-seed:emit --docs` 更新文档
 ```
 
 ### 步骤7: 归档提示（重要）
@@ -269,12 +269,12 @@ output/mob-seed/
 
 **下一步操作**:
 ```bash
-/mob-seed-archive {proposal-path}
+/mob-seed:archive {proposal-path}
 ```
 
 ⚠️ **重要**:
-- 本命令 (`/mob-seed-defend`) 只做检查，不执行归档
-- 归档操作请使用 `/mob-seed-archive`，它会：
+- 本命令 (`/mob-seed:defend`) 只做检查，不执行归档
+- 归档操作请使用 `/mob-seed:archive`，它会：
   1. 合并规格到 `openspec/specs/`（真相源）
   2. 移动提案到 `openspec/archive/`
   3. 更新状态为 `archived`
@@ -286,22 +286,22 @@ output/mob-seed/
 
 ```bash
 # 检查同步状态
-/mob-seed-defend specs/user-auth.fspec.md
+/mob-seed:defend specs/user-auth.fspec.md
 
 # 检查并自动修复
-/mob-seed-defend specs/user-auth.fspec.md --fix
+/mob-seed:defend specs/user-auth.fspec.md --fix
 
 # 生成详细报告
-/mob-seed-defend specs/user-auth.fspec.md --report
+/mob-seed:defend specs/user-auth.fspec.md --report
 
 # 严格模式（CI 中使用）
-/mob-seed-defend specs/user-auth.fspec.md --strict
+/mob-seed:defend specs/user-auth.fspec.md --strict
 ```
 
 ## 注意事项
 
-- `/mob-seed-defend` 是**只读**命令，不会修改文件位置
-- 归档操作请使用 `/mob-seed-archive`
+- `/mob-seed:defend` 是**只读**命令，不会修改文件位置
+- 归档操作请使用 `/mob-seed:archive`
 - 参见 CLAUDE.md 经验教训 #7 和 #8
 
 ## Git Hooks 集成
@@ -438,7 +438,7 @@ jobs:
 
 ```bash
 # 自动安装 hooks
-/mob-seed-init --hooks
+/mob-seed:init --hooks
 
 # 手动安装
 cp .seed/hooks/pre-commit .git/hooks/

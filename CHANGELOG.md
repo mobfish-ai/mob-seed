@@ -14,7 +14,7 @@
 
 ---
 
-## [2.0.0] - 2025-01-01
+## [2.0.0] - 2026-01-01
 
 ### Added
 
@@ -38,9 +38,9 @@
 - Delta 语法支持 (ADDED/MODIFIED/REMOVED/CLARIFIED)
 - 生命周期管理 (draft → review → implementing → archived)
 
-**Mission Statement (ACE)**
+**Mission Statement**
 - `.seed/mission.md` - 项目使命声明
-- Audience（目标用户）、Core Value（核心价值）、Experience（预期体验）
+- 定义项目目的、原则和反目标，用于指导 AI 辅助开发决策
 
 **Git Hooks 自动化**
 - `.seed/hooks/pre-commit` - 提交前快速检查
@@ -73,7 +73,7 @@
 
 ---
 
-## [1.2.0] - 2024-12-15
+## [1.2.0] - 2025-12-15
 
 ### Added
 - 逆向同步功能：从代码生成规格 (`/mob-seed-sync`)
@@ -82,7 +82,7 @@
 
 ---
 
-## [1.1.0] - 2024-12-10
+## [1.1.0] - 2025-12-10
 
 ### Added
 - 测试框架集成 (Node.js test runner)
@@ -100,7 +100,7 @@
 
 ---
 
-## [1.0.0] - 2024-12-01
+## [1.0.0] - 2025-12-01
 
 ### Added
 - 初始版本发布

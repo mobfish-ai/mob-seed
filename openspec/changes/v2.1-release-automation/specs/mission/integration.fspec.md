@@ -7,7 +7,7 @@
 
 ## 概述 (Overview)
 
-Mission 集成检查，将项目使命声明（ACE）集成到 SEED 各阶段，确保开发过程与项目使命保持对齐。
+Mission 集成检查，将项目使命声明集成到 SEED 各阶段，确保开发过程与项目使命保持对齐。
 
 ### 目标用户
 - SEED 方法论使用者
@@ -23,7 +23,7 @@ Mission 集成检查，将项目使命声明（ACE）集成到 SEED 各阶段，
 ### 功能需求
 
 - [ ] FR-001: Mission 加载 - 加载 `.seed/mission.md` 文件
-- [ ] FR-002: 原则解析 - 解析 ACE（Audience/Core/Experience）
+- [ ] FR-002: 原则解析 - 解析 Mission 核心结构（principles/anti_goals/evolution）
 - [ ] FR-003: 对齐评估 - 评估操作与使命的对齐度
 - [ ] FR-004: 阶段集成 - 在 Spec/Emit/Exec/Defend 各阶段集成检查
 - [ ] FR-005: 缓存复用 - 会话内复用 Mission 加载结果
@@ -38,7 +38,7 @@ Mission 集成检查，将项目使命声明（ACE）集成到 SEED 各阶段，
 
 ### 技术约束
 - Mission 文件使用 Markdown 格式
-- 支持 ACE 三层结构
+- 支持 Mission 三层结构（principles/anti_goals/evolution）
 - 依赖 session-cache 模块
 
 ### 业务约束
@@ -78,11 +78,11 @@ Mission 集成检查，将项目使命声明（ACE）集成到 SEED 各阶段，
 function loadMission(projectRoot);
 
 /**
- * 解析 ACE 结构
+ * 解析 Mission 核心结构
  * @param {string} content - Mission 文件内容
- * @returns {ACE}
+ * @returns {MissionCore} { principles, antiGoals, evolution }
  */
-function parseACE(content);
+function parseMissionCore(content);
 
 /**
  * 评估对齐度
@@ -145,8 +145,10 @@ function getCachedMission(projectRoot);
 
 ## 派生产物 (Derived Outputs)
 
+> 路径遵循 `.seed/config.json` 配置，相对于 `skills/mob-seed/` 目录
+
 | 类型 | 路径 | 说明 |
 |------|------|------|
-| 代码 | lib/mission/integration.js | Mission 集成 |
-| 测试 | test/mission/integration.test.js | 单元测试 |
+| 代码 | skills/mob-seed/lib/mission/integration.js | Mission 集成 |
+| 测试 | skills/mob-seed/test/mission/integration.test.js | 单元测试 |
 | 文档 | docs/api/mission-integration.md | API 文档 |

@@ -4,7 +4,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob, Grep
 argument-hint: <spec-path> [--test] [--build] [--all] [--watch] [--ci]
 ---
 
-# mob-seed-exec
+# mob-seed:exec
 
 执行内容：$ARGUMENTS
 
@@ -14,7 +14,7 @@ argument-hint: <spec-path> [--test] [--build] [--all] [--watch] [--ci]
 - 执行提示: `prompts/exec-runner.md`
 - CI 配置: `prompts/exec-ci.md`
 - 执行脚本: `scripts/exec-runner.js`
-- **项目配置**: `.seed/config.json`（由 `/mob-seed-init` 生成）
+- **项目配置**: `.seed/config.json`（由 `/mob-seed:init` 生成）
 
 ## 执行步骤
 
@@ -22,7 +22,7 @@ argument-hint: <spec-path> [--test] [--build] [--all] [--watch] [--ci]
 
 1. **检查 SEED 是否已初始化**：
    - 检查 `.seed/config.json` 是否存在
-   - 如不存在，提示用户运行 `/mob-seed-init`
+   - 如不存在，提示用户运行 `/mob-seed:init`
 
 2. **加载配置获取路径**：
 ```javascript
@@ -123,14 +123,14 @@ output/mob-seed/
 
 ```bash
 # 执行全部检查
-/mob-seed-exec specs/user-auth.fspec.md
+/mob-seed:exec specs/user-auth.fspec.md
 
 # 只执行测试
-/mob-seed-exec specs/user-auth.fspec.md --test
+/mob-seed:exec specs/user-auth.fspec.md --test
 
 # CI 模式
-/mob-seed-exec specs/user-auth.fspec.md --ci
+/mob-seed:exec specs/user-auth.fspec.md --ci
 
 # 监听模式（开发时使用）
-/mob-seed-exec specs/user-auth.fspec.md --watch
+/mob-seed:exec specs/user-auth.fspec.md --watch
 ```

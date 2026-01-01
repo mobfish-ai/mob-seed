@@ -143,8 +143,10 @@ function renderProgressPanel(progress);
 
 ## 派生产物 (Derived Outputs)
 
+> 路径遵循 `.seed/config.json` 配置，相对于 `skills/mob-seed/` 目录
+
 | 类型 | 路径 | 说明 |
 |------|------|------|
-| 代码 | lib/workflow/state-evolution.js | 状态进化器 |
-| 测试 | test/workflow/state-evolution.test.js | 单元测试 |
+| 代码 | skills/mob-seed/lib/workflow/state-evolution.js | 状态进化器 |
+| 测试 | skills/mob-seed/test/workflow/state-evolution.test.js | 单元测试 |
 | 文档 | docs/api/state-evolution.md | API 文档 |

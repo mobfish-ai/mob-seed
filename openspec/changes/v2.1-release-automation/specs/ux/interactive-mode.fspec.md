@@ -174,10 +174,12 @@ function renderPanel(data);
 
 ## 派生产物 (Derived Outputs)
 
+> 路径遵循 `.seed/config.json` 配置，相对于 `skills/mob-seed/` 目录
+
 | 类型 | 路径 | 说明 |
 |------|------|------|
-| 代码 | lib/ux/interactive-prompt.js | 交互式提示 |
-| 代码 | lib/ux/progress-panel.js | 进度面板 |
-| 测试 | test/ux/interactive-prompt.test.js | 单元测试 |
-| 测试 | test/ux/progress-panel.test.js | 单元测试 |
+| 代码 | skills/mob-seed/lib/ux/interactive-prompt.js | 交互式提示 |
+| 代码 | skills/mob-seed/lib/ux/progress-panel.js | 进度面板 |
+| 测试 | skills/mob-seed/test/ux/interactive-prompt.test.js | 单元测试 |
+| 测试 | skills/mob-seed/test/ux/progress-panel.test.js | 单元测试 |
 | 文档 | docs/api/interactive-mode.md | API 文档 |

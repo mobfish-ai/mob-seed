@@ -67,7 +67,7 @@ After installation, restart Claude Code to load the plugin.
 mob-seed/                          # Project root
 ├── .seed/                         # SEED configuration
 │   ├── config.json               # Core config (paths, patterns, emit settings)
-│   └── mission.md              # Mission statement (ACE)
+│   └── mission.md              # Mission statement
 ├── openspec/                      # OpenSpec specifications
 │   ├── specs/                    # Stable specs (archived)
 │   ├── changes/                  # Change proposals (implementing)
@@ -178,7 +178,7 @@ Changed: Minimum length from 6 to 8
 Reason: Replaced by OAuth
 ```
 
-## Mission Statement (ACE)
+## Mission Statement
 
 mob-seed supports **Mission Statement** for AI-guided development decisions. The mission defines project purpose, principles, and anti-goals.
 

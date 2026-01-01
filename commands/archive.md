@@ -4,7 +4,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob, Grep, Task, TodoWrite, AskUserQues
 argument-hint: <proposal-name> [--all] [--dry-run] [--force]
 ---
 
-# mob-seed-archive - 归档变更提案
+# mob-seed:archive - 归档变更提案
 
 执行内容：$ARGUMENTS
 
@@ -28,7 +28,7 @@ argument-hint: <proposal-name> [--all] [--dry-run] [--force]
     └── seed-utils.js       # 工具模块
 ```
 
-**项目配置**: `.seed/config.json`（由 `/mob-seed-init` 生成）
+**项目配置**: `.seed/config.json`（由 `/mob-seed:init` 生成）
 
 ---
 
@@ -38,7 +38,7 @@ argument-hint: <proposal-name> [--all] [--dry-run] [--force]
 
 1. **检查 SEED 是否已初始化**：
    - 检查 `.seed/config.json` 是否存在
-   - 如不存在，提示用户运行 `/mob-seed-init`
+   - 如不存在，提示用户运行 `/mob-seed:init`
 
 2. **验证 OpenSpec 模式**：
    - 归档命令仅在 OpenSpec 模式下可用
@@ -233,7 +233,7 @@ REMOVED:
 ━━━ 状态转换 ━━━
 🔨 implementing → ✅ archived
 
-提示: 使用 /mob-seed-status 查看最新状态
+提示: 使用 /mob-seed:seed 查看最新状态
 ```
 
 ---
@@ -262,16 +262,16 @@ openspec/
 
 ```bash
 # 归档指定提案
-/mob-seed-archive add-oauth
+/mob-seed:archive add-oauth
 
 # 预览归档操作（不实际执行）
-/mob-seed-archive add-oauth --dry-run
+/mob-seed:archive add-oauth --dry-run
 
 # 归档所有已完成的提案
-/mob-seed-archive --all
+/mob-seed:archive --all
 
 # 强制归档（跳过测试检查）
-/mob-seed-archive add-oauth --force
+/mob-seed:archive add-oauth --force
 ```
 
 ---

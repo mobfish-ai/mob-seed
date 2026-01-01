@@ -3,7 +3,7 @@
  * @module stacks/types
  * @see specs/multi-language-stack.fspec.md
  * @generated-from specs/multi-language-stack.fspec.md
- * @generated-at 2025-12-31
+ * @generated-at 2026-01-01
  * @seed-version 1.1.0
  *
  * ⚠️ 此文件由 SEED 自动派生，请勿手动修改

@@ -4,7 +4,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion
 argument-hint: [--force]
 ---
 
-# mob-seed-init
+# mob-seed:init
 
 执行内容：$ARGUMENTS
 
@@ -83,13 +83,13 @@ openspec/
 
 .seed/
 ├── config.json     # SEED 配置
-└── mission.md    # 项目使命声明（ACE 自演化指南）
+└── mission.md    # 项目使命声明
 
 下一步:
 1. 编辑 .seed/mission.md 定义项目使命和原则
 2. 编辑 openspec/project.md 填写项目信息
-3. 创建规格提案: /mob-seed-spec --proposal "feature-name"
-4. 查看状态: /mob-seed-status
+3. 创建规格提案: /mob-seed:spec --proposal "feature-name"
+4. 查看状态: /mob-seed:seed
 ```
 
 ### 步骤2: 保存配置并完成
@@ -108,8 +108,8 @@ mkdir -p .seed
 
 下一步:
 1. 检查配置: cat .seed/config.json
-2. 创建规格: /mob-seed-spec "功能名称"
-3. 查看状态: /mob-seed-status
+2. 创建规格: /mob-seed:spec "功能名称"
+3. 查看状态: /mob-seed:seed
 ```
 
 ## 参数说明
@@ -123,10 +123,10 @@ mkdir -p .seed
 
 ```bash
 # 初始化 OpenSpec 结构（默认）
-/mob-seed-init
+/mob-seed:init
 
 # 强制重新初始化
-/mob-seed-init --force
+/mob-seed:init --force
 ```
 
 ## 配置文件详解

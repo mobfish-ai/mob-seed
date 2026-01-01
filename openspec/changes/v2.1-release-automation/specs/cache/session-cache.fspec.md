@@ -181,8 +181,10 @@ function shouldRecheck(cacheKey, cachedResult);
 
 ## 派生产物 (Derived Outputs)
 
+> 路径遵循 `.seed/config.json` 配置，相对于 `skills/mob-seed/` 目录
+
 | 类型 | 路径 | 说明 |
 |------|------|------|
-| 代码 | lib/cache/session-cache.js | 会话缓存 |
-| 测试 | test/cache/session-cache.test.js | 单元测试 |
+| 代码 | skills/mob-seed/lib/cache/session-cache.js | 会话缓存 |
+| 测试 | skills/mob-seed/test/cache/session-cache.test.js | 单元测试 |
 | 文档 | docs/api/session-cache.md | API 文档 |

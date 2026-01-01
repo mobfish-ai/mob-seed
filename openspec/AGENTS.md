@@ -44,7 +44,7 @@ changes/ 人类审查  代码实现   specs/
 ### 1. 创建变更提案
 
 ```bash
-/mob-seed-spec --proposal "feature-name"
+/mob-seed:spec --proposal "feature-name"
 ```
 
 创建 `openspec/changes/feature-name/` 目录，包含：
@@ -80,7 +80,7 @@ The system SHALL [行为描述].
 ### 3. 提交审查
 
 ```bash
-/mob-seed-spec --submit "feature-name"
+/mob-seed:spec --submit "feature-name"
 ```
 
 状态变更: `draft` → `review`
@@ -88,7 +88,7 @@ The system SHALL [行为描述].
 ### 4. 派生代码
 
 ```bash
-/mob-seed-emit "feature-name"
+/mob-seed:emit "feature-name"
 ```
 
 根据规格自动生成：
@@ -101,7 +101,7 @@ The system SHALL [行为描述].
 ### 5. 执行测试
 
 ```bash
-/mob-seed-exec "feature-name"
+/mob-seed:exec "feature-name"
 ```
 
 运行派生的测试，验证实现。
@@ -109,7 +109,7 @@ The system SHALL [行为描述].
 ### 6. 归档规格
 
 ```bash
-/mob-seed-archive "feature-name"
+/mob-seed:archive "feature-name"
 ```
 
 将 Delta 规格合并到 `specs/`，变更目录移动到 `archive/`。
@@ -145,15 +145,14 @@ fspec = OpenSpec Delta + SEED 元数据
 
 | 命令 | 说明 |
 |------|------|
-| `/mob-seed-init` | 初始化 OpenSpec 结构 |
-| `/mob-seed-spec --proposal` | 创建变更提案 |
-| `/mob-seed-spec --submit` | 提交审查 |
-| `/mob-seed-emit` | 派生代码/测试 |
-| `/mob-seed-exec` | 执行测试 |
-| `/mob-seed-archive` | 归档完成的变更 |
-| `/mob-seed-status` | 查看所有规格状态 |
-| `/mob-seed-diff` | 查看规格与代码差异 |
-| `/mob-seed-defend` | 守护同步 |
+| `/mob-seed:seed` | 智能状态面板 + 建议行动 |
+| `/mob-seed:init` | 初始化 OpenSpec 结构 |
+| `/mob-seed:spec --proposal` | 创建变更提案 |
+| `/mob-seed:spec --submit` | 提交审查 |
+| `/mob-seed:emit` | 派生代码/测试 |
+| `/mob-seed:exec` | 执行测试 |
+| `/mob-seed:archive` | 归档完成的变更 |
+| `/mob-seed:defend` | 守护同步 |
 
 ---
 

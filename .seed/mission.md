@@ -359,7 +359,7 @@ Spec → Code → Docs
 
 ---
 
-## Evolution: How We Grow (ACE) | 演化：如何成长
+## Evolution: How We Grow | 演化：如何成长
 
 ### Allowed Scopes | 允许的范围
 

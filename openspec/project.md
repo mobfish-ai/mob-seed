@@ -41,7 +41,7 @@ mob-seed/
 ├── skills/                 # Claude Code Skills
 │   └── mob-seed/           # SEED 方法论 Skill
 ├── commands/               # Claude Code Commands
-│   └── mob-seed-*.md       # 各个命令定义
+│   └── *.md                # SEED 子命令定义
 └── output/                 # 输出模板
     └── ...
 ```
@@ -71,10 +71,11 @@ mob-seed/
 | 命令               | 说明             |
 | ------------------ | ---------------- |
 | `npm test`         | 运行测试         |
-| `/mob-seed-init`   | 初始化 SEED 项目 |
-| `/mob-seed-spec`   | 创建/管理规格    |
-| `/mob-seed-emit`   | 派生代码         |
-| `/mob-seed-status` | 查看状态         |
+| `/mob-seed:seed`   | 智能状态面板     |
+| `/mob-seed:init`   | 初始化 SEED 项目 |
+| `/mob-seed:spec`   | 创建/管理规格    |
+| `/mob-seed:emit`   | 派生代码         |
+| `/mob-seed:defend` | 守护同步         |
 
 ---
 

@@ -280,7 +280,7 @@ deno test --watch
 ```typescript
 /**
  * @generated-from specs/{name}.fspec.md
- * @generated-at 2025-12-31T15:00:00+08:00
+ * @generated-at 2026-01-01T10:00:00+08:00
  * @seed-version 1.0.0
  * @covers AC-001, AC-002, AC-003
  *

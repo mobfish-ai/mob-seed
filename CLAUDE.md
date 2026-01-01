@@ -290,7 +290,51 @@ Spec (规格) → Code (代码) → Docs (全部文档)
 
 **禁止**: 手动创建文档（除非先有规格定义）
 
-### 11. AI 偏离核心哲学的根本原因分析
+### 11. 规格派生路径必须与配置一致
+
+**问题**: 规格文件的"派生产物"章节使用了通用路径（如 `lib/xxx`、`test/xxx`），与 `.seed/config.json` 中的实际配置（`skills/mob-seed/lib`、`skills/mob-seed/test`）不一致，导致文件被创建到错误位置。
+
+**根本原因**:
+1. 模板文件 (`templates/feature.fspec.md`) 使用了通用路径占位符
+2. 创建规格时未读取配置来解析实际路径
+3. 缺乏路径一致性验证机制
+
+**修复措施**:
+1. **更新模板**:
+   ```markdown
+   ## 派生产物 (Derived Outputs)
+
+   > **路径规范**: 所有路径必须遵循 `.seed/config.json` 中的 `paths` 配置。
+   > 例如: 若 `paths.src = "skills/mob-seed/lib"`，则代码路径为 `skills/mob-seed/lib/{module}/{file}.js`
+
+   | 类型 | 路径 | 说明 |
+   |------|------|------|
+   | 代码 | {config.paths.src}/{module}/{file}.js | 主要实现 |
+   | 测试 | {config.paths.test}/{module}/{file}.test.js | 单元测试 |
+   ```
+
+2. **更新 spec-create.md 指导**:
+   - 明确说明路径必须与配置一致
+   - 提供配置字段引用方式
+
+3. **规格审查检查项**:
+   - [ ] 派生路径是否与 `.seed/config.json` 一致
+   - [ ] 是否添加了路径规范说明
+
+**防御机制**:
+```bash
+# 检查规格路径是否与配置一致
+grep -rn "^| 代码 |" openspec/changes/**/specs/**/*.fspec.md | \
+  grep -v "skills/mob-seed"  # 应该无输出
+```
+
+**教训**:
+- ✅ 模板和指导文档必须引用配置，而非硬编码路径
+- ✅ 路径问题要追溯到根源（模板/指导文档），而非仅修复症状
+- ✅ 修复后同步更新所有受影响的规格文件
+- ❌ 不要在规格中使用与配置不一致的相对路径
+
+### 12. AI 偏离核心哲学的根本原因分析
 
 **问题**: SEED 核心哲学明确规定 `Code → Docs`，但 AI 实际操作时却执行了 `Spec → Docs`。
 
