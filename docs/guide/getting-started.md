@@ -14,7 +14,7 @@
 
 ```bash
 # 在项目根目录执行
-/mob-seed-init
+/mob-seed:init
 ```
 
 这将创建：
@@ -27,7 +27,7 @@
 ### 1. 创建规格 (Spec)
 
 ```bash
-/mob-seed-spec create user-auth
+/mob-seed:spec create user-auth
 ```
 
 编辑生成的 `openspec/changes/user-auth/specs/user-auth.fspec.md`：
@@ -58,7 +58,7 @@ The system SHALL authenticate users with username and password.
 ### 2. 派生代码 (Emit)
 
 ```bash
-/mob-seed-emit openspec/changes/user-auth/specs/user-auth.fspec.md
+/mob-seed:emit openspec/changes/user-auth/specs/user-auth.fspec.md
 ```
 
 自动生成：
@@ -69,7 +69,7 @@ The system SHALL authenticate users with username and password.
 ### 3. 执行测试 (Execute)
 
 ```bash
-/mob-seed-exec
+/mob-seed:exec
 ```
 
 运行测试并更新 AC 状态。
@@ -77,7 +77,7 @@ The system SHALL authenticate users with username and password.
 ### 4. 守护同步 (Defend)
 
 ```bash
-/mob-seed-defend
+/mob-seed:defend
 ```
 
 检查规格与代码是否同步。
@@ -86,24 +86,24 @@ The system SHALL authenticate users with username and password.
 
 ```bash
 # 1. 初始化
-/mob-seed-init
+/mob-seed:init
 
 # 2. 创建规格
-/mob-seed-spec create my-feature
+/mob-seed:spec create my-feature
 
 # 3. 编辑规格文件...
 
 # 4. 派生代码
-/mob-seed-emit openspec/changes/my-feature/specs/my-feature.fspec.md
+/mob-seed:emit openspec/changes/my-feature/specs/my-feature.fspec.md
 
 # 5. 运行测试
-/mob-seed-exec
+/mob-seed:exec
 
 # 6. 检查同步
-/mob-seed-defend
+/mob-seed:defend
 
 # 7. 归档完成的提案
-/mob-seed-archive my-feature
+/mob-seed:archive my-feature
 ```
 
 ## 常用命令
@@ -111,13 +111,12 @@ The system SHALL authenticate users with username and password.
 | 命令 | 用途 |
 |------|------|
 | `/mob-seed` | 统一入口（智能引导） |
-| `/mob-seed-init` | 初始化项目 |
-| `/mob-seed-spec` | 创建/验证规格 |
-| `/mob-seed-emit` | 派生代码/测试/文档 |
-| `/mob-seed-exec` | 运行测试 |
-| `/mob-seed-defend` | 守护同步 |
-| `/mob-seed-status` | 查看项目状态 |
-| `/mob-seed-archive` | 归档完成的提案 |
+| `/mob-seed:init` | 初始化项目 |
+| `/mob-seed:spec` | 创建/验证规格 |
+| `/mob-seed:emit` | 派生代码/测试/文档 |
+| `/mob-seed:exec` | 运行测试 |
+| `/mob-seed:defend` | 守护同步 |
+| `/mob-seed:archive` | 归档完成的提案 |
 
 ## 下一步
 
