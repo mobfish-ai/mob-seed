@@ -1,6 +1,6 @@
 # Feature: Debug Protocol (调试协议)
 
-> 状态: implementing
+> 状态: archived
 > 版本: 1.0.0
 > 技术栈: JavaScript
 > 派生路径: skills/mob-seed/lib/quality/
@@ -33,9 +33,9 @@ The system SHALL evaluate confidence for debugging decisions.
 - AND 返回加权总置信度 (0-100%)
 
 **Acceptance Criteria:**
-- [ ] AC-001: 置信度范围 0-100%
-- [ ] AC-002: 各维度独立评分
-- [ ] AC-003: 支持自定义权重
+- [x] AC-001: 置信度范围 0-100%
+- [x] AC-002: 各维度独立评分
+- [x] AC-003: 支持自定义权重
 
 ### REQ-002: 自动修复流程 (置信度 ≥50%)
 
@@ -72,9 +72,9 @@ The system SHALL attempt auto-fix when confidence ≥50%.
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-004: 修复前创建代码快照
-- [ ] AC-005: 修复后自动验证
-- [ ] AC-006: 失败自动回滚
+- [x] AC-004: 修复前创建代码快照
+- [x] AC-005: 修复后自动验证
+- [x] AC-006: 失败自动回滚
 
 ### REQ-003: 人工介入流程 (置信度 <50%)
 
@@ -112,9 +112,9 @@ The system SHALL request human intervention when confidence <50%.
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-007: 展示置信度详细分数
-- [ ] AC-008: 提供可能的调试方向
-- [ ] AC-009: 支持用户补充信息后重新评估
+- [x] AC-007: 展示置信度详细分数
+- [x] AC-008: 提供可能的调试方向
+- [x] AC-009: 支持用户补充信息后重新评估
 
 ### REQ-004: 调试上下文收集
 
@@ -136,9 +136,9 @@ The system SHALL collect debugging context automatically.
 - AND 整理为结构化的调试上下文对象
 
 **Acceptance Criteria:**
-- [ ] AC-010: 自动解析错误堆栈
-- [ ] AC-011: 提取相关代码片段
-- [ ] AC-012: 收集环境信息
+- [x] AC-010: 自动解析错误堆栈
+- [x] AC-011: 提取相关代码片段
+- [x] AC-012: 收集环境信息
 
 ### REQ-005: 调试历史记录
 
@@ -171,9 +171,9 @@ The system SHALL maintain debugging history for learning.
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-013: JSONL 格式存储
-- [ ] AC-014: 记录完整的调试过程
-- [ ] AC-015: 支持查询相似历史问题
+- [x] AC-013: JSONL 格式存储
+- [x] AC-014: 记录完整的调试过程
+- [x] AC-015: 支持查询相似历史问题
 
 ### REQ-006: 调试报告生成
 
@@ -223,9 +223,9 @@ The system SHALL generate debugging reports.
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-016: Markdown 格式报告
-- [ ] AC-017: 包含 diff 格式的修复代码
-- [ ] AC-018: 包含验证结果
+- [x] AC-016: Markdown 格式报告
+- [x] AC-017: 包含 diff 格式的修复代码
+- [x] AC-018: 包含验证结果
 
 ## 导出接口
 

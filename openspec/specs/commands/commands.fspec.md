@@ -25,9 +25,9 @@ The system SHALL provide unified entry point for SEED workflow.
 - THEN 只执行规格定义阶段
 
 **Acceptance Criteria:**
-- [ ] AC-001: 支持 --spec, --emit, --exec, --defend 参数
-- [ ] AC-002: 支持 --quick, --full 复杂度选项
-- [ ] AC-003: 自动检测项目初始化状态
+- [x] AC-001: 支持 --spec, --emit, --exec, --defend 参数
+- [x] AC-002: 支持 --quick, --full 复杂度选项
+- [x] AC-003: 自动检测项目初始化状态
 
 ### REQ-002: 项目初始化命令
 The system SHALL provide project initialization command.
@@ -43,9 +43,9 @@ The system SHALL provide project initialization command.
 - THEN 备份现有配置并重新初始化
 
 **Acceptance Criteria:**
-- [ ] AC-004: 创建 OpenSpec 标准目录结构 (openspec/specs/, openspec/changes/)
-- [ ] AC-005: 生成 .seed/config.json 配置文件
-- [ ] AC-006: 支持 --force 强制重新初始化
+- [x] AC-004: 创建 OpenSpec 标准目录结构 (openspec/specs/, openspec/changes/)
+- [x] AC-005: 生成 .seed/config.json 配置文件
+- [x] AC-006: 支持 --force 强制重新初始化
 
 ### REQ-003: 规格定义命令
 The system SHALL provide spec creation and management command.
@@ -61,9 +61,9 @@ The system SHALL provide spec creation and management command.
 - THEN 将提案状态更新为 review
 
 **Acceptance Criteria:**
-- [ ] AC-007: 使用 templates/ 中的模板
-- [ ] AC-008: 支持 --proposal 创建变更提案
-- [ ] AC-009: 支持 --submit 提交审查
+- [x] AC-007: 使用 templates/ 中的模板
+- [x] AC-008: 支持 --proposal 创建变更提案
+- [x] AC-009: 支持 --submit 提交审查
 
 ### REQ-004: 派生命令
 The system SHALL provide code/test/docs derivation command.
@@ -75,10 +75,10 @@ The system SHALL provide code/test/docs derivation command.
 - THEN 从规格生成代码骨架、测试骨架和文档
 
 **Acceptance Criteria:**
-- [ ] AC-010: 生成代码到 src/ 目录
-- [ ] AC-011: 生成测试到 test/ 目录
-- [ ] AC-012: 生成文档到 docs/ 目录
-- [ ] AC-013: 创建 seed-manifest.json 映射文件
+- [x] AC-010: 生成代码到 src/ 目录
+- [x] AC-011: 生成测试到 test/ 目录
+- [x] AC-012: 生成文档到 docs/ 目录
+- [x] AC-013: 创建 seed-manifest.json 映射文件
 
 ### REQ-005: 执行命令
 The system SHALL provide test execution command.
@@ -90,9 +90,9 @@ The system SHALL provide test execution command.
 - THEN 执行派生的测试用例
 
 **Acceptance Criteria:**
-- [ ] AC-014: 检测测试框架类型
-- [ ] AC-015: 运行对应的测试命令
-- [ ] AC-016: 输出测试结果摘要
+- [x] AC-014: 检测测试框架类型
+- [x] AC-015: 运行对应的测试命令
+- [x] AC-016: 输出测试结果摘要
 
 ### REQ-006: 守护命令
 The system SHALL provide compliance checking command.
@@ -104,9 +104,9 @@ The system SHALL provide compliance checking command.
 - THEN 检查派生物是否被手动修改
 
 **Acceptance Criteria:**
-- [ ] AC-017: 检查代码 hash 与 manifest 记录
-- [ ] AC-018: 报告漂移的文件
-- [ ] AC-019: 提供修复建议
+- [x] AC-017: 检查代码 hash 与 manifest 记录
+- [x] AC-018: 报告漂移的文件
+- [x] AC-019: 提供修复建议
 
 ### REQ-007: 状态查看命令
 The system SHALL provide status overview command.
@@ -118,9 +118,9 @@ The system SHALL provide status overview command.
 - THEN 显示所有规格的派生状态和同步状态
 
 **Acceptance Criteria:**
-- [ ] AC-020: 显示 OpenSpec 生命周期状态
-- [ ] AC-021: 支持 --verbose 详细模式
-- [ ] AC-022: 支持 --json 输出格式
+- [x] AC-020: 显示 OpenSpec 生命周期状态
+- [x] AC-021: 支持 --verbose 详细模式
+- [x] AC-022: 支持 --json 输出格式
 
 ### REQ-008: 差异对比命令
 The system SHALL provide diff command for spec vs code.
@@ -132,9 +132,9 @@ The system SHALL provide diff command for spec vs code.
 - THEN 显示规格与代码的差异
 
 **Acceptance Criteria:**
-- [ ] AC-023: 列出未实现的 FR
-- [ ] AC-024: 列出未测试的 AC
-- [ ] AC-025: 计算同步率
+- [x] AC-023: 列出未实现的 FR
+- [x] AC-024: 列出未测试的 AC
+- [x] AC-025: 计算同步率
 
 ### REQ-009: 同步命令
 The system SHALL provide sync command for spec-code alignment.
@@ -150,9 +150,9 @@ The system SHALL provide sync command for spec-code alignment.
 - THEN 从代码生成初始规格文件
 
 **Acceptance Criteria:**
-- [ ] AC-026: 支持 spec→code 和 code→spec 方向
-- [ ] AC-027: 支持 --dry-run 预览模式
-- [ ] AC-028: 支持逆向同步（代码生成规格）
+- [x] AC-026: 支持 spec→code 和 code→spec 方向
+- [x] AC-027: 支持 --dry-run 预览模式
+- [x] AC-028: 支持逆向同步（代码生成规格）
 
 ### REQ-010: 归档命令
 The system SHALL provide archive command for completed proposals.
@@ -164,9 +164,9 @@ The system SHALL provide archive command for completed proposals.
 - THEN 将 Delta 规格合并到 specs/，提案移动到 archive/
 
 **Acceptance Criteria:**
-- [ ] AC-029: 检查前置条件（测试通过、代码完成）
-- [ ] AC-030: 合并 Delta 规格到真相源
-- [ ] AC-031: 移动提案目录到 archive/
+- [x] AC-029: 检查前置条件（测试通过、代码完成）
+- [x] AC-030: 合并 Delta 规格到真相源
+- [x] AC-031: 移动提案目录到 archive/
 
 ### REQ-011: 编辑触发命令
 The system SHALL provide edit trigger command.
@@ -178,8 +178,8 @@ The system SHALL provide edit trigger command.
 - THEN 打开规格文件并在保存后触发同步
 
 **Acceptance Criteria:**
-- [ ] AC-032: 触发规格编辑
-- [ ] AC-033: 编辑后自动派生
+- [x] AC-032: 触发规格编辑
+- [x] AC-033: 编辑后自动派生
 
 ## 命令架构
 

@@ -23,9 +23,9 @@ The system SHALL load and save SEED project configuration.
 - THEN 创建 .seed/ 目录并写入 config.json
 
 **Acceptance Criteria:**
-- [ ] AC-001: 深度合并用户配置和默认配置
-- [ ] AC-002: 自动创建 .seed/ 目录
-- [ ] AC-003: 添加 updated 时间戳
+- [x] AC-001: 深度合并用户配置和默认配置
+- [x] AC-002: 自动创建 .seed/ 目录
+- [x] AC-003: 添加 updated 时间戳
 
 ### REQ-002: 初始化检查
 The system SHALL check if SEED structure is initialized.
@@ -35,7 +35,7 @@ The system SHALL check if SEED structure is initialized.
 - THEN 返回 .seed/config.json 是否存在
 
 **Acceptance Criteria:**
-- [ ] AC-004: 返回 boolean 值
+- [x] AC-004: 返回 boolean 值
 
 ### REQ-003: 项目结构扫描
 The system SHALL intelligently scan project structure.
@@ -45,9 +45,9 @@ The system SHALL intelligently scan project structure.
 - THEN 返回检测到的 specs, src, test, docs 目录
 
 **Acceptance Criteria:**
-- [ ] AC-005: 按优先级检测常见目录名
-- [ ] AC-006: 检测项目类型 (node, typescript, go, python)
-- [ ] AC-007: 推断代码和测试文件模式
+- [x] AC-005: 按优先级检测常见目录名
+- [x] AC-006: 检测项目类型 (node, typescript, go, python)
+- [x] AC-007: 推断代码和测试文件模式
 
 ### REQ-004: 项目初始化
 The system SHALL initialize SEED project structure.
@@ -57,9 +57,9 @@ The system SHALL initialize SEED project structure.
 - THEN 创建 .seed/config.json 和 output 目录
 
 **Acceptance Criteria:**
-- [ ] AC-008: 支持 --force 强制重新初始化
-- [ ] AC-009: 支持 --manual 跳过自动扫描
-- [ ] AC-010: 支持 customPaths 自定义路径
+- [x] AC-008: 支持 --force 强制重新初始化
+- [x] AC-009: 支持 --manual 跳过自动扫描
+- [x] AC-010: 支持 customPaths 自定义路径
 
 ### REQ-005: 规格扫描
 The system SHALL scan spec files in project.
@@ -69,8 +69,8 @@ The system SHALL scan spec files in project.
 - THEN 返回规格文件列表，包含 name, path, filename
 
 **Acceptance Criteria:**
-- [ ] AC-011: 匹配 .fspec.md 和 .spec.md 文件
-- [ ] AC-012: 从文件名提取规格名称
+- [x] AC-011: 匹配 .fspec.md 和 .spec.md 文件
+- [x] AC-012: 从文件名提取规格名称
 
 ### REQ-006: 规格状态检查
 The system SHALL check status of individual spec.
@@ -80,9 +80,9 @@ The system SHALL check status of individual spec.
 - THEN 返回 manifest, code, test, docs 的存在状态
 
 **Acceptance Criteria:**
-- [ ] AC-013: 检查 seed-manifest.json 存在性
-- [ ] AC-014: 根据 manifest 验证派生物存在性
-- [ ] AC-015: 计算同步状态
+- [x] AC-013: 检查 seed-manifest.json 存在性
+- [x] AC-014: 根据 manifest 验证派生物存在性
+- [x] AC-015: 计算同步状态
 
 ### REQ-007: 项目状态检查
 The system SHALL check overall project status.
@@ -92,8 +92,8 @@ The system SHALL check overall project status.
 - THEN 返回初始化状态、配置、规格列表和汇总统计
 
 **Acceptance Criteria:**
-- [ ] AC-016: 统计总规格数、已派生数、已同步数
-- [ ] AC-017: 标记需要关注的规格
+- [x] AC-016: 统计总规格数、已派生数、已同步数
+- [x] AC-017: 标记需要关注的规格
 
 ### REQ-008: 差异检测
 The system SHALL detect differences between spec and code.
@@ -103,10 +103,10 @@ The system SHALL detect differences between spec and code.
 - THEN 返回 FR 实现状态和 AC 测试覆盖状态
 
 **Acceptance Criteria:**
-- [ ] AC-018: 提取规格中的 FR 和 AC 列表
-- [ ] AC-019: 检查代码中的 @see FR-XXX 引用
-- [ ] AC-020: 检查测试中的 AC-XXX 引用
-- [ ] AC-021: 计算同步率
+- [x] AC-018: 提取规格中的 FR 和 AC 列表
+- [x] AC-019: 检查代码中的 @see FR-XXX 引用
+- [x] AC-020: 检查测试中的 AC-XXX 引用
+- [x] AC-021: 计算同步率
 
 ### REQ-009: 代码骨架生成
 The system SHALL generate code skeleton for FR.
@@ -116,8 +116,8 @@ The system SHALL generate code skeleton for FR.
 - THEN 返回带有 @see 注释和 TODO 的函数骨架
 
 **Acceptance Criteria:**
-- [ ] AC-022: 包含 JSDoc 注释
-- [ ] AC-023: 抛出 Not implemented 错误
+- [x] AC-022: 包含 JSDoc 注释
+- [x] AC-023: 抛出 Not implemented 错误
 
 ### REQ-010: 测试骨架生成
 The system SHALL generate test skeleton for AC.
@@ -127,8 +127,8 @@ The system SHALL generate test skeleton for AC.
 - THEN 返回带有 Given/When/Then 结构的测试骨架
 
 **Acceptance Criteria:**
-- [ ] AC-024: 使用 describe/it 结构
-- [ ] AC-025: 包含 Given/When/Then 注释
+- [x] AC-024: 使用 describe/it 结构
+- [x] AC-025: 包含 Given/When/Then 注释
 
 ## 导出接口
 

@@ -19,9 +19,9 @@ The system SHALL parse spec file metadata from blockquote format.
 - THEN 返回包含 state, version, stack, emitPath 的元数据对象
 
 **Acceptance Criteria:**
-- [ ] AC-001: 支持中英文字段名 (状态/state, 版本/version)
-- [ ] AC-002: 提取技术栈声明 (技术栈/stack)
-- [ ] AC-003: 提取派生路径 (派生路径/emitPath/output)
+- [x] AC-001: 支持中英文字段名 (状态/state, 版本/version)
+- [x] AC-002: 提取技术栈声明 (技术栈/stack)
+- [x] AC-003: 提取派生路径 (派生路径/emitPath/output)
 
 ### REQ-002: 标题解析
 The system SHALL extract spec title from markdown heading.
@@ -31,8 +31,8 @@ The system SHALL extract spec title from markdown heading.
 - THEN 返回去除 `Feature:` 前缀的标题字符串
 
 **Acceptance Criteria:**
-- [ ] AC-004: 支持带 `Feature:` 前缀的标题
-- [ ] AC-005: 支持无前缀的普通标题
+- [x] AC-004: 支持带 `Feature:` 前缀的标题
+- [x] AC-005: 支持无前缀的普通标题
 
 ### REQ-003: Delta 需求解析
 The system SHALL parse Delta requirements from ADDED/MODIFIED/REMOVED sections.
@@ -42,9 +42,9 @@ The system SHALL parse Delta requirements from ADDED/MODIFIED/REMOVED sections.
 - THEN 返回 requirements 数组，每项包含 id, title, description, scenarios, acceptance
 
 **Acceptance Criteria:**
-- [ ] AC-006: 解析 REQ-XXX 格式的需求 ID
-- [ ] AC-007: 解析 Scenario 块的 WHEN/THEN 条件
-- [ ] AC-008: 解析 Acceptance Criteria 列表
+- [x] AC-006: 解析 REQ-XXX 格式的需求 ID
+- [x] AC-007: 解析 Scenario 块的 WHEN/THEN 条件
+- [x] AC-008: 解析 Acceptance Criteria 列表
 
 ### REQ-004: 规格状态更新
 The system SHALL update spec file state metadata in-place.
@@ -54,8 +54,8 @@ The system SHALL update spec file state metadata in-place.
 - THEN 规格文件中的状态行更新为新状态
 
 **Acceptance Criteria:**
-- [ ] AC-009: 替换已存在的状态行
-- [ ] AC-010: 如无状态行则在标题后添加
+- [x] AC-009: 替换已存在的状态行
+- [x] AC-010: 如无状态行则在标题后添加
 
 ### REQ-005: 规格文件扫描
 The system SHALL recursively scan directories for spec files.
@@ -65,8 +65,8 @@ The system SHALL recursively scan directories for spec files.
 - THEN 返回所有 .fspec.md 和 .spec.md 文件的相对路径
 
 **Acceptance Criteria:**
-- [ ] AC-011: 递归扫描子目录
-- [ ] AC-012: 返回相对于基础目录的路径
+- [x] AC-011: 递归扫描子目录
+- [x] AC-012: 返回相对于基础目录的路径
 
 ### REQ-006: 变更提案扫描
 The system SHALL scan change proposals directory structure.
@@ -76,9 +76,9 @@ The system SHALL scan change proposals directory structure.
 - THEN 返回提案列表，包含 name, path, state, specs, hasProposalMd, hasTasksMd
 
 **Acceptance Criteria:**
-- [ ] AC-013: 检测 proposal.md 存在性
-- [ ] AC-014: 检测 tasks.md 存在性
-- [ ] AC-015: 扫描 specs/ 子目录中的规格文件
+- [x] AC-013: 检测 proposal.md 存在性
+- [x] AC-014: 检测 tasks.md 存在性
+- [x] AC-015: 扫描 specs/ 子目录中的规格文件
 
 ### REQ-007: 状态概览生成
 The system SHALL generate overview of all specs and proposals.
@@ -88,8 +88,8 @@ The system SHALL generate overview of all specs and proposals.
 - THEN 返回 archived, draft, review, implementing 分组的规格列表
 
 **Acceptance Criteria:**
-- [ ] AC-016: 统计已归档规格数量
-- [ ] AC-017: 按状态分组变更提案
+- [x] AC-016: 统计已归档规格数量
+- [x] AC-017: 按状态分组变更提案
 
 ## 导出接口
 

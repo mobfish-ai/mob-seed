@@ -1,6 +1,6 @@
 # Feature: fspec Linter (规格检查器)
 
-> 状态: implementing
+> 状态: archived
 > 版本: 1.0.0
 > 技术栈: JavaScript
 > 派生路径: skills/mob-seed/lib/quality/
@@ -53,9 +53,9 @@ The system SHALL detect fuzzy/ambiguous words in fspec files.
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-001: 支持中英文模糊词检测
-- [ ] AC-002: 提供替换建议
-- [ ] AC-003: 支持自定义词汇表
+- [x] AC-001: 支持中英文模糊词检测
+- [x] AC-002: 提供替换建议
+- [x] AC-003: 支持自定义词汇表
 
 ### REQ-002: 格式验证
 
@@ -78,9 +78,9 @@ The system SHALL validate fspec file format.
 - THEN 报告缺失字段列表
 
 **Acceptance Criteria:**
-- [ ] AC-004: 检查元数据块完整性
-- [ ] AC-005: 检查必需章节存在
-- [ ] AC-006: 报告缺失字段
+- [x] AC-004: 检查元数据块完整性
+- [x] AC-005: 检查必需章节存在
+- [x] AC-006: 报告缺失字段
 
 ### REQ-003: 需求结构验证
 
@@ -100,7 +100,7 @@ The system SHALL/SHOULD/MAY ...
 - AND 附加结果（可选）
 
 **Acceptance Criteria:**
-- [ ] AC-XXX: 验收标准描述
+- [x] AC-XXX: 验收标准描述
 ```
 
 **Scenario: 验证需求结构**
@@ -110,9 +110,9 @@ The system SHALL/SHOULD/MAY ...
 - AND 检查是否有 Acceptance Criteria
 
 **Acceptance Criteria:**
-- [ ] AC-007: 检查需求动词使用
-- [ ] AC-008: 检查场景完整性
-- [ ] AC-009: 检查验收标准存在
+- [x] AC-007: 检查需求动词使用
+- [x] AC-008: 检查场景完整性
+- [x] AC-009: 检查验收标准存在
 
 ### REQ-004: ID 唯一性验证
 
@@ -132,9 +132,9 @@ The system SHALL validate ID uniqueness.
 - THEN 报告重复 ID 及位置
 
 **Acceptance Criteria:**
-- [ ] AC-010: 检测 REQ ID 重复
-- [ ] AC-011: 检测 AC ID 重复
-- [ ] AC-012: 跨文件 ID 检查（可选）
+- [x] AC-010: 检测 REQ ID 重复
+- [x] AC-011: 检测 AC ID 重复
+- [x] AC-012: 跨文件 ID 检查（可选）
 
 ### REQ-005: 引用完整性验证
 
@@ -151,9 +151,9 @@ The system SHALL validate reference integrity.
 - AND 检查循环依赖
 
 **Acceptance Criteria:**
-- [ ] AC-013: 验证内部引用有效
-- [ ] AC-014: 验证外部文件引用
-- [ ] AC-015: 检测循环依赖
+- [x] AC-013: 验证内部引用有效
+- [x] AC-014: 验证外部文件引用
+- [x] AC-015: 检测循环依赖
 
 ### REQ-006: 批量检查
 
@@ -199,9 +199,9 @@ The system SHALL support batch linting.
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-016: 递归扫描目录
-- [ ] AC-017: 生成 Markdown 报告
-- [ ] AC-018: 区分错误和警告
+- [x] AC-016: 递归扫描目录
+- [x] AC-017: 生成 Markdown 报告
+- [x] AC-018: 区分错误和警告
 
 ### REQ-007: 自动修复建议
 
@@ -222,9 +222,9 @@ The system SHALL provide fix suggestions.
 | AC 缺失复选框 | 添加 `- [ ]` 前缀 |
 
 **Acceptance Criteria:**
-- [ ] AC-019: 生成修复 diff
-- [ ] AC-020: 支持 `--fix` 自动修复
-- [ ] AC-021: 修复前备份原文件
+- [x] AC-019: 生成修复 diff
+- [x] AC-020: 支持 `--fix` 自动修复
+- [x] AC-021: 修复前备份原文件
 
 ## 导出接口
 

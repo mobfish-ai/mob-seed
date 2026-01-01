@@ -1,6 +1,6 @@
 # Feature: Scenario → Test Mapper (场景测试映射器)
 
-> 状态: implementing
+> 状态: archived
 > 版本: 1.0.0
 > 技术栈: JavaScript
 > 派生路径: skills/mob-seed/lib/automation/
@@ -33,9 +33,9 @@ The system SHALL parse WHEN/THEN scenario syntax from fspec files.
 - AND 返回结构化的 Scenario 对象
 
 **Acceptance Criteria:**
-- [ ] AC-001: 识别 `**Scenario:**` 标记
-- [ ] AC-002: 解析 WHEN/AND/THEN 行
-- [ ] AC-003: 支持中英文混合描述
+- [x] AC-001: 识别 `**Scenario:**` 标记
+- [x] AC-002: 解析 WHEN/AND/THEN 行
+- [x] AC-003: 支持中英文混合描述
 
 ### REQ-002: 测试代码生成
 
@@ -90,9 +90,9 @@ describe('用户登录成功', () => {
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-004: 生成有效的 Jest 语法
-- [ ] AC-005: 保留原始场景描述作为注释
-- [ ] AC-006: TODO 标记待实现部分
+- [x] AC-004: 生成有效的 Jest 语法
+- [x] AC-005: 保留原始场景描述作为注释
+- [x] AC-006: TODO 标记待实现部分
 
 ### REQ-003: 多框架支持
 
@@ -118,9 +118,9 @@ The system SHALL support multiple test frameworks.
 - AND 包含类型注解
 
 **Acceptance Criteria:**
-- [ ] AC-007: 支持至少 4 种框架
-- [ ] AC-008: 自动检测项目使用的框架
-- [ ] AC-009: 支持 TypeScript 输出
+- [x] AC-007: 支持至少 4 种框架
+- [x] AC-008: 自动检测项目使用的框架
+- [x] AC-009: 支持 TypeScript 输出
 
 ### REQ-004: 批量生成
 
@@ -141,9 +141,9 @@ test/
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-010: 递归扫描 fspec 文件
-- [ ] AC-011: 不覆盖已存在的 .manual.js 文件
-- [ ] AC-012: 生成测试目录结构
+- [x] AC-010: 递归扫描 fspec 文件
+- [x] AC-011: 不覆盖已存在的 .manual.js 文件
+- [x] AC-012: 生成测试目录结构
 
 ### REQ-005: 智能断言推断
 
@@ -166,9 +166,9 @@ The system SHALL infer assertions from THEN descriptions.
 - AND 生成相应的断言骨架
 
 **Acceptance Criteria:**
-- [ ] AC-013: 识别常见断言模式
-- [ ] AC-014: 生成合适的 expect 语法
-- [ ] AC-015: 不确定时使用通用 TODO
+- [x] AC-013: 识别常见断言模式
+- [x] AC-014: 生成合适的 expect 语法
+- [x] AC-015: 不确定时使用通用 TODO
 
 ### REQ-006: 增量更新
 
@@ -186,9 +186,9 @@ The system SHALL support incremental test updates.
 - AND 不自动覆盖已实现的测试
 
 **Acceptance Criteria:**
-- [ ] AC-016: 基于 Scenario 名称匹配
-- [ ] AC-017: 追加模式（不覆盖）
-- [ ] AC-018: 变更检测报告
+- [x] AC-016: 基于 Scenario 名称匹配
+- [x] AC-017: 追加模式（不覆盖）
+- [x] AC-018: 变更检测报告
 
 ## 导出接口
 

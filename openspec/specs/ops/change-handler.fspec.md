@@ -1,6 +1,6 @@
 # Feature: Change Handler (变更处理器)
 
-> 状态: implementing
+> 状态: archived
 > 版本: 1.0.0
 > 技术栈: JavaScript
 > 派生路径: skills/mob-seed/lib/ops/
@@ -40,9 +40,9 @@ The system SHALL detect changes in fspec files.
 | 澄清细节 | CLARIFIED | 可能需要调整 |
 
 **Acceptance Criteria:**
-- [ ] AC-001: 支持多种检测方式
-- [ ] AC-002: 识别变更类型
-- [ ] AC-003: 提取具体变更内容
+- [x] AC-001: 支持多种检测方式
+- [x] AC-002: 识别变更类型
+- [x] AC-003: 提取具体变更内容
 
 ### REQ-002: 影响分析
 
@@ -103,9 +103,9 @@ The system SHALL analyze change impact.
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-004: 识别受影响代码
-- [ ] AC-005: 识别受影响测试
-- [ ] AC-006: 评估工作量
+- [x] AC-004: 识别受影响代码
+- [x] AC-005: 识别受影响测试
+- [x] AC-006: 评估工作量
 
 ### REQ-003: 变更审批
 
@@ -146,9 +146,9 @@ The system SHALL support change approval workflow.
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-007: 支持批准/拒绝/延后
-- [ ] AC-008: 记录决策原因
-- [ ] AC-009: 延后任务可追踪
+- [x] AC-007: 支持批准/拒绝/延后
+- [x] AC-008: 记录决策原因
+- [x] AC-009: 延后任务可追踪
 
 ### REQ-004: 变更执行
 
@@ -172,9 +172,9 @@ The system SHALL execute approved changes.
 - AND 失败时回滚
 
 **Acceptance Criteria:**
-- [ ] AC-010: 分步执行变更
-- [ ] AC-011: 每步验证
-- [ ] AC-012: 失败回滚
+- [x] AC-010: 分步执行变更
+- [x] AC-011: 每步验证
+- [x] AC-012: 失败回滚
 
 ### REQ-005: 变更追溯
 
@@ -218,9 +218,9 @@ The system SHALL maintain change history for traceability.
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-013: 完整的变更记录
-- [ ] AC-014: 关联 Git 提交
-- [ ] AC-015: 支持查询历史
+- [x] AC-013: 完整的变更记录
+- [x] AC-014: 关联 Git 提交
+- [x] AC-015: 支持查询历史
 
 ### REQ-006: 批量变更
 
@@ -241,9 +241,9 @@ The system SHALL support batch change handling.
 | 分组 | 按模块分组 | 大量变更 |
 
 **Acceptance Criteria:**
-- [ ] AC-016: 合并影响分析
-- [ ] AC-017: 处理依赖关系
-- [ ] AC-018: 生成汇总报告
+- [x] AC-016: 合并影响分析
+- [x] AC-017: 处理依赖关系
+- [x] AC-018: 生成汇总报告
 
 ## 导出接口
 

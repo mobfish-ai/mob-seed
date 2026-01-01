@@ -1,6 +1,6 @@
 # Feature: Task Sync (任务同步)
 
-> 状态: implementing
+> 状态: archived
 > 版本: 1.0.0
 > 技术栈: JavaScript
 > 派生路径: skills/mob-seed/lib/sync/
@@ -50,9 +50,9 @@ The system SHALL define standardized tasks.md format.
 - AND 返回结构化的 TaskList 对象
 
 **Acceptance Criteria:**
-- [ ] AC-001: 支持 Markdown checkbox 格式
-- [ ] AC-002: 解析 HTML 注释中的元数据
-- [ ] AC-003: 支持中英文状态标记
+- [x] AC-001: 支持 Markdown checkbox 格式
+- [x] AC-002: 解析 HTML 注释中的元数据
+- [x] AC-003: 支持中英文状态标记
 
 ### REQ-002: TodoWrite 状态同步
 
@@ -70,9 +70,9 @@ The system SHALL sync tasks.md changes to TodoWrite.
 - AND 更新 LAST_SYNC 时间戳
 
 **Acceptance Criteria:**
-- [ ] AC-004: 启动时自动检测 tasks.md
-- [ ] AC-005: 状态变更实时同步
-- [ ] AC-006: 保持任务 ID 对应关系
+- [x] AC-004: 启动时自动检测 tasks.md
+- [x] AC-005: 状态变更实时同步
+- [x] AC-006: 保持任务 ID 对应关系
 
 ### REQ-003: 崩溃恢复机制
 
@@ -106,9 +106,9 @@ The system SHALL support crash recovery from tasks.md.
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-007: 检测异常中断（无 completed 标记）
-- [ ] AC-008: 显示中断前的任务状态
-- [ ] AC-009: 用户确认后恢复
+- [x] AC-007: 检测异常中断（无 completed 标记）
+- [x] AC-008: 显示中断前的任务状态
+- [x] AC-009: 用户确认后恢复
 
 ### REQ-004: 冲突解决
 
@@ -126,9 +126,9 @@ The system SHALL handle sync conflicts.
 - AND 记录冲突日志
 
 **Acceptance Criteria:**
-- [ ] AC-010: 基于 LAST_SYNC 检测冲突
-- [ ] AC-011: 提供三种解决选项
-- [ ] AC-012: 记录冲突历史
+- [x] AC-010: 基于 LAST_SYNC 检测冲突
+- [x] AC-011: 提供三种解决选项
+- [x] AC-012: 记录冲突历史
 
 ### REQ-005: 任务 ID 管理
 
@@ -145,9 +145,9 @@ The system SHALL maintain task ID mapping.
 - AND 更新文件中的顺序
 
 **Acceptance Criteria:**
-- [ ] AC-013: TASK ID 格式: TASK-001, TASK-002, ...
-- [ ] AC-014: ID 全局唯一（同一 tasks.md 内）
-- [ ] AC-015: 支持手动指定 ID
+- [x] AC-013: TASK ID 格式: TASK-001, TASK-002, ...
+- [x] AC-014: ID 全局唯一（同一 tasks.md 内）
+- [x] AC-015: 支持手动指定 ID
 
 ### REQ-006: 多文件支持
 
@@ -164,9 +164,9 @@ The system SHALL support multiple tasks.md files.
 - AND 支持嵌套结构
 
 **Acceptance Criteria:**
-- [ ] AC-016: 自动发现 tasks.md 文件
-- [ ] AC-017: 支持相对路径引用
-- [ ] AC-018: 避免循环引用
+- [x] AC-016: 自动发现 tasks.md 文件
+- [x] AC-017: 支持相对路径引用
+- [x] AC-018: 避免循环引用
 
 ## 导出接口
 

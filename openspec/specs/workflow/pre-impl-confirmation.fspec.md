@@ -1,6 +1,6 @@
 # Feature: Pre-Implementation Confirmation (实现前确认)
 
-> 状态: implementing
+> 状态: archived
 > 版本: 1.0.0
 > 技术栈: JavaScript
 > 派生路径: skills/mob-seed/lib/workflow/
@@ -33,9 +33,9 @@ The system SHALL generate change preview before implementation.
 - AND 按风险等级分类展示
 
 **Acceptance Criteria:**
-- [ ] AC-001: 提取所有文件变更
-- [ ] AC-002: 标注风险等级
-- [ ] AC-003: 估算变更规模
+- [x] AC-001: 提取所有文件变更
+- [x] AC-002: 标注风险等级
+- [x] AC-003: 估算变更规模
 
 ### REQ-002: 确认交互流程
 
@@ -92,9 +92,9 @@ The system SHALL require user confirmation before implementation.
 | e/edit | 手动编辑变更清单 |
 
 **Acceptance Criteria:**
-- [ ] AC-004: 清晰的确认界面
-- [ ] AC-005: 支持多种用户选择
-- [ ] AC-006: 可查看详细变更
+- [x] AC-004: 清晰的确认界面
+- [x] AC-005: 支持多种用户选择
+- [x] AC-006: 可查看详细变更
 
 ### REQ-003: 风险评估
 
@@ -116,9 +116,9 @@ The system SHALL assess implementation risks.
 - AND 要求输入确认短语（如 "我确认"）
 
 **Acceptance Criteria:**
-- [ ] AC-007: 多维度风险评估
-- [ ] AC-008: 高风险特殊确认
-- [ ] AC-009: 风险说明清晰
+- [x] AC-007: 多维度风险评估
+- [x] AC-008: 高风险特殊确认
+- [x] AC-009: 风险说明清晰
 
 ### REQ-004: 变更清单持久化
 
@@ -159,9 +159,9 @@ The system SHALL persist change list for tracking.
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-010: JSON 格式持久化
-- [ ] AC-011: 记录用户选择
-- [ ] AC-012: 支持断点恢复
+- [x] AC-010: JSON 格式持久化
+- [x] AC-011: 记录用户选择
+- [x] AC-012: 支持断点恢复
 
 ### REQ-005: 增量确认
 
@@ -178,9 +178,9 @@ The system SHALL support incremental confirmation for large changes.
 - AND 支持按模块确认/跳过
 
 **Acceptance Criteria:**
-- [ ] AC-013: 支持分批确认
-- [ ] AC-014: 支持按模块确认
-- [ ] AC-015: 保留已确认的选择
+- [x] AC-013: 支持分批确认
+- [x] AC-014: 支持按模块确认
+- [x] AC-015: 保留已确认的选择
 
 ### REQ-006: 回滚准备
 
@@ -200,9 +200,9 @@ The system SHALL prepare rollback capability before implementation.
 | 回滚脚本 | `.seed/rollback-{flow-id}.sh` |
 
 **Acceptance Criteria:**
-- [ ] AC-016: 自动创建备份
-- [ ] AC-017: 生成回滚脚本
-- [ ] AC-018: 记录 git 状态
+- [x] AC-016: 自动创建备份
+- [x] AC-017: 生成回滚脚本
+- [x] AC-018: 记录 git 状态
 
 ## 导出接口
 

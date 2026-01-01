@@ -1,6 +1,6 @@
 # Feature: Task Cancellation (任务取消)
 
-> 状态: implementing
+> 状态: archived
 > 版本: 1.0.0
 > 技术栈: JavaScript
 > 派生路径: skills/mob-seed/lib/ops/
@@ -39,9 +39,9 @@ The system SHALL support multiple cancellation triggers.
 - AND 保存已完成的部分
 
 **Acceptance Criteria:**
-- [ ] AC-001: 支持 Ctrl+C 取消
-- [ ] AC-002: 支持超时自动取消
-- [ ] AC-003: 支持 API 方式取消
+- [x] AC-001: 支持 Ctrl+C 取消
+- [x] AC-002: 支持超时自动取消
+- [x] AC-003: 支持 API 方式取消
 
 ### REQ-002: 安全取消点
 
@@ -70,9 +70,9 @@ The system SHALL define safe cancellation points.
 - AND 记录强制取消日志
 
 **Acceptance Criteria:**
-- [ ] AC-004: 识别安全取消点
-- [ ] AC-005: 优先在安全点取消
-- [ ] AC-006: 支持强制取消
+- [x] AC-004: 识别安全取消点
+- [x] AC-005: 优先在安全点取消
+- [x] AC-006: 支持强制取消
 
 ### REQ-003: 状态保存
 
@@ -127,9 +127,9 @@ The system SHALL save state before cancellation.
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-007: 保存任务进度
-- [ ] AC-008: 保存工作流状态
-- [ ] AC-009: 生成取消报告
+- [x] AC-007: 保存任务进度
+- [x] AC-008: 保存工作流状态
+- [x] AC-009: 生成取消报告
 
 ### REQ-004: 资源清理
 
@@ -153,9 +153,9 @@ The system SHALL clean up resources on cancellation.
 - AND 根据配置处理半成品代码
 
 **Acceptance Criteria:**
-- [ ] AC-010: 终止子进程
-- [ ] AC-011: 释放锁资源
-- [ ] AC-012: 清理临时文件
+- [x] AC-010: 终止子进程
+- [x] AC-011: 释放锁资源
+- [x] AC-012: 清理临时文件
 
 ### REQ-005: 取消恢复
 
@@ -196,9 +196,9 @@ The system SHALL support resuming after cancellation.
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-013: 支持从取消点继续
-- [ ] AC-014: 支持重新开始
-- [ ] AC-015: 支持选择开始阶段
+- [x] AC-013: 支持从取消点继续
+- [x] AC-014: 支持重新开始
+- [x] AC-015: 支持选择开始阶段
 
 ### REQ-006: 取消日志
 
@@ -221,9 +221,9 @@ The system SHALL log cancellation events.
 - AND 追加到 `.seed/cancellation.log`
 
 **Acceptance Criteria:**
-- [ ] AC-016: 记录完整取消信息
-- [ ] AC-017: 日志可查询
-- [ ] AC-018: 支持日志轮转
+- [x] AC-016: 记录完整取消信息
+- [x] AC-017: 日志可查询
+- [x] AC-018: 支持日志轮转
 
 ## 导出接口
 
