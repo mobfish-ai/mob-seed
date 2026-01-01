@@ -1,6 +1,6 @@
 # Feature: fspec Linter (规格检查器)
 
-> 状态: implementing
+> 状态: archived
 > 版本: 1.0.0
 > 技术栈: JavaScript
 > 派生路径: skills/mob-seed/lib/quality/
