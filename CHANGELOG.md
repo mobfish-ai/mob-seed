@@ -8,21 +8,60 @@
 
 ## [2.1.0] - 2026-01-01
 
+### ⚠️ Breaking Changes
+- **命令系统重构**: 统一为子命令模式 (`/mob-seed:*`)
+  - `/mob-seed-spec` → `/mob-seed:spec`
+  - `/mob-seed-emit` → `/mob-seed:emit`
+  - `/mob-seed-exec` → `/mob-seed:exec`
+  - `/mob-seed-defend` → `/mob-seed:defend`
+  - `/mob-seed-init` → `/mob-seed:init`
+  - `/mob-seed-archive` → `/mob-seed:archive`
+  - 移除: `/mob-seed-status`, `/mob-seed-diff`, `/mob-seed-sync`, `/mob-seed-edit`
+
 ### Added
-- `docs/guide/` 用户指南文档
-- `docs/concepts/` 概念说明文档
-- `openspec/specs/automation/git-hooks.fspec.md` Git 钩子规格
-- v2.1 发布自动化规格 (`openspec/changes/v2.1-release-automation/`)
+
+**新增核心模块**
+- `lib/mission/integration.js` - Mission 集成模块 (333 行测试)
+- `lib/ux/interactive-prompt.js` - 交互式提示模块 (248 行测试)
+- `lib/ux/progress-panel.js` - 进度面板模块 (113 行测试)
+- `lib/workflow/state-evolution.js` - 状态演进模块 (300 行测试)
+- `lib/workflow/unified-command.js` - 统一命令模块 (386 行测试)
+
+**新增规格文件 (Phase 2)**
+- `openspec/specs/automation/release-flow.fspec.md` - 发布流程规格
+- `openspec/specs/automation/version-sync.fspec.md` - 版本同步规格
+- `openspec/specs/cache/session-cache.fspec.md` - 会话缓存规格
+- `openspec/specs/mission/integration.fspec.md` - Mission 集成规格
+- `openspec/specs/ux/interactive-mode.fspec.md` - 交互模式规格
+- `openspec/specs/workflow/action-suggest.fspec.md` - 操作建议规格
+- `openspec/specs/workflow/state-evolution.fspec.md` - 状态演进规格
+- `openspec/specs/workflow/unified-command.fspec.md` - 统一命令规格
+
+**发布自动化**
+- `scripts/bump-version.js` - 版本号同步脚本 (334 行)
+- `scripts/release.sh` - 发布流程脚本 (345 行)
+- `scripts/check-proposal-tasks-sync.js` - 提案任务同步检查
+- `.github/workflows/release.yml` - GitHub Release 工作流
+
+**文档**
+- `docs/guide/releasing.md` - 发布指南文档
 
 ### Changed
+- 命令文件添加 `name:` 字段到 frontmatter（符合 Claude Code 插件规范）
 - 修正 SEED 派生范围：从仅 API 文档扩展到全部文档类型
-- 命令系统添加 `name:` 字段到 frontmatter
-- Mission Statement 模块：移除错误的 ACE 定义，使用正确的 parseMissionCore 函数
+- Mission Statement 模块：使用正确的 parseMissionCore 函数
+- 重构 openspec/AGENTS.md 和 CODEBASE_SPEC.md
 
 ### Fixed
 - 修复年份引用：2025 → 2026
 - 修复命令文件缺少 `name:` 字段问题
 - 修复 Mission 模块 parseACE 别名保持向后兼容
+
+### Removed
+- 移除旧命令文件: `mob-seed-status.md`, `mob-seed-diff.md`, `mob-seed-sync.md`, `mob-seed-edit.md`, `mob-seed.md`
+
+### Tests
+- 494 tests passed (新增约 1380 行测试代码)
 
 ---
 

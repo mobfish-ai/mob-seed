@@ -93,7 +93,7 @@ mob-seed/                          # 项目根目录
 ### 1. 初始化项目（OpenSpec 模式 - 默认）
 
 ```bash
-/mob-seed-init
+/mob-seed:init
 ```
 
 这将创建 OpenSpec 标准目录结构：
@@ -112,35 +112,34 @@ your-project/
 ### 2. 创建规格
 
 ```bash
-/mob-seed-spec "user-authentication"
+/mob-seed:spec "user-authentication"
 ```
 
 ### 3. 自动派生代码、测试、文档
 
 ```bash
-/mob-seed-emit specs/user-authentication.fspec.md
+/mob-seed:emit specs/user-authentication.fspec.md
 ```
 
-### 4. 查看状态
+### 4. 守护同步
 
 ```bash
-/mob-seed-status
+/mob-seed:defend
 ```
 
 ## 命令列表
 
+> **v2.1.0**: 命令统一为子命令模式 (`/mob-seed:*`)
+
 | 命令 | 说明 |
 |------|------|
 | `/mob-seed` | 主入口（智能路由） |
-| `/mob-seed-init` | 项目初始化（OpenSpec 默认） |
-| `/mob-seed-spec` | S: 规格定义 |
-| `/mob-seed-emit` | E: 自动派生 |
-| `/mob-seed-exec` | E: 自动执行 |
-| `/mob-seed-defend` | D: 守护规范 |
-| `/mob-seed-status` | 状态查看 |
-| `/mob-seed-diff` | 差异对比 |
-| `/mob-seed-sync` | 强制同步 |
-| `/mob-seed-archive` | 归档提案 |
+| `/mob-seed:init` | 项目初始化（OpenSpec 默认） |
+| `/mob-seed:spec` | S: 规格定义 |
+| `/mob-seed:emit` | E: 自动派生 |
+| `/mob-seed:exec` | E: 自动执行 |
+| `/mob-seed:defend` | D: 守护规范 |
+| `/mob-seed:archive` | 归档提案 |
 
 ## OpenSpec 生命周期
 
@@ -210,7 +209,7 @@ evolution:
   auto_apply_threshold: 0.70
 ```
 
-使命声明会在 `/mob-seed-status`、`/mob-seed-diff` 和 `/mob-seed-sync` 命令执行时进行检查，确保变更符合项目目标。
+使命声明会在 `/mob-seed:defend` 命令执行时进行检查，确保变更符合项目目标。
 
 ## 配置说明
 

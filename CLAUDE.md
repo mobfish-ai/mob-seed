@@ -75,16 +75,19 @@ D (Defend)  → 守护规格与代码同步
 - 文档（API、用户指南、概念说明、CHANGELOG）
 ```
 
-### 命令
+### 命令 (v2.1.0+)
 
 | 命令 | 用途 |
 |------|------|
-| `/mob-seed-spec` | S: 创建/验证规格 |
-| `/mob-seed-emit` | E: 派生产物 |
-| `/mob-seed-exec` | E: 执行测试 |
-| `/mob-seed-defend` | D: 守护同步 |
-| `/mob-seed-status` | 查看项目状态 |
-| `/mob-seed` | 统一入口 |
+| `/mob-seed` | 统一入口（智能路由） |
+| `/mob-seed:init` | 初始化项目 |
+| `/mob-seed:spec` | S: 创建/验证规格 |
+| `/mob-seed:emit` | E: 派生产物 |
+| `/mob-seed:exec` | E: 执行测试 |
+| `/mob-seed:defend` | D: 守护同步 |
+| `/mob-seed:archive` | 归档已完成提案 |
+
+> **v2.1.0 命名变更**: 子命令从 `/mob-seed-*` 改为 `/mob-seed:*`
 
 ### OpenSpec 生命周期
 
@@ -382,29 +385,85 @@ grep -rn "^| 代码 |" openspec/changes/**/specs/**/*.fspec.md | \
 - ✅ 执行前主动验证操作是否符合哲学
 - ❌ 不要盲目信任单一文档的字面描述
 
+### 13. CHANGELOG 必须基于 Git 历史
+
+**问题**: 编写 CHANGELOG 时凭记忆或猜测，遗漏了大量重要变更。
+
+**正确流程**:
+
+```bash
+# 1. 先查看完整的 git 变更记录
+git log v{上一版本}..HEAD --stat --oneline
+
+# 2. 分析每个 commit 的变更
+git show <commit-hash> --stat
+
+# 3. 按 Keep a Changelog 规范分类
+# - Added: 新增功能
+# - Changed: 变更功能
+# - Deprecated: 即将移除
+# - Removed: 已移除
+# - Fixed: 修复问题
+# - Security: 安全相关
+```
+
+**CHANGELOG 编写清单**:
+
+| 步骤 | 操作 | 验证 |
+|------|------|------|
+| 1 | 运行 `git log` 获取完整历史 | 必须先执行 |
+| 2 | 列出所有新增模块（带行数） | 对照 git 输出 |
+| 3 | 列出所有 Breaking Changes | 特别检查 |
+| 4 | 列出所有移除的内容 | 特别检查 |
+| 5 | 检查配置/命名变更 | 影响用户 |
+| 6 | 交叉验证：changelog 条目 vs git log | 不遗漏 |
+
+**Breaking Changes 必须突出**:
+```markdown
+### ⚠️ Breaking Changes
+- **命令系统重构**: 统一为子命令模式 (`/mob-seed:*`)
+  - `/mob-seed-spec` → `/mob-seed:spec`
+  - `/mob-seed-emit` → `/mob-seed:emit`
+  - 移除: `/mob-seed-status`, `/mob-seed-diff`
+```
+
+**教训**:
+- ✅ **先 git log，后写 changelog**（不可逆顺序）
+- ✅ 使用 `--stat` 看到每个文件变更，不遗漏
+- ✅ Breaking Changes 放最前面，用警告图标
+- ❌ 禁止凭记忆编写 changelog
+- ❌ 禁止先写 changelog 再验证
+
+**连锁检查**:
+发布时必须同时更新：
+- [ ] CHANGELOG.md（changelog 完整性）
+- [ ] README.md（反映新功能/命令变更）
+- [ ] README.zh-CN.md（中英同步）
+- [ ] 版本号（4 个文件同步）
+
 ## 快速开始
 
 ```bash
-# 1. 检查状态
-/mob-seed-status
+# 1. 统一入口（智能路由）
+/mob-seed
 
 # 2. 创建新规格
-/mob-seed-spec create feature-name
+/mob-seed:spec create feature-name
 
 # 3. 派生代码
-/mob-seed-emit
+/mob-seed:emit
 
 # 4. 运行测试
 cd skills/mob-seed && node --test test/**/*.test.js
 
 # 5. 守护同步
-/mob-seed-defend
+/mob-seed:defend
 ```
 
 ## 当前状态
 
-- **版本**: 2.0.0 (archived)
+- **版本**: 2.1.0
 - **变更提案**: 无活跃提案
-- **模块**: 11/11 已实现
-- **测试**: 407 pass
-- **规格**: 15 个稳定规格 (openspec/specs/)
+- **模块**: 16/16 已实现
+- **测试**: 494 pass
+- **规格**: 23 个稳定规格 (openspec/specs/)

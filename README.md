@@ -93,7 +93,7 @@ mob-seed/                          # Project root
 ### 1. Initialize Project (OpenSpec mode - default)
 
 ```bash
-/mob-seed-init
+/mob-seed:init
 ```
 
 This creates the OpenSpec directory structure:
@@ -112,35 +112,34 @@ your-project/
 ### 2. Create a Spec
 
 ```bash
-/mob-seed-spec "user-authentication"
+/mob-seed:spec "user-authentication"
 ```
 
 ### 3. Auto-derive Code, Tests, and Docs
 
 ```bash
-/mob-seed-emit specs/user-authentication.fspec.md
+/mob-seed:emit specs/user-authentication.fspec.md
 ```
 
-### 4. Check Status
+### 4. Guard Synchronization
 
 ```bash
-/mob-seed-status
+/mob-seed:defend
 ```
 
 ## Commands
 
+> **v2.1.0**: Commands unified to subcommand pattern (`/mob-seed:*`)
+
 | Command | Description |
 |---------|-------------|
 | `/mob-seed` | Main entry (smart routing) |
-| `/mob-seed-init` | Initialize project (OpenSpec default) |
-| `/mob-seed-spec` | S: Create/edit spec |
-| `/mob-seed-emit` | E: Auto-derive artifacts |
-| `/mob-seed-exec` | E: Auto-execute CI |
-| `/mob-seed-defend` | D: Guard compliance |
-| `/mob-seed-status` | View sync status |
-| `/mob-seed-diff` | Compare spec vs code |
-| `/mob-seed-sync` | Force synchronization |
-| `/mob-seed-archive` | Archive completed proposals |
+| `/mob-seed:init` | Initialize project (OpenSpec default) |
+| `/mob-seed:spec` | S: Create/edit spec |
+| `/mob-seed:emit` | E: Auto-derive artifacts |
+| `/mob-seed:exec` | E: Auto-execute CI |
+| `/mob-seed:defend` | D: Guard compliance |
+| `/mob-seed:archive` | Archive completed proposals |
 
 ## OpenSpec Lifecycle
 
@@ -204,7 +203,7 @@ evolution:
   auto_apply_threshold: 0.70
 ```
 
-The mission is checked during `/mob-seed-status`, `/mob-seed-diff`, and `/mob-seed-sync` to ensure changes align with project goals.
+The mission is checked during `/mob-seed:defend` to ensure changes align with project goals.
 
 ## Configuration
 
