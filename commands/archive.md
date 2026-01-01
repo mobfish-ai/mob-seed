@@ -330,44 +330,60 @@ openspec/
 
 > ⚠️ **重要**: 此步骤是防止归档遗漏的最后防线，必须在归档操作后立即执行。
 
-### 6.1 验证规格文件状态
+### 6.1 验证所有文件状态
+
+> ⚠️ **教训**: 不仅是 `.fspec.md` 文件，`proposal.md` 也包含 AC checkbox 需要更新。
 
 ```javascript
 const { validateArchive } = require('./lib/lifecycle/archiver');
 
 const archivePath = `${ARCHIVE_DIR}/${proposalName}`;
+
+// 检查所有包含 checkbox 的文件（不仅是 .fspec.md）
 const specFiles = glob.sync(`${archivePath}/**/*.fspec.md`);
+const proposalFile = `${archivePath}/proposal.md`;
 
 const errors = [];
-for (const specFile of specFiles) {
-  const content = fs.readFileSync(specFile, 'utf-8');
+
+// 检查所有文件（.fspec.md + proposal.md）
+const allFiles = [...specFiles, proposalFile];
+
+for (const file of allFiles) {
+  if (!fs.existsSync(file)) continue;
+
+  const content = fs.readFileSync(file, 'utf-8');
+  const fileName = path.basename(file);
 
   // 检查状态标记
   if (!content.includes('> 状态: archived')) {
-    errors.push(`❌ ${specFile}: 缺少 "状态: archived" 标记`);
+    errors.push(`❌ ${fileName}: 缺少 "状态: archived" 标记`);
   }
 
   // 检查归档日期
   if (!content.includes('> 归档日期:')) {
-    errors.push(`❌ ${specFile}: 缺少 "归档日期" 标记`);
+    errors.push(`❌ ${fileName}: 缺少 "归档日期" 标记`);
   }
 
-  // 检查未完成的 checkbox（仅警告，因为可能有未覆盖的 AC）
+  // 检查未完成的 checkbox
+  // proposal.md 的 AC checkbox 也必须更新！
   const uncheckedCount = (content.match(/^- \[ \]/gm) || []).length;
   if (uncheckedCount > 0) {
-    errors.push(`⚠️ ${specFile}: 存在 ${uncheckedCount} 个未完成的 checkbox`);
+    const severity = fileName === 'proposal.md' ? '❌' : '⚠️';
+    errors.push(`${severity} ${fileName}: 存在 ${uncheckedCount} 个未完成的 checkbox`);
   }
 }
 ```
 
 ### 6.2 验证检查清单
 
-| 检查项 | 验证方法 | 失败处理 |
-|--------|----------|----------|
-| 状态标记 | `grep "状态: archived"` | 阻止归档，要求修复 |
-| 归档日期 | `grep "归档日期:"` | 阻止归档，要求修复 |
-| FR/NFR checkbox | 对比测试通过数 | 警告，允许继续 |
-| AC checkbox | 对比测试覆盖 | 警告，允许继续 |
+| 文件类型 | 检查项 | 验证方法 | 失败处理 |
+|----------|--------|----------|----------|
+| **proposal.md** | 状态标记 | `grep "状态: archived"` | ❌ 阻止 |
+| **proposal.md** | 归档日期 | `grep "归档日期:"` | ❌ 阻止 |
+| **proposal.md** | AC checkbox | 全部 `[x]` | ❌ 阻止（必须全部完成） |
+| *.fspec.md | 状态标记 | `grep "状态: archived"` | ❌ 阻止 |
+| *.fspec.md | 归档日期 | `grep "归档日期:"` | ❌ 阻止 |
+| *.fspec.md | FR/NFR checkbox | 对比测试结果 | ⚠️ 警告（允许部分未覆盖） |
 
 ### 6.3 输出验证报告
 
