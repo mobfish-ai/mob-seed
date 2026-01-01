@@ -6,6 +6,16 @@
 
 ---
 
+## [2.1.1] - 2026-01-01
+
+### Fixed
+- 修复 README 命令名称未更新问题 (`/mob-seed-*` → `/mob-seed:*`)
+- 同步更新中英文 README 命令表格
+- 更新 CLAUDE.md 命令表格和当前状态
+- 新增经验教训 #13: CHANGELOG 必须基于 Git 历史
+
+---
+
 ## [2.1.0] - 2026-01-01
 
 ### ⚠️ Breaking Changes
@@ -172,7 +182,8 @@
 
 ---
 
-[Unreleased]: https://github.com/mobfish-ai/mob-seed/compare/v2.1.0...HEAD
+[Unreleased]: https://github.com/mobfish-ai/mob-seed/compare/v2.1.1...HEAD
+[2.1.1]: https://github.com/mobfish-ai/mob-seed/compare/v2.1.0...v2.1.1
 [2.1.0]: https://github.com/mobfish-ai/mob-seed/compare/v2.0.0...v2.1.0
 [2.0.0]: https://github.com/mobfish-ai/mob-seed/compare/v1.2.0...v2.0.0
 [1.2.0]: https://github.com/mobfish-ai/mob-seed/compare/v1.1.0...v1.2.0
