@@ -1,6 +1,7 @@
 # 变更提案: v2.1-release-automation
 
-> 状态: ready_to_archive
+> 状态: archived
+> 归档日期: 2026-01-01
 > 创建: 2026-01-01
 > 作者: Claude
 > 进度跟踪: 见 tasks.md（执行记录）
