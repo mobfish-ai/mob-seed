@@ -5,7 +5,52 @@ on:
     tags: ['v*']
 
 jobs:
+  # 版本一致性检查
+  verify-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Verify version sync
+        env:
+          GIT_REF: ${{ github.ref }}
+        run: |
+          TAG_VERSION="${GIT_REF#refs/tags/v}"
+          PKG_VERSION=$(node -p "require('./package.json').version")
+          PLUGIN_VERSION=$(node -p "require('./.claude-plugin/plugin.json').version")
+          SKILL_VERSION=$(node -p "require('./skills/mob-seed/package.json').version")
+
+          echo "Tag version: $TAG_VERSION"
+          echo "package.json: $PKG_VERSION"
+          echo "plugin.json: $PLUGIN_VERSION"
+          echo "skill package.json: $SKILL_VERSION"
+
+          if [ "$TAG_VERSION" != "$PKG_VERSION" ]; then
+            echo "::error::Version mismatch: tag=$TAG_VERSION, package.json=$PKG_VERSION"
+            exit 1
+          fi
+
+          if [ "$TAG_VERSION" != "$PLUGIN_VERSION" ]; then
+            echo "::error::Version mismatch: tag=$TAG_VERSION, plugin.json=$PLUGIN_VERSION"
+            exit 1
+          fi
+
+          if [ "$TAG_VERSION" != "$SKILL_VERSION" ]; then
+            echo "::error::Version mismatch: tag=$TAG_VERSION, skill/package.json=$SKILL_VERSION"
+            exit 1
+          fi
+
+          echo "✓ All versions are consistent: $TAG_VERSION"
+
+  # 测试
   test:
+    needs: verify-version
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -23,6 +68,7 @@ jobs:
       - name: Run tests
         run: npm test
 
+  # 发布
   release:
     needs: test
     runs-on: ubuntu-latest
