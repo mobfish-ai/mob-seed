@@ -1,4 +1,5 @@
 ---
+name: mob-seed:emit
 description: SEED E阶段 - 自动派生（从规格生成代码/测试/文档）
 allowed-tools: Read, Write, Edit, Bash, Task, TodoWrite, AskUserQuestion
 argument-hint: <规格文件> [--code|--test|--docs|--all] [--dry-run]

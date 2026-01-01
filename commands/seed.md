@@ -1,4 +1,5 @@
 ---
+name: mob-seed
 description: SEED 方法论驱动的统一开发工作流（智能入口）
 allowed-tools: Read, Write, Edit, Bash, Task, TodoWrite, AskUserQuestion
 argument-hint: [subcommand] [options]
