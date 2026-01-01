@@ -591,43 +591,82 @@ export function diffSpec(specPath, projectPath = '.') {
 }
 
 /**
- * 生成代码骨架
+ * 生成代码提示模板
+ *
+ * ⚠️ 注意：这只是生成提示模板，用于引导 Claude 生成完整实现。
+ * Claude 应该根据 prompts/emit-code.md 生成完整可运行的代码，
+ * 而不是直接使用这个骨架。
+ *
  * @param {string} frId - FR ID
  * @param {string} description - 功能描述
- * @returns {string} 代码骨架
+ * @param {Object} implementation - 可选的实现内容
+ * @returns {string} 代码模板
  */
-export function generateCodeSkeleton(frId, description) {
+export function generateCodeSkeleton(frId, description, implementation = null) {
   const funcName = frId.toLowerCase().replace(/-/g, '_');
 
-  return `/**
+  if (implementation) {
+    return `/**
  * ${description}
  * @see ${frId}
  */
-export async function ${funcName}() {
-  // TODO: 实现 ${frId}
-  throw new Error('Not implemented: ${frId}');
+export async function ${funcName}(${implementation.params || ''}) {
+${implementation.body}
+}
+`;
+  }
+
+  // 返回提示模板（Claude 应该填充完整实现）
+  return `/**
+ * ${description}
+ * @see ${frId}
+ *
+ * ⚠️ Claude 应该根据规格实现此函数
+ */
+export async function ${funcName}(/* 根据规格添加参数 */) {
+  // Claude 应该根据 ${frId} 规格生成完整实现
+  // 参考: prompts/emit-code.md
 }
 `;
 }
 
 /**
- * 生成测试骨架
+ * 生成测试提示模板
+ *
+ * ⚠️ 注意：这只是生成提示模板，用于引导 Claude 生成完整测试。
+ * Claude 应该根据 prompts/emit-test.md 生成完整可运行的测试，
+ * 而不是直接使用这个骨架。
+ *
  * @param {string} acId - AC ID
  * @param {string} title - 测试标题
- * @returns {string} 测试骨架
+ * @param {Object} implementation - 可选的实现内容
+ * @returns {string} 测试模板
  */
-export function generateTestSkeleton(acId, title) {
-  return `describe('${acId}: ${title}', () => {
+export function generateTestSkeleton(acId, title, implementation = null) {
+  if (implementation) {
+    return `describe('${acId}: ${title}', () => {
   it('should pass acceptance criteria', async () => {
-    // Given: 初始状态
-    // TODO: 设置测试前置条件
+    // Given: ${implementation.given || '初始状态'}
+${implementation.givenCode || ''}
 
-    // When: 执行操作
-    // TODO: 执行被测操作
+    // When: ${implementation.when || '执行操作'}
+${implementation.whenCode || ''}
 
-    // Then: 验证结果
-    // TODO: 添加断言
-    throw new Error('Test not implemented: ${acId}');
+    // Then: ${implementation.then || '验证结果'}
+${implementation.thenCode || ''}
+  });
+});
+`;
+  }
+
+  // 返回提示模板（Claude 应该填充完整测试）
+  return `describe('${acId}: ${title}', () => {
+  /**
+   * ⚠️ Claude 应该根据 AC 实现完整测试
+   * 参考: prompts/emit-test.md
+   */
+  it('should pass acceptance criteria', async () => {
+    // Claude 应该根据 ${acId} 实现 Given/When/Then
   });
 });
 `;

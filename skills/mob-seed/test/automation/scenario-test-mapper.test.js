@@ -101,10 +101,11 @@ describe('scenario-test-mapper', () => {
       assert.ok(code.includes('用户登录成功'));
     });
 
-    it('should include TODO markers', () => {
+    it('should include Claude prompts instead of TODO', () => {
       const code = generateTestCode([scenario]);
 
-      assert.ok(code.includes('TODO'));
+      // 不再生成 TODO，而是生成 Claude 提示
+      assert.ok(code.includes('Claude 应该'));
     });
 
     it('should include original scenario as comments', () => {
@@ -149,7 +150,7 @@ describe('scenario-test-mapper', () => {
       const code = generateNodeTest(scenario);
 
       assert.ok(code.includes('describe(') || code.includes('test('));
-      assert.ok(code.includes('assert') || code.includes('TODO'));
+      assert.ok(code.includes('Claude 应该'));
     });
   });
 

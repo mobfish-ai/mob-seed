@@ -133,13 +133,17 @@ function generateJestTest(scenario) {
   const lines = [];
 
   lines.push(`describe('${scenario.name}', () => {`);
+  lines.push('  /**');
+  lines.push('   * ⚠️ Claude 应该根据场景实现完整测试');
+  lines.push('   * 参考: prompts/emit-test.md');
+  lines.push('   */');
 
   // 生成 beforeEach 用于 WHEN 条件
   if (scenario.whens && scenario.whens.length > 0) {
     lines.push('  beforeEach(() => {');
     for (const when of scenario.whens) {
       lines.push(`    // WHEN: ${when}`);
-      lines.push(`    // TODO: 实现前置条件 - ${when}`);
+      lines.push(`    // Claude 应该实现: ${when}`);
     }
     lines.push('  });');
     lines.push('');
@@ -150,12 +154,12 @@ function generateJestTest(scenario) {
     for (const then of scenario.thens) {
       lines.push(`  it('should ${then}', () => {`);
       lines.push(`    // THEN: ${then}`);
-      lines.push(`    // TODO: 实现断言 - ${then}`);
+      lines.push(`    // Claude 应该实现断言验证: ${then}`);
       lines.push('  });');
     }
   } else {
     lines.push('  it(\'should pass\', () => {');
-    lines.push('    // TODO: 添加断言');
+    lines.push('    // Claude 应该添加具体断言');
     lines.push('  });');
   }
 
@@ -174,13 +178,17 @@ function generateNodeTest(scenario) {
   const lines = [];
 
   lines.push(`describe('${scenario.name}', () => {`);
+  lines.push('  /**');
+  lines.push('   * ⚠️ Claude 应该根据场景实现完整测试');
+  lines.push('   * 参考: prompts/emit-test.md');
+  lines.push('   */');
 
   // 生成 beforeEach 用于 WHEN 条件
   if (scenario.whens && scenario.whens.length > 0) {
     lines.push('  beforeEach(() => {');
     for (const when of scenario.whens) {
       lines.push(`    // WHEN: ${when}`);
-      lines.push(`    // TODO: 实现前置条件 - ${when}`);
+      lines.push(`    // Claude 应该实现: ${when}`);
     }
     lines.push('  });');
     lines.push('');
@@ -191,14 +199,12 @@ function generateNodeTest(scenario) {
     for (const then of scenario.thens) {
       lines.push(`  it('should ${then}', () => {`);
       lines.push(`    // THEN: ${then}`);
-      lines.push(`    // TODO: 实现断言`);
-      lines.push(`    assert.ok(true); // placeholder`);
+      lines.push(`    // Claude 应该实现断言验证: ${then}`);
       lines.push('  });');
     }
   } else {
     lines.push('  it(\'should pass\', () => {');
-    lines.push('    // TODO: 添加断言');
-    lines.push('    assert.ok(true); // placeholder');
+    lines.push('    // Claude 应该添加具体断言');
     lines.push('  });');
   }
 

@@ -309,22 +309,50 @@ export class EmitEngine {
   }
 
   /**
-   * 生成代码
+   * 生成代码提示（供 Claude 参考）
+   *
+   * 注意：这只是生成代码骨架的辅助函数。
+   * 实际派生时，Claude 应该根据 prompts/emit-code.md 生成完整实现代码，
+   * 而不是使用这个模板生成空壳。
+   *
+   * 如果需要程序化生成，调用者应提供实现逻辑。
    */
-  generateCode(spec) {
+  generateCode(spec, implementations = {}) {
     const header = this.generateHeader(spec);
     const requirements = spec.requirements.functional;
 
-    const functions = requirements.map((req) => `
+    const functions = requirements.map((req) => {
+      const funcName = this.reqToFunctionName(req.id);
+      const impl = implementations[req.id] || implementations[funcName];
+
+      if (impl) {
+        // 如果提供了实现，使用它
+        return `
 /**
  * ${req.description}
  * @see ${req.id}
  */
-export async function ${this.reqToFunctionName(req.id)}() {
-  // TODO: 实现 ${req.id}
-  throw new Error('Not implemented: ${req.id}');
+export async function ${funcName}(${impl.params || ''}) {
+${impl.body.split('\n').map(line => '  ' + line).join('\n')}
 }
-`).join('\n');
+`;
+      } else {
+        // 没有提供实现时，生成需要 Claude 填充的占位
+        return `
+/**
+ * ${req.description}
+ * @see ${req.id}
+ *
+ * ⚠️ 需要 Claude 根据规格实现此函数
+ * 规格要求：${req.description}
+ */
+export async function ${funcName}(/* 根据规格添加参数 */) {
+  // Claude 应该根据 ${req.id} 规格实现完整逻辑
+  // 参考: prompts/emit-code.md
+}
+`;
+      }
+    }).join('\n');
 
     return `${header}
 ${functions}
@@ -332,26 +360,54 @@ ${functions}
   }
 
   /**
-   * 生成测试
+   * 生成测试提示（供 Claude 参考）
+   *
+   * 注意：这只是生成测试骨架的辅助函数。
+   * 实际派生时，Claude 应该根据 prompts/emit-test.md 生成完整测试代码，
+   * 包含真实断言和完整的 Given/When/Then 实现。
    */
-  generateTest(spec) {
+  generateTest(spec, testImplementations = {}) {
     const header = this.generateHeader(spec);
 
-    const tests = spec.acceptance.map((ac) => `
+    const tests = spec.acceptance.map((ac) => {
+      const impl = testImplementations[ac.id];
+
+      if (impl) {
+        // 如果提供了实现，使用它
+        return `
   describe('${ac.id}: ${ac.title}', () => {
     it('should ${ac.title.toLowerCase()}', async () => {
       // Given: ${ac.given}
-      // TODO: 设置前置条件
+${impl.given ? impl.given.split('\n').map(l => '      ' + l).join('\n') : ''}
 
       // When: ${ac.when}
-      // TODO: 执行操作
+${impl.when ? impl.when.split('\n').map(l => '      ' + l).join('\n') : ''}
 
       // Then: ${ac.then}
-      // TODO: 添加断言
-      assert.ok(true, 'TODO: 实现测试');
+${impl.then ? impl.then.split('\n').map(l => '      ' + l).join('\n') : ''}
     });
   });
-`).join('\n');
+`;
+      } else {
+        // 没有提供实现时，生成需要 Claude 填充的结构
+        return `
+  describe('${ac.id}: ${ac.title}', () => {
+    /**
+     * ⚠️ 需要 Claude 根据验收标准实现此测试
+     *
+     * Given: ${ac.given}
+     * When: ${ac.when}
+     * Then: ${ac.then}
+     *
+     * 参考: prompts/emit-test.md
+     */
+    it('should ${ac.title.toLowerCase()}', async () => {
+      // Claude 应该根据 AC 实现完整测试逻辑
+    });
+  });
+`;
+      }
+    }).join('\n');
 
     return `${header}
 import { describe, it, beforeEach, afterEach } from 'node:test';

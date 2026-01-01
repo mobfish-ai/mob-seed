@@ -80,22 +80,30 @@ fi
 
 ### 步骤 3: 执行派生
 
+> ⚠️ **重要**: 派生必须生成 **完整可运行的实现代码**，禁止生成空壳或 TODO 占位符。
+
 #### 3.1 代码派生 (--code)
 
 1. 读取派生指导：`$SKILL_DIR/prompts/emit-code.md`
-2. 根据规格生成代码框架
+2. 根据规格中的需求（FR/NFR）生成 **完整实现代码**：
+   - 实现所有功能逻辑，不留 `TODO` 或 `throw new Error('Not implemented')`
+   - 包含参数校验、错误处理、边界情况
+   - 遵循项目代码风格和约定
 3. 输出到配置路径：`{config.paths.src}/`
 
 #### 3.2 测试派生 (--test)
 
 1. 读取派生指导：`$SKILL_DIR/prompts/emit-test.md`
-2. 根据验收标准生成测试用例
+2. 根据验收标准（AC）生成 **完整可运行的测试**：
+   - 每个 AC 生成具体测试用例（Given/When/Then）
+   - 包含真实断言，不使用 `assert.ok(true, 'TODO')`
+   - 覆盖正常路径和错误路径
 3. 输出到配置路径：`{config.paths.test}/`
 
 #### 3.3 文档派生 (--docs)
 
 1. 读取派生指导：`$SKILL_DIR/prompts/emit-docs.md`
-2. 根据规格生成使用文档
+2. 根据规格生成完整使用文档
 3. 输出到配置路径：`{config.paths.docs}/`
 
 ### 步骤 4: 记录派生关系
