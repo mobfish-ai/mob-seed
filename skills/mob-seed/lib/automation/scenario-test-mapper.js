@@ -222,8 +222,17 @@ function generateNodeTest(scenario) {
  * @returns {Object} 生成结果
  */
 function generateTestFile(fspecPath, outputPath, options = {}) {
-  // TODO: 完整的测试文件生成流程
-  throw new Error('Not implemented: generateTestFile');
+  // 功能规划中，当前版本请使用 parseScenarios + generateTestCode 组合
+  return {
+    status: 'not_available',
+    message: '此功能规划中。请使用 parseScenarios() + generateTestCode() 组合实现相同效果。',
+    alternative: {
+      step1: 'const content = fs.readFileSync(fspecPath, "utf-8")',
+      step2: 'const scenarios = parseScenarios(content)',
+      step3: 'const code = generateTestCode(scenarios, framework)',
+      step4: 'fs.writeFileSync(outputPath, code)'
+    }
+  };
 }
 
 /**
@@ -234,8 +243,12 @@ function generateTestFile(fspecPath, outputPath, options = {}) {
  * @returns {Object} 更新结果
  */
 function updateTestFile(testPath, newScenarios) {
-  // TODO: 增量更新测试文件
-  throw new Error('Not implemented: updateTestFile');
+  // 功能规划中，当前版本请手动合并测试代码
+  return {
+    status: 'not_available',
+    message: '此功能规划中。请手动将新生成的测试代码合并到现有测试文件。',
+    newCode: generateTestCode(newScenarios)
+  };
 }
 
 module.exports = {
