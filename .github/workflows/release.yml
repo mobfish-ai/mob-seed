@@ -23,30 +23,17 @@ jobs:
         run: |
           TAG_VERSION="${GIT_REF#refs/tags/v}"
           PKG_VERSION=$(node -p "require('./package.json').version")
-          PLUGIN_VERSION=$(node -p "require('./.claude-plugin/plugin.json').version")
-          SKILL_VERSION=$(node -p "require('./skills/mob-seed/package.json').version")
 
-          echo "Tag version: $TAG_VERSION"
-          echo "package.json: $PKG_VERSION"
-          echo "plugin.json: $PLUGIN_VERSION"
-          echo "skill package.json: $SKILL_VERSION"
+          # 使用 bump-version.js 检查所有版本文件一致性
+          node scripts/bump-version.js --check
 
+          # 额外验证 tag 与 package.json 一致
           if [ "$TAG_VERSION" != "$PKG_VERSION" ]; then
-            echo "::error::Version mismatch: tag=$TAG_VERSION, package.json=$PKG_VERSION"
+            echo "::error::Tag version mismatch: tag=$TAG_VERSION, package.json=$PKG_VERSION"
             exit 1
           fi
 
-          if [ "$TAG_VERSION" != "$PLUGIN_VERSION" ]; then
-            echo "::error::Version mismatch: tag=$TAG_VERSION, plugin.json=$PLUGIN_VERSION"
-            exit 1
-          fi
-
-          if [ "$TAG_VERSION" != "$SKILL_VERSION" ]; then
-            echo "::error::Version mismatch: tag=$TAG_VERSION, skill/package.json=$SKILL_VERSION"
-            exit 1
-          fi
-
-          echo "✓ All versions are consistent: $TAG_VERSION"
+          echo "✓ Tag and all version files are consistent: $TAG_VERSION"
 
   # 测试
   test:

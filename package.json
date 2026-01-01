@@ -4,9 +4,12 @@
   "description": "SEED Methodology - Spec-Driven Development with OpenSpec Native Support",
   "type": "commonjs",
   "scripts": {
+    "pretest": "node scripts/bump-version.js --check",
     "test": "node --test skills/mob-seed/test/**/*.test.js",
     "test:lifecycle": "node --test skills/mob-seed/test/lifecycle/*.test.js",
-    "test:stacks": "node --test skills/mob-seed/test/stacks/*.test.js"
+    "test:stacks": "node --test skills/mob-seed/test/stacks/*.test.js",
+    "version:check": "node scripts/bump-version.js --check",
+    "version:sync": "node scripts/bump-version.js"
   },
   "repository": {
     "type": "git",
