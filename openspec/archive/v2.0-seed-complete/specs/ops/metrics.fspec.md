@@ -34,9 +34,9 @@ The system SHALL define and collect key development metrics.
 - AND 存储到指标数据库
 
 **Acceptance Criteria:**
-- [ ] AC-001: 定义至少 6 个核心指标
-- [ ] AC-002: 自动化数据收集
-- [ ] AC-003: 指标可配置
+- [x] AC-001: 定义至少 6 个核心指标
+- [x] AC-002: 自动化数据收集
+- [x] AC-003: 指标可配置
 
 ### REQ-002: fspec 准确率计算
 
@@ -58,9 +58,9 @@ The system SHALL calculate fspec accuracy.
 - AND 输出加权总分
 
 **Acceptance Criteria:**
-- [ ] AC-004: 多维度准确率计算
-- [ ] AC-005: 自动对比代码与规格
-- [ ] AC-006: 生成准确率报告
+- [x] AC-004: 多维度准确率计算
+- [x] AC-005: 自动对比代码与规格
+- [x] AC-006: 生成准确率报告
 
 ### REQ-003: 迭代追踪
 
@@ -103,9 +103,9 @@ The system SHALL track development iterations.
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-007: 自动追踪迭代次数
-- [ ] AC-008: 记录失败原因
-- [ ] AC-009: 统计首次通过率
+- [x] AC-007: 自动追踪迭代次数
+- [x] AC-008: 记录失败原因
+- [x] AC-009: 统计首次通过率
 
 ### REQ-004: 时间指标
 
@@ -127,9 +127,9 @@ The system SHALL collect time-related metrics.
 - AND 计算时间差
 
 **Acceptance Criteria:**
-- [ ] AC-010: 记录关键时间点
-- [ ] AC-011: 计算各类时间指标
-- [ ] AC-012: 区分工作时间和等待时间
+- [x] AC-010: 记录关键时间点
+- [x] AC-011: 计算各类时间指标
+- [x] AC-012: 区分工作时间和等待时间
 
 ### REQ-005: 指标可视化
 
@@ -187,9 +187,9 @@ The system SHALL provide metrics visualization.
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-013: 生成 Markdown 报告
-- [ ] AC-014: 包含趋势分析
-- [ ] AC-015: 支持自定义时间范围
+- [x] AC-013: 生成 Markdown 报告
+- [x] AC-014: 包含趋势分析
+- [x] AC-015: 支持自定义时间范围
 
 ### REQ-006: 指标存储
 
@@ -214,9 +214,9 @@ The system SHALL store metrics data persistently.
 - AND 定期聚合生成汇总
 
 **Acceptance Criteria:**
-- [ ] AC-016: 分层存储结构
-- [ ] AC-017: 支持增量追加
-- [ ] AC-018: 定期数据聚合
+- [x] AC-016: 分层存储结构
+- [x] AC-017: 支持增量追加
+- [x] AC-018: 定期数据聚合
 
 ## 导出接口
 

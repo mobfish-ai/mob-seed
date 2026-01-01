@@ -39,9 +39,9 @@ The system SHALL implement Quick Flow for simple tasks (score 5-8).
 | 验证 | 运行测试，检查结果 | 测试报告 |
 
 **Acceptance Criteria:**
-- [ ] AC-001: 总耗时 < 30分钟（典型场景）
-- [ ] AC-002: 无需创建 .fspec.md 文件
-- [ ] AC-003: 支持快速迭代
+- [x] AC-001: 总耗时 < 30分钟（典型场景）
+- [x] AC-002: 无需创建 .fspec.md 文件
+- [x] AC-003: 支持快速迭代
 
 ### REQ-002: Standard Flow 实现
 
@@ -71,9 +71,9 @@ The system SHALL implement Standard Flow for moderate tasks (score 9-12).
 | 文档 | 更新相关文档 | 文档变更 | 文档同步 |
 
 **Acceptance Criteria:**
-- [ ] AC-004: 总耗时 2-4小时（典型场景）
-- [ ] AC-005: 创建简化版 tasks.md
-- [ ] AC-006: 支持阶段回退
+- [x] AC-004: 总耗时 2-4小时（典型场景）
+- [x] AC-005: 创建简化版 tasks.md
+- [x] AC-006: 支持阶段回退
 
 ### REQ-003: Full Flow 实现
 
@@ -105,9 +105,9 @@ The system SHALL implement Full Flow for complex tasks (score 13-15).
 | 评审 | 代码评审 | 评审意见 | 评审通过 |
 
 **Acceptance Criteria:**
-- [ ] AC-007: 支持多日开发
-- [ ] AC-008: 完整的 fspec 生命周期
-- [ ] AC-009: 强制阶段门禁验证
+- [x] AC-007: 支持多日开发
+- [x] AC-008: 完整的 fspec 生命周期
+- [x] AC-009: 强制阶段门禁验证
 
 ### REQ-004: 流程状态管理
 
@@ -124,9 +124,9 @@ The system SHALL maintain flow execution state.
 - AND 从中断点继续
 
 **Acceptance Criteria:**
-- [ ] AC-010: 支持会话中断恢复
-- [ ] AC-011: 记录每阶段开始/结束时间
-- [ ] AC-012: 支持手动跳过阶段
+- [x] AC-010: 支持会话中断恢复
+- [x] AC-011: 记录每阶段开始/结束时间
+- [x] AC-012: 支持手动跳过阶段
 
 ### REQ-005: 阶段转换控制
 
@@ -148,9 +148,9 @@ The system SHALL control stage transitions.
 - AND 继续执行后续阶段
 
 **Acceptance Criteria:**
-- [ ] AC-013: 默认顺序执行
-- [ ] AC-014: 支持 `--skip-stage` 参数
-- [ ] AC-015: 回退时保留原有产物
+- [x] AC-013: 默认顺序执行
+- [x] AC-014: 支持 `--skip-stage` 参数
+- [x] AC-015: 回退时保留原有产物
 
 ### REQ-006: 流程输出管理
 
@@ -173,9 +173,9 @@ output/flow/{flow-id}/
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-016: 每阶段独立目录
-- [ ] AC-017: 生成可读的 flow-summary.md
-- [ ] AC-018: flow-id 基于时间戳
+- [x] AC-016: 每阶段独立目录
+- [x] AC-017: 生成可读的 flow-summary.md
+- [x] AC-018: flow-id 基于时间戳
 
 ## 导出接口
 

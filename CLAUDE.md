@@ -65,9 +65,14 @@ timeout 30 node --test test/router/complexity-router.test.js
 
 ```
 S (Spec)    → 创建/更新 .fspec.md 规格
-E (Emit)    → 自动派生代码/测试/文档
+E (Emit)    → 自动派生代码/测试/全部文档
 E (Execute) → 运行测试验证
 D (Defend)  → 守护规格与代码同步
+
+**Emit 派生范围（完整）**:
+- 代码（源代码、配置）
+- 测试（单元测试、集成测试）
+- 文档（API、用户指南、概念说明、CHANGELOG）
 ```
 
 ### 命令
@@ -245,37 +250,45 @@ if (testPassed) {
 - ❌ 禁止无条件假设所有 AC 已完成
 - ⚠️ 未覆盖的 AC 应触发警告
 
-### 10. 文档必须从代码派生（非规格）
+### 10. 文档派生范围（完整）
 
-**问题**: `/mob-seed-emit` 只生成了代码和测试，遗漏了文档 (docs/)。
+**SEED 派生所有文档类型**，不仅仅是 API 文档：
 
-**错误理解**: Spec → Docs（直接从规格生成文档）
-**正确理解**: Code → Docs（从代码提取 API 生成文档）
+| 文档类型 | 派生来源 | 生成时机 |
+|----------|----------|----------|
+| API 参考 | Code (JSDoc/签名) | emit --docs |
+| 用户指南 | Code + Spec | emit --docs |
+| 概念说明 | Spec (方法论) | emit --docs |
+| CHANGELOG | Git log + Spec 变更 | 发布时自动 |
+| README | Spec + Code 概述 | emit --docs |
 
-**SEED 派生链**:
+**派生链**:
 ```
-Spec (规格) → Code (代码) → Docs (文档)
+Spec (规格) → Code (代码) → Docs (全部文档)
                   ↑
-             真相源是代码！
+             API 文档真相源是代码
+             概念文档真相源是规格
+             CHANGELOG 真相源是 Git + Spec
 ```
 
-**为什么 Code → Docs**:
+**为什么 Code → API Docs**:
 - Spec 描述"应该是什么"
 - Code 描述"实际是什么"
-- Docs 应该反映实际实现
+- API Docs 应该反映实际实现
 
 **文档生成方法**:
 ```bash
-# 从代码提取 API 生成文档
-/mob-seed-emit --docs  # 解析 JSDoc、函数签名等
+# 生成全部文档
+/mob-seed-emit --docs
 
-# 文档内容来源
+# 文档来源
 # - 函数签名 → API 参考
 # - JSDoc 注释 → 参数说明
-# - 代码示例 → 使用示例
+# - Spec 概述 → 概念说明
+# - Git commits → CHANGELOG
 ```
 
-**禁止**: 直接从 spec 复制内容到 docs
+**禁止**: 手动创建文档（除非先有规格定义）
 
 ### 11. AI 偏离核心哲学的根本原因分析
 

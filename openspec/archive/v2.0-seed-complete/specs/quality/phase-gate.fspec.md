@@ -37,9 +37,9 @@ The system SHALL define gates for each workflow stage transition.
 | 评审→归档 | gate-review | 评审通过 |
 
 **Acceptance Criteria:**
-- [ ] AC-001: 每个阶段转换有对应门禁
-- [ ] AC-002: 门禁验证内容可配置
-- [ ] AC-003: 支持自定义门禁
+- [x] AC-001: 每个阶段转换有对应门禁
+- [x] AC-002: 门禁验证内容可配置
+- [x] AC-003: 支持自定义门禁
 
 ### REQ-002: 验证规则引擎
 
@@ -66,9 +66,9 @@ The system SHALL implement validation rule engine.
 - AND 返回执行结果和输出
 
 **Acceptance Criteria:**
-- [ ] AC-004: 支持至少 5 种规则类型
-- [ ] AC-005: 规则可组合（AND/OR）
-- [ ] AC-006: 返回详细验证结果
+- [x] AC-004: 支持至少 5 种规则类型
+- [x] AC-005: 规则可组合（AND/OR）
+- [x] AC-006: 返回详细验证结果
 
 ### REQ-003: 门禁执行
 
@@ -86,9 +86,9 @@ The system SHALL execute gate validations at stage transitions.
 - AND 记录失败日志
 
 **Acceptance Criteria:**
-- [ ] AC-007: 阻止未通过门禁的转换
-- [ ] AC-008: 提供修复建议
-- [ ] AC-009: 支持强制跳过（需记录原因）
+- [x] AC-007: 阻止未通过门禁的转换
+- [x] AC-008: 提供修复建议
+- [x] AC-009: 支持强制跳过（需记录原因）
 
 ### REQ-004: 人工审批集成
 
@@ -114,9 +114,9 @@ The system SHALL support human approval gates.
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-010: 清晰展示待审批内容
-- [ ] AC-011: 支持查看详情选项
-- [ ] AC-012: 记录审批决策
+- [x] AC-010: 清晰展示待审批内容
+- [x] AC-011: 支持查看详情选项
+- [x] AC-012: 记录审批决策
 
 ### REQ-005: 门禁报告
 
@@ -150,9 +150,9 @@ The system SHALL generate gate validation reports.
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-013: Markdown 格式报告
-- [ ] AC-014: 包含每条规则详情
-- [ ] AC-015: 提示下一步操作
+- [x] AC-013: Markdown 格式报告
+- [x] AC-014: 包含每条规则详情
+- [x] AC-015: 提示下一步操作
 
 ### REQ-006: 门禁配置
 
@@ -183,9 +183,9 @@ gates:
 - AND 验证配置格式正确性
 
 **Acceptance Criteria:**
-- [ ] AC-016: YAML 格式配置
-- [ ] AC-017: 支持默认门禁 + 自定义门禁
-- [ ] AC-018: 配置验证和错误提示
+- [x] AC-016: YAML 格式配置
+- [x] AC-017: 支持默认门禁 + 自定义门禁
+- [x] AC-018: 配置验证和错误提示
 
 ## 导出接口
 

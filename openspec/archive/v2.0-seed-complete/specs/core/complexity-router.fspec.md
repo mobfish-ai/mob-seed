@@ -34,9 +34,9 @@ The system SHALL evaluate task complexity using 5 dimensions.
 - AND 返回总分 (5-15)
 
 **Acceptance Criteria:**
-- [ ] AC-001: 每个维度独立评分 1-3
-- [ ] AC-002: 总分范围 5-15
-- [ ] AC-003: 支持手动覆盖评分
+- [x] AC-001: 每个维度独立评分 1-3
+- [x] AC-002: 总分范围 5-15
+- [x] AC-003: 支持手动覆盖评分
 
 ### REQ-002: 评分区间路由
 
@@ -63,9 +63,9 @@ The system SHALL route tasks to workflow based on total score.
 - THEN 返回 `{ flow: 'full', estimatedTime: '1-3d' }`
 
 **Acceptance Criteria:**
-- [ ] AC-004: 正确识别 Quick Flow 任务
-- [ ] AC-005: 正确识别 Standard Flow 任务
-- [ ] AC-006: 正确识别 Full Flow 任务
+- [x] AC-004: 正确识别 Quick Flow 任务
+- [x] AC-005: 正确识别 Standard Flow 任务
+- [x] AC-006: 正确识别 Full Flow 任务
 
 ### REQ-003: AI 辅助评分
 
@@ -78,10 +78,10 @@ The system SHALL use AI to analyze task description and suggest scores.
 - AND 返回评分理由
 
 **Acceptance Criteria:**
-- [ ] AC-007: 支持中英文任务描述
-- [ ] AC-008: 考虑项目上下文
-- [ ] AC-009: 提供评分理由说明
-- [ ] AC-010: 支持用户确认或修改
+- [x] AC-007: 支持中英文任务描述
+- [x] AC-008: 考虑项目上下文
+- [x] AC-009: 提供评分理由说明
+- [x] AC-010: 支持用户确认或修改
 
 ### REQ-004: 评分历史记录
 
@@ -93,9 +93,9 @@ The system SHALL maintain scoring history for learning and calibration.
 - AND 包含实际完成时间（如已知）
 
 **Acceptance Criteria:**
-- [ ] AC-011: JSONL 格式存储
-- [ ] AC-012: 包含时间戳、任务描述、评分、路由结果
-- [ ] AC-013: 支持查询历史评分
+- [x] AC-011: JSONL 格式存储
+- [x] AC-012: 包含时间戳、任务描述、评分、路由结果
+- [x] AC-013: 支持查询历史评分
 
 ### REQ-005: 边界情况处理
 
@@ -112,9 +112,9 @@ The system SHALL handle edge cases gracefully.
 - AND 记录为手动覆盖
 
 **Acceptance Criteria:**
-- [ ] AC-014: 返回置信度指标
-- [ ] AC-015: 支持 `--flow` 参数覆盖
-- [ ] AC-016: 不确定时默认 Standard Flow
+- [x] AC-014: 返回置信度指标
+- [x] AC-015: 支持 `--flow` 参数覆盖
+- [x] AC-016: 不确定时默认 Standard Flow
 
 ## 导出接口
 
