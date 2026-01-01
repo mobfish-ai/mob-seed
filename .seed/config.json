@@ -19,8 +19,8 @@
 
   "paths": {
     "specs": "openspec/specs",
-    "src": "skills/mob-seed",
-    "test": "test",
+    "src": "skills/mob-seed/lib",
+    "test": "skills/mob-seed/test",
     "docs": "docs",
     "output": ".seed/output"
   },
