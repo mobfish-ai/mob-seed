@@ -323,3 +323,81 @@ openspec/
 | 测试未通过 | 存在失败的测试 | 修复测试或使用 --force |
 | 目标规格不存在 | 首次添加该领域 | 自动创建目标规格文件 |
 | 冲突的 REQ-ID | 修改的需求 ID 不存在 | 检查 Delta 规格是否正确 |
+
+---
+
+## 步骤 6: 归档后验证（必须执行）
+
+> ⚠️ **重要**: 此步骤是防止归档遗漏的最后防线，必须在归档操作后立即执行。
+
+### 6.1 验证规格文件状态
+
+```javascript
+const { validateArchive } = require('./lib/lifecycle/archiver');
+
+const archivePath = `${ARCHIVE_DIR}/${proposalName}`;
+const specFiles = glob.sync(`${archivePath}/**/*.fspec.md`);
+
+const errors = [];
+for (const specFile of specFiles) {
+  const content = fs.readFileSync(specFile, 'utf-8');
+
+  // 检查状态标记
+  if (!content.includes('> 状态: archived')) {
+    errors.push(`❌ ${specFile}: 缺少 "状态: archived" 标记`);
+  }
+
+  // 检查归档日期
+  if (!content.includes('> 归档日期:')) {
+    errors.push(`❌ ${specFile}: 缺少 "归档日期" 标记`);
+  }
+
+  // 检查未完成的 checkbox（仅警告，因为可能有未覆盖的 AC）
+  const uncheckedCount = (content.match(/^- \[ \]/gm) || []).length;
+  if (uncheckedCount > 0) {
+    errors.push(`⚠️ ${specFile}: 存在 ${uncheckedCount} 个未完成的 checkbox`);
+  }
+}
+```
+
+### 6.2 验证检查清单
+
+| 检查项 | 验证方法 | 失败处理 |
+|--------|----------|----------|
+| 状态标记 | `grep "状态: archived"` | 阻止归档，要求修复 |
+| 归档日期 | `grep "归档日期:"` | 阻止归档，要求修复 |
+| FR/NFR checkbox | 对比测试通过数 | 警告，允许继续 |
+| AC checkbox | 对比测试覆盖 | 警告，允许继续 |
+
+### 6.3 输出验证报告
+
+```
+━━━ 🔍 归档验证 ━━━
+
+检查文件: 8 个 .fspec.md
+
+✅ 状态标记: 8/8 通过
+✅ 归档日期: 8/8 通过
+⚠️ Checkbox: 2 个文件有未完成项（已确认为未覆盖 AC）
+
+验证结果: ✅ 通过
+```
+
+### 6.4 验证失败处理
+
+如果验证失败：
+
+1. **停止归档流程**
+2. **输出具体错误**
+3. **提供修复命令**
+
+```
+❌ 归档验证失败
+
+错误列表:
+  ❌ specs/workflow/action-suggest.fspec.md: 缺少 "状态: archived" 标记
+  ❌ specs/automation/version-sync.fspec.md: 缺少 "归档日期" 标记
+
+修复命令:
+  /mob-seed:archive <proposal> --fix-metadata
+```

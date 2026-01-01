@@ -1,6 +1,8 @@
 # mission-integration 规格
 
 > 版本: 1.0.0
+> 状态: archived
+> 归档日期: 2026-01-01
 > 创建时间: 2026-01-01
 > 最后更新: 2026-01-01
 > 优先级: P1
@@ -22,17 +24,17 @@ Mission 集成检查，将项目使命声明集成到 SEED 各阶段，确保开
 
 ### 功能需求
 
-- [ ] FR-001: Mission 加载 - 加载 `.seed/mission.md` 文件
-- [ ] FR-002: 原则解析 - 解析 Mission 核心结构（principles/anti_goals/evolution）
-- [ ] FR-003: 对齐评估 - 评估操作与使命的对齐度
-- [ ] FR-004: 阶段集成 - 在 Spec/Emit/Exec/Defend 各阶段集成检查
-- [ ] FR-005: 缓存复用 - 会话内复用 Mission 加载结果
+- [x] FR-001: Mission 加载 - 加载 `.seed/mission.md` 文件
+- [x] FR-002: 原则解析 - 解析 Mission 核心结构（principles/anti_goals/evolution）
+- [x] FR-003: 对齐评估 - 评估操作与使命的对齐度
+- [x] FR-004: 阶段集成 - 在 Spec/Emit/Exec/Defend 各阶段集成检查
+- [x] FR-005: 缓存复用 - 会话内复用 Mission 加载结果
 
 ### 非功能需求
 
-- [ ] NFR-001: 对齐检查 < 100ms
-- [ ] NFR-002: Mission 解析 < 50ms
-- [ ] NFR-003: 缓存命中时 < 1ms
+- [x] NFR-001: 对齐检查 < 100ms
+- [x] NFR-002: Mission 解析 < 50ms
+- [x] NFR-003: 缓存命中时 < 1ms
 
 ## 约束 (Constraints)
 
