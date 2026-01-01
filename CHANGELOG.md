@@ -4,13 +4,25 @@
 
 ## [Unreleased]
 
+---
+
+## [2.1.0] - 2026-01-01
+
 ### Added
 - `docs/guide/` 用户指南文档
 - `docs/concepts/` 概念说明文档
 - `openspec/specs/automation/git-hooks.fspec.md` Git 钩子规格
+- v2.1 发布自动化规格 (`openspec/changes/v2.1-release-automation/`)
 
 ### Changed
-- 修正 SEED 派生范围：从仅 API 文档扩展到全部文档类型（API、用户指南、概念说明、CHANGELOG）
+- 修正 SEED 派生范围：从仅 API 文档扩展到全部文档类型
+- 命令系统添加 `name:` 字段到 frontmatter
+- Mission Statement 模块：移除错误的 ACE 定义，使用正确的 parseMissionCore 函数
+
+### Fixed
+- 修复年份引用：2025 → 2026
+- 修复命令文件缺少 `name:` 字段问题
+- 修复 Mission 模块 parseACE 别名保持向后兼容
 
 ---
 
@@ -121,8 +133,9 @@
 
 ---
 
-[Unreleased]: https://github.com/user/mob-seed/compare/v2.0.0...HEAD
-[2.0.0]: https://github.com/user/mob-seed/compare/v1.2.0...v2.0.0
-[1.2.0]: https://github.com/user/mob-seed/compare/v1.1.0...v1.2.0
-[1.1.0]: https://github.com/user/mob-seed/compare/v1.0.0...v1.1.0
-[1.0.0]: https://github.com/user/mob-seed/releases/tag/v1.0.0
+[Unreleased]: https://github.com/mobfish-ai/mob-seed/compare/v2.1.0...HEAD
+[2.1.0]: https://github.com/mobfish-ai/mob-seed/compare/v2.0.0...v2.1.0
+[2.0.0]: https://github.com/mobfish-ai/mob-seed/compare/v1.2.0...v2.0.0
+[1.2.0]: https://github.com/mobfish-ai/mob-seed/compare/v1.1.0...v1.2.0
+[1.1.0]: https://github.com/mobfish-ai/mob-seed/compare/v1.0.0...v1.1.0
+[1.0.0]: https://github.com/mobfish-ai/mob-seed/releases/tag/v1.0.0
