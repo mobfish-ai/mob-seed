@@ -167,7 +167,26 @@ const { updateSpecState } = require('./lib/lifecycle/parser');
 
 // 更新归档副本中的状态
 updateSpecState(`${archivePath}/proposal.md`, 'archived');
+
+// ⚠️ 重要：同时更新真相源 (openspec/specs/) 中的规格状态
+for (const specFile of mergedSpecFiles) {
+  updateSpecState(specFile, 'archived');
+}
 ```
+
+#### 4.4 更新 AC 完成状态（重要）
+
+```javascript
+const { markACsCompleted } = require('./lib/lifecycle/parser');
+
+// 将所有已通过验证的 AC 标记为完成
+for (const specFile of mergedSpecFiles) {
+  // 替换 `- [ ] AC-xxx` 为 `- [x] AC-xxx`
+  markACsCompleted(specFile);
+}
+```
+
+**说明**：归档意味着所有 AC 都已通过验证，因此自动标记为完成。
 
 ### 步骤 5: 生成归档报告
 

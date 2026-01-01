@@ -191,6 +191,37 @@ mob-seed 有完整的 SEED 方法论实现，**不依赖**外部技能（如 sup
 
 **禁止**: 在 `/mob-seed-defend` 中手动执行归档操作
 
+### 9. 归档时必须更新 AC 完成状态
+
+**问题**: 归档后规格中的 AC 仍然是 `- [ ]` 未完成状态。
+
+**正确做法**: `/mob-seed-archive` 步骤 4.4 会自动将所有 AC 标记为完成：
+```
+- [ ] AC-001  →  - [x] AC-001
+```
+
+**原因**: 归档意味着所有 AC 都已通过测试验证，应自动标记为完成。
+
+### 10. SEED 派生必须包含文档
+
+**问题**: `/mob-seed-emit` 只生成了代码和测试，遗漏了文档 (docs/)。
+
+**SEED 完整派生**:
+```
+Spec (fspec.md) → Code (lib/) + Tests (test/) + Docs (docs/)
+```
+
+**正确命令**:
+```bash
+/mob-seed-emit specs/xxx.fspec.md --all   # 派生所有产物
+/mob-seed-emit specs/xxx.fspec.md --docs  # 仅派生文档
+```
+
+**文档内容**:
+- API 参考文档
+- 使用示例
+- 配置说明
+
 ## 快速开始
 
 ```bash
