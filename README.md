@@ -61,6 +61,33 @@ cd mob-seed
 
 After installation, restart Claude Code to load the plugin.
 
+## Project Structure
+
+```
+mob-seed/                          # Project root
+├── .seed/                         # SEED configuration
+│   ├── config.json               # Core config (paths, patterns, emit settings)
+│   └── mission.yaml              # Mission statement (ACE)
+├── openspec/                      # OpenSpec specifications
+│   ├── specs/                    # Stable specs (archived)
+│   ├── changes/                  # Change proposals (implementing)
+│   └── archive/                  # Historical specs
+├── skills/mob-seed/              # Skill implementation
+│   ├── lib/                      # Source code (CommonJS)
+│   ├── test/                     # Tests (CommonJS)
+│   ├── adapters/                 # API adapters (ES Modules)
+│   ├── prompts/                  # Prompt templates
+│   ├── templates/                # Code generation templates
+│   └── SKILL.md                  # Skill definition
+├── commands/                      # User-facing commands
+└── examples/                      # Usage examples
+```
+
+**Key directories:**
+- `.seed/config.json`: All path configurations are relative to project root
+- `openspec/changes/`: Active development (specs with status: implementing)
+- `skills/mob-seed/lib/`: Core implementation code
+
 ## Quick Start
 
 ### 1. Initialize Project (OpenSpec mode - default)

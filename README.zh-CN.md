@@ -61,6 +61,33 @@ cd mob-seed
 
 安装后重启 Claude Code 以加载插件。
 
+## 项目结构
+
+```
+mob-seed/                          # 项目根目录
+├── .seed/                         # SEED 配置
+│   ├── config.json               # 核心配置（路径、模式、派生设置）
+│   └── mission.yaml              # 使命声明（ACE）
+├── openspec/                      # OpenSpec 规格
+│   ├── specs/                    # 稳定规格（已归档）
+│   ├── changes/                  # 变更提案（实现中）
+│   └── archive/                  # 历史规格
+├── skills/mob-seed/              # 技能实现
+│   ├── lib/                      # 源代码（CommonJS）
+│   ├── test/                     # 测试（CommonJS）
+│   ├── adapters/                 # API 适配器（ES Modules）
+│   ├── prompts/                  # 提示模板
+│   ├── templates/                # 代码生成模板
+│   └── SKILL.md                  # 技能定义
+├── commands/                      # 用户命令
+└── examples/                      # 使用示例
+```
+
+**关键目录说明**：
+- `.seed/config.json`: 所有路径配置都相对于项目根目录
+- `openspec/changes/`: 活跃开发（状态为 implementing 的规格）
+- `skills/mob-seed/lib/`: 核心实现代码
+
 ## 快速开始
 
 ### 1. 初始化项目（OpenSpec 模式 - 默认）
