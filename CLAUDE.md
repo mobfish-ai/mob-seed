@@ -158,6 +158,39 @@ mob-seed 有完整的 SEED 方法论实现，**不依赖**外部技能（如 sup
 - [ ] 修改内容：两份都修改
 - [ ] 删除内容：两份都删除
 
+### 7. 归档流程必须完整执行
+
+**问题**: 执行归档时只移动了 `changes/` 到 `archive/`，漏掉了合并到 `specs/` 的步骤。
+
+**正确流程**:
+```
+/mob-seed-defend <proposal>  → 检查同步状态
+/mob-seed-archive <proposal> → 完整归档流程
+  ├── 步骤1: 合并 specs/ 到真相源 (openspec/specs/)
+  ├── 步骤2: 移动提案到 archive/
+  └── 步骤3: 更新状态为 archived
+```
+
+**关键点**:
+- `/mob-seed-defend` 只做检查，不做归档
+- `/mob-seed-archive` 执行完整归档（包括合并）
+- 归档后 `openspec/specs/` 应包含所有生效规格
+- `openspec/archive/` 只保留历史快照
+
+**检查清单**:
+- [ ] 归档前运行 `/mob-seed-status` 确认规格数量
+- [ ] 归档后验证 `openspec/specs/` 包含新规格
+- [ ] 不要手动 `mv`，使用 `/mob-seed-archive` 命令
+
+### 8. 命令职责分离
+
+| 命令 | 职责 | 副作用 |
+|------|------|--------|
+| `/mob-seed-defend` | 检查同步状态 | 只读，无副作用 |
+| `/mob-seed-archive` | 执行归档 | 移动文件、合并规格 |
+
+**禁止**: 在 `/mob-seed-defend` 中手动执行归档操作
+
 ## 快速开始
 
 ```bash
@@ -179,7 +212,8 @@ cd skills/mob-seed && node --test test/**/*.test.js
 
 ## 当前状态
 
-- **版本**: 2.0.0
-- **变更提案**: v2.0-seed-complete (implementing)
-- **模块**: 10/11 已实现
-- **测试**: 367 pass
+- **版本**: 2.0.0 (archived)
+- **变更提案**: 无活跃提案
+- **模块**: 11/11 已实现
+- **测试**: 407 pass
+- **规格**: 15 个稳定规格 (openspec/specs/)
