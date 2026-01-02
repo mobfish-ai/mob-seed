@@ -1,6 +1,6 @@
 # SEED v3.0: ACE 融合提案
 
-> **状态**: draft
+> **状态**: implementing
 > **版本**: 3.0.0
 > **创建**: 2026-01-01
 > **基于**: ACE Framework (Stanford/SambaNova/Berkeley)
@@ -24,7 +24,12 @@ Generator (生成器)  →  Reflector (反思器)  →  Curator (整合器)
 ```
 Spec → Emit → Execute → Defend → (结束)
                  │          │
-                 └──────────┴── 信号丢失，无反馈闭环
+                 └──────────┴── 教训无法积累，知识流失
+
+痛点具体表现：
+1. 流程遗漏反复发生（发布忘记跑检查、版本号忘同步）
+2. 架构问题重复修改（模块边界不清晰导致同一批文件反复改）
+3. 问题解决后无记录，下次还会踩同样的坑
 ```
 
 ### SEED v3.0 愿景
@@ -46,6 +51,90 @@ Spec → Emit → Execute → Defend
   │         └────────┬─────────┘
   │                  │
   └──────────────────┘  规格演化闭环
+```
+
+### v3.0 核心价值：框架级能力
+
+**mob-seed v3.0 为所有使用它的项目提供 ACE 自我演化能力。**
+
+```
+┌─────────────────────────────────────────────────────────┐
+│  mob-seed = 开发框架 + ACE 能力                          │
+│                                                         │
+│  提供：                                                  │
+│  - /mob-seed:* 命令                                     │
+│  - .seed/ 目录结构                                      │
+│  - SEED 方法论（Spec → Emit → Execute → Defend）         │
+│  - ACE 闭环（Observe → Reflect → Curate）← v3.0 新增     │
+└─────────────────────────────────────────────────────────┘
+                           │
+                           ↓ 赋能于
+┌─────────────────────────────────────────────────────────┐
+│  所有使用 mob-seed 的项目                                │
+│                                                         │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐      │
+│  │ tricon/     │  │ mobfish-x/  │  │ 任意项目/   │      │
+│  │ ├── .seed/  │  │ ├── .seed/  │  │ ├── .seed/  │      │
+│  │ │   └─obs/  │  │ │   └─obs/  │  │ │   └─obs/  │      │
+│  │ ├── openspec│  │ ├── openspec│  │ ├── openspec│      │
+│  │ └── src/    │  │ └── src/    │  │ └── src/    │      │
+│  └─────────────┘  └─────────────┘  └─────────────┘      │
+│                                                         │
+│  每个项目自动具备：                                       │
+│  ✓ 收集自己的观察（测试失败、同步偏离、运行时反馈）        │
+│  ✓ 进行自己的反思（识别重复问题、发现共性教训）            │
+│  ✓ 推动自己的规格演化（教训 → 规格改进）                  │
+└─────────────────────────────────────────────────────────┘
+```
+
+**关键理解**：
+- ACE 不是 mob-seed 自己的能力，而是 mob-seed **赋予所有用户项目**的能力
+- 每个项目有自己独立的观察、反思、规格演化闭环
+- mob-seed 提供命令和处理逻辑，数据存储在用户项目的 `.seed/` 中
+
+**自举特性**：
+- mob-seed 本身也使用 mob-seed 开发和维护自己
+- 因此 mob-seed 项目本身也具备 ACE 自我演化能力
+- 这是框架可靠性的最佳验证：自己吃自己的狗粮（dogfooding）
+
+---
+
+## 核心假设
+
+v3.0 需要验证的两个核心假设，Phase 1 的成功标准基于此。
+
+### 假设 1：模式涌现
+
+> 多个独立观察聚合后，能够涌现出单独观察看不到的"教训"。
+
+**验证方法**：积累 20+ 观察后，检查 Reflect 能否发现至少 3 个跨观察的共性模式。
+
+**成功标准**：
+- 至少 3 个 Reflection 被标记为 `accepted`
+- 每个 Reflection 关联 2+ 个不同来源的观察
+
+### 假设 2：闭环完整性
+
+> 从信号到规格修改的完整路径可以跑通，且产出的规格修订有实际价值。
+
+**验证方法**：至少 3 个观察成功 promote 为提案，并最终合并到规格中。
+
+**成功标准**：
+- 至少 3 个观察完成 `raw → triaged → promoted` 全流程
+- 至少 1 个 promoted 观察最终导致规格修改并归档
+
+### 验证策略
+
+采用**并行验证**：边收集观察边尝试闭环，两者同时推进。
+
+```
+┌─────────────────────────────────────────────┐
+│  并行验证策略                                │
+├─────────────────────────────────────────────┤
+│  Week 1-2: 信号收集 + 首次闭环尝试           │
+│  Week 3-4: 持续收集 + Reflect 验证           │
+│  Week 4+:  评估假设是否成立                  │
+└─────────────────────────────────────────────┘
 ```
 
 ---
@@ -71,25 +160,52 @@ Spec → Emit → Execute → Defend
 
 **类型**:
 
-| 类型 | 来源 | Layer | 示例 |
-|------|------|-------|------|
-| test_failure | Execute 自动 | L1 开发 | 测试 X 因空值处理失败 |
-| coverage_gap | Execute 自动 | L1 开发 | 分支覆盖率 < 80% |
-| spec_drift | Defend 自动 | L1 开发 | 代码与规格不同步 |
-| pr_review | GitHub Webhook | L1 开发 | PR #123 审查意见 |
-| ci_failure | CI/CD 自动 | L2 构建 | 构建失败: 依赖冲突 |
-| release_blocked | Pipeline 自动 | L2 构建 | 发布验证未通过 |
-| deploy_failure | K8s/Docker | L3 部署 | Pod 启动失败 |
-| rollback_event | 部署系统 | L3 部署 | 生产回滚至 v2.0.1 |
-| env_drift | Config 检测 | L3 部署 | 环境变量不一致 |
-| runtime_error | Sentry/Datadog | L4 运行 | API 超时率上升 |
-| perf_degradation | APM 告警 | L4 运行 | P99 延迟超阈值 |
-| availability_issue | PagerDuty | L4 运行 | 服务可用性 < 99.9% |
-| user_bug_report | Issue 系统 | L5 用户 | 功能 X 不符合预期 |
-| feature_request | Issue 系统 | L5 用户 | 请求支持 Y 格式 |
-| kpi_miss | 业务报告 | L5 业务 | 转化率下降 5% |
-| user_feedback | 开发者手动 | 任意 | 缺少边界条件处理 |
-| pattern_insight | Reflect 自动 | 分析时 | 发现重复的错误模式 |
+> **优先级说明**: P0 = Phase 1 必做, P1 = Phase 2 扩展, P2 = Phase 3+ 未来
+
+| 类型 | 来源 | Layer | 优先级 | 示例 |
+|------|------|-------|--------|------|
+| test_failure | Execute 自动 | L1 开发 | **P0** | 测试 X 因空值处理失败 |
+| coverage_gap | Execute 自动 | L1 开发 | **P0** | 分支覆盖率 < 80% |
+| spec_drift | Defend 自动 | L1 开发 | **P0** | 代码与规格不同步 |
+| user_feedback | 开发者手动 | 任意 | **P0** | 缺少边界条件处理 |
+| pr_review | GitHub Webhook | L1 开发 | P1 | PR #123 审查意见 |
+| ci_failure | CI/CD 自动 | L2 构建 | P1 | 构建失败: 依赖冲突 |
+| release_blocked | Pipeline 自动 | L2 构建 | P1 | 发布验证未通过 |
+| deploy_failure | K8s/Docker | L3 部署 | P2 | Pod 启动失败 |
+| rollback_event | 部署系统 | L3 部署 | P2 | 生产回滚至 v2.0.1 |
+| env_drift | Config 检测 | L3 部署 | P2 | 环境变量不一致 |
+| runtime_error | Sentry/Datadog | L4 运行 | P2 | API 超时率上升 |
+| perf_degradation | APM 告警 | L4 运行 | P2 | P99 延迟超阈值 |
+| availability_issue | PagerDuty | L4 运行 | P2 | 服务可用性 < 99.9% |
+| user_bug_report | Issue 系统 | L5 用户 | P1 | 功能 X 不符合预期 |
+| feature_request | Issue 系统 | L5 用户 | P2 | 请求支持 Y 格式 |
+| kpi_miss | 业务报告 | L5 业务 | P2 | 转化率下降 5% |
+| pattern_insight | Reflect 自动 | 分析时 | **P0** | 发现重复的错误模式 |
+
+**状态机**:
+
+```
+           ┌───────────────────────────────────────┐
+           │                                       ▼
+         raw ────triage────→ triaged ────promote────→ promoted
+           │                    │                        │
+           │                    └────ignore────→ ignored │
+           │                                             │
+           └──────────── 只读，关联到提案 ◀──────────────┘
+```
+
+| 状态 | 说明 | 可执行操作 |
+|------|------|-----------|
+| `raw` | 自动收集，未处理 | triage, ignore |
+| `triaged` | 已分类，设置了优先级 | promote, ignore |
+| `promoted` | 已升级为正式提案 | 只读 |
+| `ignored` | 判断无价值，不再处理 | 只读 |
+
+**转换规则**:
+- `raw → triaged`: 用户执行 triage，设置优先级和关联规格
+- `triaged → promoted`: 用户执行 promote，生成提案草稿
+- `raw/triaged → ignored`: 用户判断无价值，标记忽略
+- `promoted` 后观察变为只读，通过 `proposal_id` 字段关联提案
 
 ### 3. 反思 (Reflection)
 
@@ -99,6 +215,28 @@ Spec → Emit → Execute → Defend
 - 跨观察分析，发现共性
 - 产生"教训"而非单点问题
 - 可自动（规则匹配）或辅助（LLM）
+
+**触发机制**:
+
+| 触发条件 | 类型 | 说明 |
+|----------|------|------|
+| 同类型观察 ≥ 3 条 | 自动 | 相同 `type` 的 triaged 观察达到阈值 |
+| 同规格关联 ≥ 2 条 | 自动 | 同一 `related_spec` 的观察达到阈值 |
+| 24h 内同模块 ≥ 2 条 | 自动 | 时间窗口内集中出现问题 |
+| 用户手动触发 | 手动 | `/mob-seed:spec reflect` |
+
+**模式匹配策略**:
+
+```
+┌─────────────────────────────────────────────┐
+│  Reflect 模式匹配                            │
+├─────────────────────────────────────────────┤
+│  1. 类型聚合：相同 type 的观察归组            │
+│  2. 规格聚合：同一 spec 的观察归组            │
+│  3. 关键词聚合：错误信息相似度 > 70%          │
+│  4. 时间聚合：24h 内同模块多次失败            │
+└─────────────────────────────────────────────┘
+```
 
 **示例**:
 ```
@@ -121,6 +259,54 @@ Spec → Emit → Execute → Defend
 - 输出为正式变更提案（changes/）
 - 保留来源追溯
 
+**决策流程**:
+
+```
+用户执行 /mob-seed:spec promote <obs-id|ref-id>
+                    │
+                    ▼
+        ┌───────────────────────┐
+        │  展示观察/反思内容      │
+        │  + 建议的规格修改       │
+        └───────────┬───────────┘
+                    │
+                    ▼
+        ┌───────────────────────┐
+        │  用户选择操作          │
+        │  [接受] [修改] [拒绝]  │
+        └───────────┬───────────┘
+                    │
+        ┌───────────┼───────────┐
+        ▼           ▼           ▼
+     接受         修改         拒绝
+        │           │           │
+        ▼           ▼           ▼
+  创建提案    编辑后创建    标记 rejected
+  changes/    changes/     状态更新
+```
+
+**Promote 输出内容**:
+
+| 输出项 | 说明 |
+|--------|------|
+| `changes/<name>/proposal.md` | 提案主文件，含来源追溯 |
+| `changes/<name>/specs/*.fspec.md` | 建议的规格修改（草稿） |
+| 观察状态更新 | `promoted`，关联 `proposal_id` |
+
+**来源追溯格式**:
+
+```markdown
+## 来源追溯
+
+本提案源自以下观察/反思：
+
+| ID | 类型 | 描述 | 创建时间 |
+|----|------|------|---------|
+| obs-001 | test_failure | parser 空值失败 | 2026-01-01 |
+| obs-002 | test_failure | loader 空值失败 | 2026-01-02 |
+| ref-001 | reflection | 空值处理策略缺失 | 2026-01-03 |
+```
+
 ---
 
 ## 架构设计
@@ -140,6 +326,95 @@ Spec → Emit → Execute → Defend
 │   └── ref-001.md          # 单个反思/教训
 └── output/
 ```
+
+**目录归属说明**：
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  目录归属与数据隔离                                           │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  mob-seed 仓库（框架代码）                                    │
+│  ┌─────────────────────────────────────────────────────┐    │
+│  │  skills/mob-seed/lib/ace/   ← ACE 处理逻辑           │    │
+│  │  commands/mob-seed-spec.md  ← 命令定义               │    │
+│  │  不包含：任何 observations/reflections 数据          │    │
+│  └─────────────────────────────────────────────────────┘    │
+│                                                             │
+│  用户项目仓库（如 tricon、mobfish-x）                         │
+│  ┌─────────────────────────────────────────────────────┐    │
+│  │  .seed/observations/  ← 该项目独有的观察数据          │    │
+│  │  .seed/reflections/   ← 该项目独有的反思数据          │    │
+│  │  openspec/            ← 该项目的规格                 │    │
+│  └─────────────────────────────────────────────────────┘    │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+**关键原则**：
+- **数据隔离**：每个项目的观察/反思数据完全独立
+- **框架无状态**：mob-seed 只提供命令和处理逻辑，不存储任何项目数据
+- **版本控制建议**：`.seed/observations/` 和 `.seed/reflections/` 可选择性加入 Git
+  - 加入 Git：可追溯历史、团队共享
+  - 不加入 Git：减少仓库体积（通过 `.gitignore`）
+
+### 配置灵活性设计
+
+ACE 配置存储在用户项目的 `.seed/config.json` 中，每个项目可独立定制。
+
+**配置结构**：
+
+```json
+{
+  "ace": {
+    "enabled": true,
+    "sources": {
+      "core": ["test_failure", "spec_drift", "coverage_gap", "user_feedback"],
+      "extensions": ["ci_failure", "release_blocked"]
+    },
+    "reflect": {
+      "auto_trigger": true,
+      "thresholds": {
+        "same_type": 3,
+        "same_spec": 2,
+        "time_window_hours": 24
+      },
+      "patterns": ["null_handling", "error_boundary", "async_await"]
+    },
+    "archive": {
+      "auto_archive_days": 90,
+      "compress_archived": true
+    }
+  }
+}
+```
+
+**可配置项说明**：
+
+| 配置项 | 用途 | 默认值 |
+|--------|------|--------|
+| `ace.enabled` | 是否启用 ACE 能力 | `true` |
+| `ace.sources.core` | 核心信号来源 | 4 种基础信号 |
+| `ace.sources.extensions` | 扩展信号来源 | 空数组 |
+| `ace.reflect.auto_trigger` | 是否自动触发 Reflect | `true` |
+| `ace.reflect.thresholds.same_type` | 同类型观察触发阈值 | `3` |
+| `ace.reflect.thresholds.same_spec` | 同规格关联触发阈值 | `2` |
+| `ace.reflect.patterns` | 自定义模式匹配规则 | 空数组 |
+| `ace.archive.auto_archive_days` | 自动归档天数 | `90` |
+
+**项目类型预设**（可选）：
+
+```bash
+# 初始化时可选择预设
+/mob-seed:init --preset web-service   # 启用 L1-L4
+/mob-seed:init --preset cli-tool      # 启用 L1-L2
+/mob-seed:init --preset library       # 启用 L1, L5
+```
+
+**渐进式启用**：
+- Phase 1：仅启用核心信号，配置项最少
+- Phase 2+：随扩展信号增加，配置项增加
+- 始终提供合理默认值，零配置可用
 
 ### 观察格式
 
@@ -220,10 +495,28 @@ status: draft  # draft | accepted | rejected
 
 | 命令 | 增强内容 |
 |------|---------|
-| `/mob-seed` | 状态面板显示待处理观察数量 |
+| `/mob-seed` | 状态面板显示待处理观察数量 + 任务进度 |
 | `/mob-seed:exec` | 执行后自动记录失败观察 |
 | `/mob-seed:defend` | 检查后自动记录偏离观察 |
 | `/mob-seed:spec` | 新增子操作: observe, triage, reflect |
+| `/mob-seed:spec` | review → implementing 时自动派生 tasks.md |
+
+### 自动派生机制
+
+**tasks.md 自动生成**：不增加新命令，作为状态转换的副作用。
+
+```
+Proposal: review → implementing
+                 ↓ 触发
+         自动派生 tasks.md
+         （从 proposal.md 阶段描述提取）
+```
+
+**派生规则**：
+- 解析 `## Phase N:` / `## 阶段 N:` 为任务组
+- 解析 `### 任务 N.M:` 为具体任务
+- 解析 `- [ ]` 为子任务
+- 关联 fspec 文件列表
 
 ### 子操作详情
 
@@ -445,18 +738,71 @@ P3: 本周处理 (user_complaint + 高影响)
 P4: Backlog  (user_feedback + 低影响)
 ```
 
+### 信号来源通用性设计
+
+**核心理念**：不同项目有不同的信号来源，但 mob-seed 提供统一的采集机制。
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  信号来源：核心 + 扩展                                        │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  ┌─────────────────────────────────────────────────────┐    │
+│  │  核心信号（所有项目通用）                              │    │
+│  │  • test_failure   - Execute 自动产生                 │    │
+│  │  • spec_drift     - Defend 自动产生                  │    │
+│  │  • coverage_gap   - Execute 可选产生                 │    │
+│  │  • user_feedback  - 手动 observe 命令                │    │
+│  └─────────────────────────────────────────────────────┘    │
+│                         │                                   │
+│                         ▼                                   │
+│  ┌─────────────────────────────────────────────────────┐    │
+│  │  扩展信号（按项目类型启用）                            │    │
+│  │                                                      │    │
+│  │  [Web 服务类]                                        │    │
+│  │  • runtime_error  - Sentry/Datadog webhook          │    │
+│  │  • perf_degradation - APM 告警                       │    │
+│  │  • deploy_failure - K8s 事件                         │    │
+│  │                                                      │    │
+│  │  [CLI 工具类]                                        │    │
+│  │  • ci_failure     - GitHub Actions                  │    │
+│  │  • release_blocked - 发布流水线                      │    │
+│  │                                                      │    │
+│  │  [库/SDK 类]                                         │    │
+│  │  • user_bug_report - Issue 标签触发                  │    │
+│  │  • api_breaking   - API 兼容性检测                   │    │
+│  └─────────────────────────────────────────────────────┘    │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+**项目类型示例**：
+
+| 项目类型 | 典型信号来源 | 启用层级 |
+|----------|-------------|---------|
+| mob-seed（CLI 框架） | test_failure, spec_drift, ci_failure | L1, L2 |
+| tricon（Web 服务） | 上述 + runtime_error, deploy_failure | L1-L4 |
+| mobfish-sdk（库） | test_failure, user_bug_report, api_breaking | L1, L5 |
+| 业务应用 | 全五层 | L1-L5 |
+
+**通用性保证**：
+- **核心信号始终可用**：Execute/Defend 是 SEED 必备命令，所有项目都有
+- **扩展信号按需配置**：通过 `.seed/config.json` 中的 `ace.sources` 启用/禁用
+- **统一格式存储**：无论来源，观察都以相同的 YAML frontmatter + Markdown 格式存储
+
 ---
 
 ## 实施阶段
 
 ### Phase 1: 观察基础 (v3.0-alpha)
 
-- [ ] 定义观察数据结构
-- [ ] Execute 自动记录失败观察
-- [ ] Defend 自动记录偏离观察
-- [ ] `/mob-seed` 显示观察统计
-- [ ] `/mob-seed:spec observe` 手动添加
-- [ ] `/mob-seed:spec triage` 归类观察
+- [x] 定义观察数据结构 → `observation.fspec.md` ✅
+- [x] Execute 自动记录失败观察 → `observation-collector.fspec.md` ✅
+- [x] Defend 自动记录偏离观察 → `observation-collector.fspec.md` ✅
+- [x] `/mob-seed` 显示观察统计 → `status-panel-enhance.fspec.md` ✅
+- [x] `/mob-seed:spec observe` 手动添加 → `spec-observe-command.fspec.md` ✅
+- [x] `/mob-seed:spec triage` 归类观察 → `spec-triage-command.fspec.md` ✅
+- [x] Proposal → tasks.md 自动派生 → `task-generation.fspec.md` ✅
 
 ### Phase 2: 反思能力 (v3.0-beta)
 
@@ -503,13 +849,24 @@ P4: Backlog  (user_feedback + 低影响)
 
 ## 预期收益
 
-### 量化指标
+### Phase 1 成功指标（可验证）
 
-| 指标 | 当前 | v3.0 目标 |
-|------|------|----------|
-| 规格遗漏发现率 | 被动发现 | 主动提示 80%+ |
-| 反馈到规格周期 | 无闭环 | < 1 天 |
-| 重复问题发生率 | 无追踪 | 降低 50% |
+| 指标 | 定义 | 目标 | 测量方法 |
+|------|------|------|---------|
+| 观察收集量 | 自动 + 手动产生的观察数 | ≥ 20 条 | 统计 .seed/observations/ |
+| Reflect 成功率 | 产生 accepted 反思数 | ≥ 3 个 | 统计 status=accepted |
+| 闭环完成数 | 观察 → 规格修改完成数 | ≥ 1 个 | 追踪 promoted → archived |
+
+### 完整 v3.0 目标（定性）
+
+| 指标 | 当前状态 | 目标状态 | 说明 |
+|------|---------|---------|------|
+| 问题发现 | 被动 | 主动 | 系统提示而非人工发现 |
+| 教训积累 | 无 | 有 | 反思形成可查记录 |
+| 闭环周期 | 无闭环 | 有闭环 | 信号 → 规格修改路径通畅 |
+| 重复问题 | 无追踪 | 可追踪 | 同类问题可关联历史 |
+
+> **注意**: 完整目标需要基线数据，Phase 2 后根据实际数据设定量化指标。
 
 ### 质性收益
 
@@ -522,12 +879,16 @@ P4: Backlog  (user_feedback + 低影响)
 
 ## 风险与缓解
 
-| 风险 | 缓解措施 |
-|------|---------|
-| 观察噪音过多 | 提供过滤和忽略机制 |
-| 用户负担增加 | 默认静默，按需查看 |
-| 自动建议不准 | 人工决策权优先，建议仅供参考 |
-| 实施复杂度 | 分阶段渐进，Phase 1 极简 |
+| 风险 | 影响 | 缓解措施 |
+|------|------|---------|
+| 观察噪音过多 | 用户疲劳 | 提供过滤和忽略机制；智能去重 |
+| 用户负担增加 | 采用率低 | 默认静默，按需查看；渐进式引导 |
+| 自动建议不准 | 信任度下降 | 人工决策权优先，建议仅供参考 |
+| 实施复杂度 | 延期交付 | 分阶段渐进，Phase 1 极简 |
+| **外部依赖缺失** | 功能受限 | L3-L4 设为可选；提供手动替代 |
+| **冷启动问题** | 无法验证 | 允许导入历史 Issue；手动 observe 先行 |
+| **存储膨胀** | 性能下降 | 观察自动归档策略；90 天后压缩 |
+| **隐私/安全** | 信息泄露 | 错误日志脱敏；敏感字段过滤 |
 
 ---
 

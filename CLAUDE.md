@@ -546,6 +546,48 @@ grep -rL "状态: archived" openspec/archive/{提案名}/specs/*.fspec.md
 
 **防御机制**: 归档后运行 `/mob-seed:defend` 验证
 
+### 16. 边开发边更新进度文档
+
+**问题**: 开发完成多个任务后才更新进度文档，导致进度不透明且容易遗漏。
+
+**正确做法**: 每完成一个任务/AC 立即更新相关进度文档：
+
+| 完成事项 | 必须更新的文档 |
+|----------|---------------|
+| AC 测试通过 | tasks.md 中对应 AC checkbox |
+| 任务完成 | tasks.md 任务状态 + 进度统计 |
+| 模块实现 | TodoWrite 任务列表 |
+| 阶段完成 | tasks.md 阶段进度条 |
+
+**更新时机（强制）**:
+
+```
+任务开始 → 更新 TodoWrite 为 in_progress
+    ↓
+AC 测试通过 → 更新 tasks.md AC checkbox
+    ↓
+任务完成 → 更新 tasks.md 任务状态 + 进度统计
+         → 更新 TodoWrite 为 completed
+```
+
+**程序化验证**:
+```bash
+# 检查 tasks.md 进度是否与实际测试结果一致
+node scripts/verify-task-progress.js
+
+# 验证内容:
+# 1. tasks.md 中标记 [x] 的 AC 是否有对应通过的测试
+# 2. tasks.md 进度百分比是否与完成的 AC 数一致
+# 3. 测试统计表是否与实际测试结果一致
+```
+
+**教训**:
+- ✅ 每个 AC 通过测试后立即更新 tasks.md
+- ✅ 使用 TodoWrite 实时跟踪当前任务状态
+- ✅ 进度透明有助于任务管理和上下文恢复
+- ❌ 禁止批量更新进度（容易遗漏）
+- ❌ 禁止只在内存中跟踪进度
+
 ## 快速开始
 
 ```bash
@@ -568,7 +610,7 @@ cd skills/mob-seed && node --test test/**/*.test.js
 ## 当前状态
 
 - **版本**: 2.1.1
-- **变更提案**: 无活跃提案
-- **模块**: 16/16 已实现
-- **测试**: 494 pass
-- **规格**: 23 个稳定规格 (openspec/specs/)
+- **变更提案**: v3.0-ace-integration (implementing, 50% Phase 1)
+- **模块**: 19/22 已实现 (新增 3 个 ACE 模块)
+- **测试**: 569 pass (原 494 + 新增 75)
+- **规格**: 23 个稳定规格 + 6 个 ACE 规格 (draft)

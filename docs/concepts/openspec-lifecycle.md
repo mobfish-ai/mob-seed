@@ -41,6 +41,74 @@ draft → review → implementing → archived
 - **操作**: 只读，不可修改
 - **下一步**: 如需修改，创建新提案
 
+## Proposal 与 fspec 状态关系
+
+一个变更提案（Proposal）包含多个规格文件（fspec），它们的状态有明确的关系：
+
+```
+Proposal 生命周期:
+┌─────────┐  --submit   ┌─────────┐  确认开始  ┌──────────────┐  归档    ┌──────────┐
+│  draft  │ ──────────→ │  review │ ─────────→ │ implementing │ ───────→ │ archived │
+└─────────┘             └─────────┘            └──────────────┘          └──────────┘
+     │                                                │
+     │                                                ↓ 触发创建
+     │                                         ┌──────────────┐
+     │                                         │  fspec 规格   │
+     │                                         └──────────────┘
+     │
+     │  fspec 生命周期（在 proposal implementing 后）:
+     │  ┌─────────┐  审核(可选)  ┌─────────┐   emit    ┌──────────────┐
+     └→ │  draft  │ ──────────→ │  review │ ────────→ │ implementing │
+        └─────────┘             └─────────┘           └──────────────┘
+              │                                              │
+              └────── 简单规格可跳过 review ─────────────────→│
+                                                             │
+                                                             ↓
+                                              fspec 随 proposal 一起归档
+```
+
+### 关键规则
+
+| 规则 | 说明 |
+|------|------|
+| **创建时机** | fspec 在 Proposal 进入 `implementing` 后创建 |
+| **初始状态** | fspec 创建时状态为 `draft` |
+| **审核可选** | 简单 fspec 可跳过 `review`，直接进入 `implementing` |
+| **同步归档** | fspec 随 Proposal 一起归档，不单独归档 |
+| **状态约束** | fspec 状态不能超越 Proposal 状态 |
+
+### 状态转换触发
+
+| 转换 | 触发方式 | 说明 |
+|------|---------|------|
+| Proposal: draft → review | `/mob-seed:spec --submit` | 提交提案审核 |
+| Proposal: review → implementing | 用户确认 | 开始实现 |
+| fspec: draft → review | 手动标记 | 复杂规格需审核 |
+| fspec: draft/review → implementing | `/mob-seed:emit` | 开始派生代码 |
+| 全部: * → archived | `/mob-seed:archive` | Proposal + fspec 一起归档 |
+
+### 典型流程示例
+
+```bash
+# 1. 创建提案 (draft)
+/mob-seed:spec create v3.0-ace-integration
+
+# 2. 编写 proposal.md，提交审核 (review)
+/mob-seed:spec --submit v3.0-ace-integration
+
+# 3. 审核通过，开始实现 (implementing)
+# 此时可以创建 fspec 规格文件
+
+# 4. 创建 fspec (draft)
+# 编辑 specs/ace/observation.fspec.md
+
+# 5. 派生代码 (fspec → implementing)
+/mob-seed:emit
+
+# 6. 测试通过后归档 (全部 → archived)
+/mob-seed:archive v3.0-ace-integration
+```
+
 ## 目录结构
 
 ```
