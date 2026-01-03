@@ -570,6 +570,10 @@ node scripts/bump-version.js --major  # 2.1.1 → 3.0.0
 
 # 预览模式
 node scripts/bump-version.js 2.1.2 --dry-run
+
+# ⭐ 发布模式（推荐）
+node scripts/bump-version.js 3.0.0 --release
+# 自动: 验证根目录 → 检查 git 状态 → 更新版本 → 暂存文件 → 显示检查清单
 ```
 
 **版本文件清单（4 个）**:
@@ -669,6 +673,66 @@ node scripts/verify-task-progress.js
 - ❌ 禁止批量更新进度（容易遗漏）
 - ❌ 禁止只在内存中跟踪进度
 
+### 17. 发布流程完整性保障
+
+> **ACE 来源**: obs-20260103-release-workflow → ref-20260103-release-workflow → pat-release-integrity
+
+**问题**: v3.0.0 发布时，版本同步脚本修改了 4 个文件，但 git commit 只提交了 1 个，导致 tag 创建后发现 3 个版本文件未提交。
+
+**根因分析**:
+1. bump-version.js 使用 `process.cwd()` 解析路径，依赖当前目录
+2. 从 `skills/mob-seed/` 执行时，相对路径解析错误
+3. 创建 tag 前未验证 git status 是否干净
+
+**解决方案（发布完整性模式）**:
+
+| 原则 | 说明 | 强制机制 |
+|------|------|----------|
+| 单一执行点 | 必须从项目根目录执行 | 脚本内置根目录验证 |
+| 原子化操作 | 版本更新和暂存作为原子操作 | `--release` 自动暂存 |
+| 强制验证 | tag 前验证 git status 干净 | 脚本检查并警告 |
+| 引导式流程 | 输出下一步操作指引 | 发布检查清单 |
+
+**发布检查清单（强制）**:
+
+```
+发布流程（必须全部完成）:
+□ 1. 确保在项目根目录: cd /path/to/mob-seed
+□ 2. 确保所有功能开发已完成并提交
+□ 3. 运行测试: cd skills/mob-seed && node --test test/**/*.test.js
+□ 4. 使用发布模式更新版本:
+       node scripts/bump-version.js X.Y.Z --release
+□ 5. 检查 git status（应只有版本文件变更）
+□ 6. 提交版本更改:
+       git commit -m "chore(release): vX.Y.Z"
+□ 7. 验证 git status 干净（无未提交文件）
+□ 8. 创建 tag:
+       git tag -a vX.Y.Z -m "Release vX.Y.Z"
+□ 9. 推送到远程:
+       git push origin main && git push origin vX.Y.Z
+```
+
+**防御机制**:
+```bash
+# 使用 --release 模式自动执行前 4 步验证
+node scripts/bump-version.js 3.0.0 --release
+
+# 脚本会自动:
+# 1. 验证在项目根目录
+# 2. 检查 git 状态（警告未提交更改）
+# 3. 更新所有 4 个版本文件
+# 4. 自动 git add 所有版本文件
+# 5. 输出发布检查清单
+```
+
+**教训**:
+- ✅ 多文件操作必须原子化，通过工具强制而非依赖人工记忆
+- ✅ 发布脚本必须从项目根目录执行
+- ✅ 创建 tag 前必须验证 git status 干净
+- ❌ 禁止从子目录执行根目录脚本
+- ❌ 禁止手动 git add 部分文件
+- ❌ 禁止跳过 git status 检查直接创建 tag
+
 ## 快速开始
 
 ```bash
@@ -691,7 +755,8 @@ cd skills/mob-seed && node --test test/**/*.test.js
 ## 当前状态
 
 - **版本**: 3.0.0
-- **变更提案**: v3.0-ace-integration (implementing, 100%)
+- **变更提案**: 无活跃提案
 - **模块**: 27 个已实现 (ACE: observation, reflection, ace/*, spec/*)
 - **测试**: 1029 pass
-- **规格**: 23 + 16 ACE 规格 = 39 个规格
+- **规格**: 39 个稳定规格 (openspec/specs/)
+- **ACE 状态**: 已初始化，首个模式已提取 (pat-release-integrity)

@@ -1,13 +1,13 @@
 {
   "version": "1.0.0",
   "created": "2026-01-03T00:00:00+08:00",
-  "updated": "2026-01-03T13:00:00+08:00",
+  "updated": "2026-01-03T14:00:00+08:00",
   "stats": {
     "total": 1,
     "by_status": {
-      "raw": 1,
+      "raw": 0,
       "triaged": 0,
-      "promoted": 0,
+      "promoted": 1,
       "ignored": 0
     },
     "by_type": {
@@ -21,9 +21,10 @@
     {
       "id": "obs-20260103-release-workflow",
       "type": "user_feedback",
-      "status": "raw",
+      "status": "promoted",
       "created": "2026-01-03T13:00:00+08:00",
-      "summary": "发布流程版本文件提交不完整"
+      "summary": "发布流程版本文件提交不完整",
+      "promoted_to": "ref-20260103-release-workflow"
     }
   ]
 }

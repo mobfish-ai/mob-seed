@@ -1,0 +1,50 @@
+{
+  "id": "ref-20260103-release-workflow",
+  "status": "approved",
+  "created": "2026-01-03T14:00:00+08:00",
+  "updated": "2026-01-03T14:00:00+08:00",
+  "source_observations": ["obs-20260103-release-workflow"],
+  "title": "发布流程完整性保障",
+  "analysis": {
+    "problem_category": "workflow_integrity",
+    "root_causes": [
+      "脚本与执行环境耦合：bump-version.js 使用 process.cwd() 解析路径，依赖当前目录",
+      "多文件修改未原子化：4 个版本文件分别修改，但提交时可能遗漏",
+      "发布流程无强制检查：tag 创建前没有验证 git status 是否干净"
+    ],
+    "impact": "发布的版本号与 tag 不一致，可能导致用户安装错误版本",
+    "frequency": "每次发布都可能发生"
+  },
+  "pattern": {
+    "id": "pat-release-integrity",
+    "name": "发布完整性模式 (Release Integrity Pattern)",
+    "description": "确保发布版本包含所有预期修改，通过工具化和流程强制实现",
+    "principles": [
+      "单一执行点：发布脚本必须从项目根目录执行",
+      "原子化操作：版本更新和暂存应作为原子操作",
+      "强制验证：创建 tag 前必须验证 git status 干净",
+      "引导式流程：脚本输出下一步操作指引"
+    ],
+    "anti_patterns": [
+      "从子目录执行根目录脚本",
+      "手动 git add 部分文件",
+      "跳过 git status 检查直接创建 tag"
+    ]
+  },
+  "resolution": {
+    "approach": "工具增强 + 流程规范",
+    "changes_made": [
+      {
+        "file": "scripts/bump-version.js",
+        "description": "添加 --release 模式，包含根目录验证、状态检查、自动暂存、发布清单"
+      }
+    ],
+    "validation": "使用 --release --dry-run 验证流程正确性"
+  },
+  "learning": {
+    "category": "workflow_automation",
+    "insight": "多文件操作必须原子化，通过工具强制而非依赖人工记忆",
+    "applicable_to": ["release", "migration", "refactoring"],
+    "promote_to_pattern": true
+  }
+}

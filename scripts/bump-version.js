@@ -10,12 +10,15 @@
  *   node scripts/bump-version.js --minor        # 递增 minor 版本
  *   node scripts/bump-version.js --major        # 递增 major 版本
  *   node scripts/bump-version.js 2.1.0 --dry-run  # 预览模式
+ *   node scripts/bump-version.js 2.1.0 --stage    # 更新后自动 git add
+ *   node scripts/bump-version.js 2.1.0 --release  # 完整发布流程
  */
 
 'use strict';
 
 const fs = require('fs');
 const path = require('path');
+const { execFileSync } = require('child_process');
 
 // 版本文件配置
 const VERSION_FILES = [
@@ -31,8 +34,91 @@ const colors = {
   green: (s) => `\x1b[32m${s}\x1b[0m`,
   yellow: (s) => `\x1b[33m${s}\x1b[0m`,
   blue: (s) => `\x1b[34m${s}\x1b[0m`,
-  gray: (s) => `\x1b[90m${s}\x1b[0m`
+  gray: (s) => `\x1b[90m${s}\x1b[0m`,
+  bold: (s) => `\x1b[1m${s}\x1b[0m`
 };
+
+/**
+ * 验证当前目录是项目根目录
+ * @returns {{valid: boolean, message: string}}
+ */
+function validateProjectRoot() {
+  const cwd = process.cwd();
+  const packageJsonPath = path.join(cwd, 'package.json');
+  const seedConfigPath = path.join(cwd, '.seed', 'config.json');
+
+  if (!fs.existsSync(packageJsonPath)) {
+    return {
+      valid: false,
+      message: `Not in project root: package.json not found in ${cwd}`
+    };
+  }
+
+  if (!fs.existsSync(seedConfigPath)) {
+    return {
+      valid: false,
+      message: `Not in project root: .seed/config.json not found in ${cwd}`
+    };
+  }
+
+  return { valid: true, message: 'Project root validated' };
+}
+
+/**
+ * 检查 Git 工作目录状态
+ * @returns {{clean: boolean, staged: string[], modified: string[], untracked: string[]}}
+ */
+function checkGitStatus() {
+  try {
+    const status = execFileSync('git', ['status', '--porcelain'], { encoding: 'utf8' });
+    const lines = status.trim().split('\n').filter(Boolean);
+
+    const staged = [];
+    const modified = [];
+    const untracked = [];
+
+    for (const line of lines) {
+      const indexStatus = line[0];
+      const workTreeStatus = line[1];
+      const file = line.slice(3);
+
+      if (indexStatus !== ' ' && indexStatus !== '?') {
+        staged.push(file);
+      }
+      if (workTreeStatus === 'M' || workTreeStatus === 'D') {
+        modified.push(file);
+      }
+      if (indexStatus === '?') {
+        untracked.push(file);
+      }
+    }
+
+    return {
+      clean: lines.length === 0,
+      staged,
+      modified,
+      untracked
+    };
+  } catch (error) {
+    return { clean: false, staged: [], modified: [], untracked: [], error: error.message };
+  }
+}
+
+/**
+ * Git add 指定文件
+ * @param {string[]} files - 文件路径列表
+ * @returns {{success: boolean, error?: string}}
+ */
+function gitAddFiles(files) {
+  try {
+    for (const file of files) {
+      execFileSync('git', ['add', file], { encoding: 'utf8' });
+    }
+    return { success: true };
+  } catch (error) {
+    return { success: false, error: error.message };
+  }
+}
 
 /**
  * 验证 semver 格式
@@ -257,9 +343,37 @@ function main() {
   const incrementPatch = args.includes('--patch');
   const incrementMinor = args.includes('--minor');
   const incrementMajor = args.includes('--major');
+  const autoStage = args.includes('--stage') || args.includes('--release');
+  const releaseMode = args.includes('--release');
 
   // 获取版本参数
   const versionArg = args.find(arg => !arg.startsWith('--'));
+
+  // 验证项目根目录
+  const rootCheck = validateProjectRoot();
+  if (!rootCheck.valid) {
+    console.error(colors.red(`✗ ${rootCheck.message}`));
+    console.error(colors.yellow('  请从项目根目录运行: cd /path/to/mob-seed && node scripts/bump-version.js'));
+    process.exit(1);
+  }
+
+  // 发布模式：检查 Git 状态
+  if (releaseMode) {
+    console.log(colors.bold('\n🚀 发布模式 (Release Mode)\n'));
+
+    const gitStatus = checkGitStatus();
+    if (!gitStatus.clean) {
+      console.log(colors.yellow('⚠️  检测到未提交的更改:'));
+      if (gitStatus.modified.length > 0) {
+        console.log(colors.gray(`   修改: ${gitStatus.modified.join(', ')}`));
+      }
+      if (gitStatus.untracked.length > 0) {
+        console.log(colors.gray(`   未跟踪: ${gitStatus.untracked.join(', ')}`));
+      }
+      console.log(colors.yellow('\n   建议: 先提交或暂存这些更改，确保发布版本包含所有预期修改'));
+      console.log(colors.gray('   继续执行版本更新...\n'));
+    }
+  }
 
   // 检查模式
   if (checkOnly) {
@@ -315,11 +429,14 @@ Usage:
 Options:
   --dry-run    Preview changes without modifying files
   --check      Only check consistency, don't modify
+  --stage      Auto git-add version files after update
+  --release    Full release mode: check status, update, stage, show checklist
 
 Examples:
   node scripts/bump-version.js 2.1.0
   node scripts/bump-version.js v2.1.0 --dry-run
   node scripts/bump-version.js --patch
+  node scripts/bump-version.js 3.0.0 --release   # Recommended for releases
 `);
 
     // 显示当前状态
@@ -349,6 +466,38 @@ Examples:
       console.log(colors.yellow('ℹ Dry run complete. No files were modified.'));
     } else {
       console.log(colors.green(`✓ All versions updated to ${newVersion}`));
+
+      // 自动暂存版本文件
+      if (autoStage) {
+        const filesToStage = VERSION_FILES.map(f => f.path);
+        console.log(colors.blue('\n📦 Auto-staging version files...'));
+
+        const stageResult = gitAddFiles(filesToStage);
+        if (stageResult.success) {
+          console.log(colors.green('✓ All version files staged'));
+          for (const file of filesToStage) {
+            console.log(colors.gray(`   git add ${file}`));
+          }
+        } else {
+          console.log(colors.red(`✗ Failed to stage files: ${stageResult.error}`));
+        }
+      }
+
+      // 发布模式：显示下一步指引
+      if (releaseMode) {
+        console.log(colors.bold('\n📋 发布检查清单:\n'));
+        console.log('  1. ' + colors.green('[已完成]') + ' 版本号已同步到所有文件');
+        console.log('  2. ' + colors.green('[已完成]') + ' 版本文件已暂存 (git add)');
+        console.log('  3. ' + colors.yellow('[待执行]') + ' 提交更改:');
+        console.log(colors.gray(`     git commit -m "chore(release): v${newVersion}"`));
+        console.log('  4. ' + colors.yellow('[待执行]') + ' 验证 git status 干净');
+        console.log('  5. ' + colors.yellow('[待执行]') + ' 创建标签:');
+        console.log(colors.gray(`     git tag -a v${newVersion} -m "Release v${newVersion}"`));
+        console.log('  6. ' + colors.yellow('[待执行]') + ' 推送到远程:');
+        console.log(colors.gray(`     git push origin main && git push origin v${newVersion}`));
+        console.log();
+        console.log(colors.yellow('⚠️  重要: 创建 tag 前必须确保 git status 干净，所有修改已提交!'));
+      }
     }
     process.exit(0);
   } else {
@@ -367,6 +516,9 @@ module.exports = {
   readAllVersions,
   checkConsistency,
   updateAllVersions,
+  validateProjectRoot,
+  checkGitStatus,
+  gitAddFiles,
   VERSION_FILES
 };
 
