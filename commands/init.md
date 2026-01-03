@@ -65,31 +65,67 @@ project/
 ```
 
 **执行操作**：
+
+#### 1.1 智能检测项目结构
+
+运行智能检测脚本：
+```bash
+node .claude/skills/mob-seed/scripts/detect-project.js . --config > /tmp/mob-seed-detected-config.json
+node .claude/skills/mob-seed/scripts/detect-project.js . --project-md > /tmp/mob-seed-detected-project.md
+```
+
+**说明**：
+- 自动检测项目的 `src/`, `test/`, `docs/` 目录位置
+- 从 `package.json` 提取项目信息（名称、描述、技术栈）
+- 生成适配当前项目的配置和文档
+
+#### 1.2 创建目录结构
+
 1. 创建 `openspec/specs/` 目录
 2. 创建 `openspec/changes/` 目录
-3. 复制 `project.md` 模板到 `openspec/project.md`
-4. 复制 `AGENTS.md` 模板到 `openspec/AGENTS.md`
-5. 生成 `.seed/config.json`
-6. 复制 `mission.md` 模板到 `.seed/mission.md`（替换 `{{TIMESTAMP}}` 为当前时间）
+
+#### 1.3 复制和生成配置文件
+
+3. **AGENTS.md**: 复制模板 `.claude/skills/mob-seed/templates/openspec/AGENTS.md` 到 `openspec/AGENTS.md`
+4. **project.md**: 使用检测生成的内容（`/tmp/mob-seed-detected-project.md`）写入 `openspec/project.md`
+5. **config.json**: 使用检测生成的配置（`/tmp/mob-seed-detected-config.json`）写入 `.seed/config.json`
+6. **mission.md**: 复制模板 `.claude/skills/mob-seed/templates/openspec/mission.yaml` 到 `.seed/mission.md`
+   - ⚠️ **重要**: 使用 `templates/openspec/mission.yaml`，**不是** mob-seed 自己的 `.seed/mission.md`
+   - 替换 `{{TIMESTAMP}}` 为当前 ISO 时间戳
 
 **输出**：
 ```
+🔍 检测项目结构...
+   ✓ 检测到 src 目录: server/
+   ✓ 检测到 test 目录: test/
+   ✓ 从 package.json 提取项目信息
+   ✓ 检测技术栈: Node.js, Express
+
 ✅ OpenSpec 结构已创建
 
 openspec/
 ├── specs/          # 真相源（已实现的规格）
 ├── changes/        # 变更提案
-├── project.md      # 项目约定
+├── project.md      # 项目约定（已自动填充）
 └── AGENTS.md       # AI 工作流
 
 .seed/
-├── config.json     # SEED 配置
-└── mission.md    # 项目使命声明
+├── config.json     # SEED 配置（已适配项目结构）
+└── mission.md      # 项目使命声明模板（待填写）
+
+📋 生成的配置:
+{
+  "paths": {
+    "src": "server",      ← 自动检测
+    "test": "test",
+    "docs": "docs"
+  }
+}
 
 下一步:
 1. 编辑 .seed/mission.md 定义项目使命和原则
-2. 编辑 openspec/project.md 填写项目信息
-3. 创建规格提案: /mob-seed:spec --proposal "feature-name"
+2. 检查 openspec/project.md（已自动填充基本信息）
+3. 创建规格提案: /mob-seed:spec "feature-name"
 4. 查看状态: /mob-seed:seed
 ```
 

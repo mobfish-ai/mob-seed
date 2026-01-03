@@ -673,7 +673,63 @@ node scripts/verify-task-progress.js
 - ❌ 禁止批量更新进度（容易遗漏）
 - ❌ 禁止只在内存中跟踪进度
 
-### 17. 发布流程完整性保障
+### 17. init 命令必须智能检测项目结构
+
+> **ACE 来源**: obs-20260103-init-improvements
+
+**问题**: 在 mars-nexus 项目初始化时发现三个问题：
+1. `.seed/mission.md` 被填充为 mob-seed 自己的 mission
+2. `.seed/config.json` 路径配置硬编码（src 应该是 server）
+3. `openspec/project.md` 使用空模板，需要手动填写所有信息
+
+**根因分析**:
+- 命令文档未明确指定应使用通用模板而非 mob-seed 自己的 mission
+- 未实现项目结构智能检测，直接使用硬编码默认值
+- 未实现从 package.json 提取信息自动填充 project.md
+
+**解决方案**:
+1. 创建 `scripts/detect-project.js` 智能检测脚本：
+   - 检测 src/test/docs 目录位置（支持多种命名）
+   - 从 package.json 提取项目信息和技术栈
+   - 自动生成 config.json 和 project.md 内容
+
+2. 更新 `commands/init.md` 流程：
+   - 步骤1.1: 运行智能检测脚本
+   - 步骤1.3: 使用检测结果生成配置
+   - 明确指定使用 `templates/openspec/mission.yaml` 而非 mob-seed mission
+
+**检测脚本特性**:
+```bash
+# 检测目录候选列表
+src:  [src, lib, server, app, source, code]
+test: [test, tests, __tests__, spec, specs]
+docs: [docs, documentation, doc, documents]
+
+# 自动提取信息
+- package.json: 名称、描述、版本、仓库、技术栈
+- 技术栈: 语言、框架、测试框架、构建工具
+```
+
+**教训**:
+- ✅ init 命令必须智能检测，不能假设项目结构
+- ✅ 模板选择必须明确，避免复制错误内容
+- ✅ 能自动填充的信息就不要让用户手动填写
+- ❌ 禁止硬编码项目路径默认值（src/test/docs）
+- ❌ 禁止复制 mob-seed 自己的配置到用户项目
+
+**验证命令**:
+```bash
+# 测试检测脚本
+node .claude/skills/mob-seed/scripts/detect-project.js .
+
+# 检查生成的配置
+node .claude/skills/mob-seed/scripts/detect-project.js . --config
+
+# 检查生成的 project.md
+node .claude/skills/mob-seed/scripts/detect-project.js . --project-md
+```
+
+### 18. 发布流程完整性保障
 
 > **ACE 来源**: obs-20260103-release-workflow → ref-20260103-release-workflow → pat-release-integrity
 
