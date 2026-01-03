@@ -714,8 +714,11 @@ docs: [docs, documentation, doc, documents]
 - ✅ init 命令必须智能检测，不能假设项目结构
 - ✅ 模板选择必须明确，避免复制错误内容
 - ✅ 能自动填充的信息就不要让用户手动填写
+- ✅ **直接使用检测脚本的输出文件**（`cat /tmp/xxx.json > .seed/config.json`）
 - ❌ 禁止硬编码项目路径默认值（src/test/docs）
 - ❌ 禁止复制 mob-seed 自己的配置到用户项目
+- ❌ **禁止手动解析检测脚本的 JSON 再重新构造配置**（易被 CLAUDE.md 误导）
+- ❌ **禁止读取 CLAUDE.md 中的路径配置来覆盖检测结果**
 
 **验证命令**:
 ```bash

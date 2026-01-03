@@ -86,12 +86,34 @@ node .claude/skills/mob-seed/scripts/detect-project.js . --project-md > /tmp/mob
 
 #### 1.3 复制和生成配置文件
 
-3. **AGENTS.md**: 复制模板 `.claude/skills/mob-seed/templates/openspec/AGENTS.md` 到 `openspec/AGENTS.md`
-4. **project.md**: 使用检测生成的内容（`/tmp/mob-seed-detected-project.md`）写入 `openspec/project.md`
-5. **config.json**: 使用检测生成的配置（`/tmp/mob-seed-detected-config.json`）写入 `.seed/config.json`
-6. **mission.md**: 复制模板 `.claude/skills/mob-seed/templates/openspec/mission.yaml` 到 `.seed/mission.md`
+> **⚠️ 关键原则**: 直接使用检测脚本的输出文件，**禁止**手动解析或重构配置
+
+3. **AGENTS.md**:
+   ```bash
+   cp .claude/skills/mob-seed/templates/openspec/AGENTS.md openspec/AGENTS.md
+   ```
+
+4. **project.md**: 直接使用检测脚本生成的文件
+   ```bash
+   cat /tmp/mob-seed-detected-project.md > openspec/project.md
+   ```
+
+5. **config.json**: 直接使用检测脚本生成的 JSON
+   ```bash
+   mkdir -p .seed
+   cat /tmp/mob-seed-detected-config.json > .seed/config.json
+   ```
+   - ✅ **强制使用检测结果**，避免被 CLAUDE.md 或其他因素误导
+   - ❌ **禁止手动解析** `/tmp/mob-seed-detected-config.json` 再重新构造
+   - ❌ **禁止读取** CLAUDE.md 中的路径配置
+
+6. **mission.md**: 复制模板并替换时间戳
+   ```bash
+   cp .claude/skills/mob-seed/templates/openspec/mission.yaml .seed/mission.md
+   # 替换 {{TIMESTAMP}} 为当前 ISO 时间戳
+   sed -i '' "s/{{TIMESTAMP}}/$(date -u +%Y-%m-%dT%H:%M:%SZ)/" .seed/mission.md
+   ```
    - ⚠️ **重要**: 使用 `templates/openspec/mission.yaml`，**不是** mob-seed 自己的 `.seed/mission.md`
-   - 替换 `{{TIMESTAMP}}` 为当前 ISO 时间戳
 
 **输出**：
 ```
