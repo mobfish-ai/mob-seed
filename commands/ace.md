@@ -61,8 +61,8 @@ const observation = {
   suggestions: generateSuggestions()
 };
 
-writeJson(`.seed/observations/${observation.id}.json`, observation);
-updateIndex('.seed/observations/index.json');
+saveObservation(projectRoot, observation);  // 保存为 .md 格式（YAML frontmatter + Markdown）
+updateIndex('.seed/observations/index.json');  // 索引仍为 JSON 格式
 
 // 仅在重要观察时简短通知用户
 console.log(`💡 ACE: 已记录观察 ${observation.id}`);

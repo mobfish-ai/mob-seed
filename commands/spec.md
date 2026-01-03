@@ -90,6 +90,32 @@ fi
 3. 根据用户需求填充模板
 4. 输出到：`{config.paths.specs}/{name}.fspec.md`
 
+**OpenSpec 提案完整性检查** (自动执行):
+
+在 OpenSpec 模式下创建变更提案时，**必须**自动创建以下完整结构：
+
+```
+openspec/changes/{proposal-name}/
+├── proposal.md    # 提案文档 ✅ 必需
+├── tasks.md       # 任务清单 ✅ 必需 (自动创建)
+└── specs/         # 规格目录
+    └── *.fspec.md # 规格文件
+```
+
+**tasks.md 自动创建**：
+```javascript
+// 使用代码生成（与 triage-handler.js 的 generateTasksContent 一致）
+const tasksContent = generateTasksContent(proposalName, 'draft');
+fs.writeFileSync(path.join(proposalDir, 'tasks.md'), tasksContent);
+```
+
+**完整性验证输出**：
+```
+✅ proposal.md 已创建
+✅ tasks.md 已创建 (自动)
+📝 下一步: 创建 specs/*.fspec.md 规格文件
+```
+
 #### 2.2 验证模式 (--validate)
 
 1. 读取验证指导：`$SKILL_DIR/prompts/spec-validate.md`
@@ -122,10 +148,21 @@ fi
    }
    ```
 
-2. 验证提交前检查：
+2. 验证提交前检查（提案完整性）：
    - [ ] proposal.md 存在且完整
+   - [ ] tasks.md 存在且包含必需阶段（规格定义、实现、验证、归档）
    - [ ] 至少有一个 .fspec.md 规格文件
    - [ ] 所有规格通过基础验证
+
+   **tasks.md 缺失时自动创建**：
+   ```javascript
+   if (!fs.existsSync(path.join(proposalDir, 'tasks.md'))) {
+     console.warn('⚠️ tasks.md 缺失，自动创建...');
+     const tasksContent = generateTasksFromProposal(proposal, specs);
+     fs.writeFileSync(path.join(proposalDir, 'tasks.md'), tasksContent);
+     console.log('✅ tasks.md 已补充');
+   }
+   ```
 
 3. 更新状态：
    ```javascript

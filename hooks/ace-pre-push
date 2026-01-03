@@ -1,0 +1,102 @@
+#!/bin/bash
+# ACE Pre-Push Hook
+# 检查反思阈值，建议在推送前进行反思分析
+# 安装: cp hooks/ace-pre-push .git/hooks/pre-push && chmod +x .git/hooks/pre-push
+
+set -e
+
+# 颜色定义
+YELLOW='\033[1;33m'
+GREEN='\033[0;32m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+# 检查 .seed 目录是否存在
+if [ ! -d ".seed" ]; then
+    # 非 SEED 项目，跳过检查
+    exit 0
+fi
+
+# 检查 observations 目录
+OBSERVATIONS_DIR=".seed/observations"
+if [ ! -d "$OBSERVATIONS_DIR" ]; then
+    exit 0
+fi
+
+# 检查反思阈值
+check_threshold() {
+    node -e "
+        const fs = require('fs');
+        const path = require('path');
+
+        try {
+            // 加载配置
+            const configPath = '.seed/config.json';
+            if (!fs.existsSync(configPath)) {
+                process.exit(0);
+            }
+
+            const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+            const threshold = config.ace?.reflect?.thresholds?.same_type || 3;
+
+            // 加载观察索引
+            const indexPath = '$OBSERVATIONS_DIR/index.json';
+            if (!fs.existsSync(indexPath)) {
+                process.exit(0);
+            }
+
+            const index = JSON.parse(fs.readFileSync(indexPath, 'utf8'));
+            const observations = index.observations || [];
+
+            // 统计各类型的 raw 观察数量
+            const typeCounts = {};
+            observations
+                .filter(o => o.status === 'raw')
+                .forEach(o => {
+                    typeCounts[o.type] = (typeCounts[o.type] || 0) + 1;
+                });
+
+            // 检查是否有类型超过阈值
+            const exceeds = Object.entries(typeCounts)
+                .filter(([type, count]) => count >= threshold);
+
+            if (exceeds.length > 0) {
+                console.log(JSON.stringify({
+                    shouldReflect: true,
+                    exceeds: exceeds,
+                    threshold: threshold
+                }));
+            } else {
+                console.log(JSON.stringify({ shouldReflect: false }));
+            }
+        } catch (e) {
+            console.log(JSON.stringify({ shouldReflect: false }));
+        }
+    " 2>/dev/null
+}
+
+RESULT=$(check_threshold)
+SHOULD_REFLECT=$(echo "$RESULT" | node -e "const r=JSON.parse(require('fs').readFileSync(0,'utf8'));console.log(r.shouldReflect)" 2>/dev/null || echo "false")
+
+if [ "$SHOULD_REFLECT" = "true" ]; then
+    echo -e "${YELLOW}⚠️  ACE: 达到反思阈值${NC}"
+    echo ""
+
+    # 解析并显示详情
+    echo "$RESULT" | node -e "
+        const r = JSON.parse(require('fs').readFileSync(0, 'utf8'));
+        if (r.exceeds) {
+            r.exceeds.forEach(([type, count]) => {
+                console.log('   - ' + type + ': ' + count + ' 条 (阈值: ' + r.threshold + ')');
+            });
+        }
+    " 2>/dev/null
+
+    echo ""
+    echo -e "${BLUE}   建议: 运行 /mob-seed ace reflect 进行反思分析${NC}"
+    echo "   这将帮助提取可复用模式，减少未来类似问题"
+    echo ""
+fi
+
+# 不阻止推送，只是建议
+exit 0

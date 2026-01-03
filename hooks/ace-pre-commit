@@ -1,0 +1,48 @@
+#!/bin/bash
+# ACE Pre-Commit Hook
+# 检查 ACE 观察状态，提醒未处理的重要观察
+# 安装: cp hooks/ace-pre-commit .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
+
+set -e
+
+# 颜色定义
+YELLOW='\033[1;33m'
+GREEN='\033[0;32m'
+NC='\033[0m' # No Color
+
+# 检查 .seed 目录是否存在
+if [ ! -d ".seed" ]; then
+    # 非 SEED 项目，跳过检查
+    exit 0
+fi
+
+# 检查 observations 目录
+OBSERVATIONS_DIR=".seed/observations"
+if [ ! -d "$OBSERVATIONS_DIR" ]; then
+    exit 0
+fi
+
+# 统计 raw 状态的观察数量
+RAW_COUNT=0
+if [ -f "$OBSERVATIONS_DIR/index.json" ]; then
+    RAW_COUNT=$(node -e "
+        const fs = require('fs');
+        try {
+            const index = JSON.parse(fs.readFileSync('$OBSERVATIONS_DIR/index.json', 'utf8'));
+            const raw = (index.observations || []).filter(o => o.status === 'raw').length;
+            console.log(raw);
+        } catch (e) {
+            console.log(0);
+        }
+    " 2>/dev/null || echo "0")
+fi
+
+# 如果有未处理的观察，显示警告
+if [ "$RAW_COUNT" -gt 0 ]; then
+    echo -e "${YELLOW}⚠️  ACE: ${RAW_COUNT} 条待处理观察${NC}"
+    echo "   运行 /mob-seed ace 查看详情"
+    echo ""
+fi
+
+# 不阻止提交，只是提醒
+exit 0

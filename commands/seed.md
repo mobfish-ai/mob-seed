@@ -11,10 +11,10 @@ argument-hint: [subcommand] [options]
 
 ---
 
-## SEED 方法论
+## SEED 方法论 + ACE 自演化
 
-> **口诀**: Single 定单源，Emit 自派生，Execute 自动跑，Defend 守规范。
-> **理念**: 一粒种子，一棵大树，全自动生长。
+> **口诀**: Single 定单源，Emit 自派生，Execute 自动跑，Defend 守规范，**ACE 自演化**。
+> **理念**: 一粒种子，一棵大树，全自动生长，**持续进化**。
 
 | 阶段 | 原则 | 说明 |
 |------|------|------|
@@ -22,6 +22,7 @@ argument-hint: [subcommand] [options]
 | **E** | Emit | 所有产物自动派生 |
 | **E** | Execute | CI/CD 自动执行 |
 | **D** | Defend | 守护规范，防御手动干预 |
+| **A** | ACE | 系统从经验中学习，持续进化 |
 
 ---
 
@@ -67,6 +68,60 @@ argument-hint: [subcommand] [options]
 ```javascript
 const config = loadSeedConfig();
 ```
+
+### 步骤 0.5: ACE 对话拦截（自动）
+
+> **ACE 自演化机制**：此步骤自动执行，无需用户干预。
+> 分析用户输入，检测问题反馈和重复模式，自动创建观察。
+
+```javascript
+// 分析用户输入（$ARGUMENTS 或对话上下文）
+const userInput = "$ARGUMENTS" || context.lastUserMessage;
+
+// 关键词检测
+const patterns = {
+  repeat: /又|再次|还是|老是|总是/,
+  problem: /问题|错误|bug|失败|不对|不行/,
+  frustration: /为什么|怎么回事|搞不懂/
+};
+
+// 检测重复模式
+if (patterns.repeat.test(userInput)) {
+  createObservation({
+    type: 'pattern_detected',
+    source: 'conversation',
+    description: `检测到重复问题关键词: "${userInput}"`,
+    context: { trigger: 'repeat_keyword' }
+  });
+  console.log('💡 ACE: 已记录重复模式');
+}
+
+// 检测问题反馈
+if (patterns.problem.test(userInput)) {
+  createObservation({
+    type: 'user_feedback',
+    source: 'conversation',
+    description: `用户报告问题: "${userInput}"`,
+    context: { trigger: 'problem_keyword' }
+  });
+  console.log('💡 ACE: 已记录反馈');
+}
+
+// 检查反思阈值
+const threshold = checkReflectionThreshold();
+if (threshold.shouldReflect) {
+  console.log(`💡 ACE: 同类问题已出现 ${threshold.count} 次`);
+  console.log('   建议: 运行 /mob-seed ace reflect 进行反思分析');
+}
+```
+
+**触发规则**：
+
+| 关键词 | 观察类型 | 说明 |
+|--------|----------|------|
+| 又/再次/还是 | pattern_detected | 重复问题模式 |
+| 问题/错误/bug | user_feedback | 用户反馈 |
+| 为什么/搞不懂 | user_feedback | 困惑反馈 |
 
 ### 步骤 1: 解析参数
 

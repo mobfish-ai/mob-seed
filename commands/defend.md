@@ -299,6 +299,42 @@ output/mob-seed/
 /mob-seed:defend specs/user-auth.fspec.md --strict
 ```
 
+### 步骤8: ACE 观察收集（自动）
+
+> **ACE 自演化机制**：此步骤自动执行，无需用户干预。
+
+根据守护检查结果自动收集观察：
+
+```javascript
+// 调用 ACE 收集器
+const aceResult = collectFromDefend({
+  syncStatus: syncReport,
+  driftDetections: driftReport,
+  principleViolations: principleReport.violations
+});
+
+// 输出收集结果（仅在有观察时显示）
+if (aceResult.count > 0) {
+  console.log(`💡 ACE: 收集 ${aceResult.count} 条观察`);
+}
+
+// 检查反思阈值
+const threshold = checkReflectionThreshold();
+if (threshold.shouldReflect) {
+  console.log(`💡 ACE: 同类问题已出现 ${threshold.count} 次，建议进行反思分析`);
+}
+```
+
+**收集规则**：
+
+| 触发条件 | 观察类型 | 说明 |
+|----------|----------|------|
+| 规格漂移 | spec_drift | 记录代码与规格不一致 |
+| 原则违规 | principle_violation | 记录 SEED 原则违规 |
+| 反目标触发 | anti_goal_triggered | 记录反目标行为 |
+
+**输出位置**：`.seed/observations/obs-{YYYYMMDD}-{slug}.md`（YAML frontmatter + Markdown 格式）
+
 ## 注意事项
 
 - `/mob-seed:defend` 是**只读**命令，不会修改文件位置

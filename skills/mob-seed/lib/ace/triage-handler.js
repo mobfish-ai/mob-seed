@@ -378,6 +378,10 @@ function promoteToProposal(projectRoot, obs, priority, note) {
   const proposalContent = generateProposalContent(obs, proposalName, priority, note);
   fs.writeFileSync(path.join(proposalDir, 'proposal.md'), proposalContent);
 
+  // 自动创建 tasks.md（防止遗漏）
+  const tasksContent = generateTasksContent(obs, proposalName);
+  fs.writeFileSync(path.join(proposalDir, 'tasks.md'), tasksContent);
+
   // AC-011: 更新观察状态为 promoted
   // 状态机要求：raw → triaged → promoted
   let current = obs;
@@ -467,6 +471,59 @@ function generateProposalContent(obs, proposalName, priority, note) {
     `- 观察来源: ${obs.source}`,
     ''
   );
+
+  return lines.join('\n');
+}
+
+/**
+ * 生成任务清单内容（自动创建 tasks.md）
+ * @param {Object} obs - 观察对象
+ * @param {string} proposalName - 提案名称
+ * @returns {string} 任务清单内容
+ */
+function generateTasksContent(obs, proposalName) {
+  const dateStr = new Date().toISOString().split('T')[0];
+  const description = obs.description || proposalName;
+
+  const lines = [
+    `# ${description} - 任务清单`,
+    '',
+    '> 状态: draft',
+    `> 创建: ${dateStr}`,
+    '',
+    '## 任务列表',
+    '',
+    '### 规格定义阶段',
+    '',
+    '- [x] 创建 proposal.md 提案',
+    '- [x] 创建 tasks.md 任务清单',
+    '- [ ] 创建规格文件 (*.fspec.md)',
+    '',
+    '### 实现阶段',
+    '',
+    '- [ ] 根据规格派生代码',
+    '- [ ] 实现核心功能',
+    '',
+    '### 验证阶段',
+    '',
+    '- [ ] 运行测试验证所有 AC',
+    '- [ ] 端到端测试',
+    '',
+    '### 归档阶段',
+    '',
+    '- [ ] 运行 /mob-seed:defend 检查同步',
+    '- [ ] 运行 /mob-seed:archive 归档提案',
+    '',
+    '## 进度追踪',
+    '',
+    '| 阶段 | 完成 | 总数 | 进度 |',
+    '|------|------|------|------|',
+    '| 规格 | 2 | 3 | 67% |',
+    '| 实现 | 0 | 2 | 0% |',
+    '| 验证 | 0 | 2 | 0% |',
+    '| 归档 | 0 | 2 | 0% |',
+    ''
+  ];
 
   return lines.join('\n');
 }
@@ -689,6 +746,7 @@ module.exports = {
   promoteToProposal,
   generateProposalName,
   generateProposalContent,
+  generateTasksContent,
 
   // 决策执行
   executeTriageDecision,

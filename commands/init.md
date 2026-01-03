@@ -93,7 +93,96 @@ openspec/
 4. 查看状态: /mob-seed:seed
 ```
 
-### 步骤2: 保存配置并完成
+### 步骤2: 创建 ACE 自演化目录（自动）
+
+> **ACE 自演化机制**：此步骤自动执行，确保项目从一开始就具备自演进能力。
+
+创建 ACE 观察目录结构：
+
+```
+.seed/
+├── observations/                # ACE 观察存储
+│   ├── index.json               # 观察索引（JSON 格式）
+│   └── obs-*.md                 # 观察文件（YAML frontmatter + Markdown）
+└── config.json                  # 包含 ACE 配置
+```
+
+**执行操作**：
+1. 创建 `.seed/observations/` 目录
+2. 初始化 `.seed/observations/index.json`：
+```json
+{
+  "version": "1.0.0",
+  "created": "ISO时间戳",
+  "observations": []
+}
+```
+4. 在 `config.json` 中添加 ACE 配置：
+```json
+{
+  "ace": {
+    "enabled": true,
+    "reflect": {
+      "thresholds": {
+        "same_type": 3,
+        "same_spec": 2,
+        "time_window": "24h"
+      }
+    }
+  }
+}
+```
+
+**输出**：
+```
+✅ ACE 自演化目录已创建
+
+.seed/observations/
+├── index.json      # 观察索引（JSON 格式）
+└── obs-*.md        # 观察文件（YAML frontmatter + Markdown）
+
+💡 ACE: 项目已启用自演进能力
+```
+
+### 步骤3: 安装 ACE Git Hooks（可选）
+
+检查项目是否为 Git 仓库，如果是则安装 ACE hooks：
+
+**检查条件**：
+```bash
+if [ -d ".git" ]; then
+  # 是 Git 仓库，安装 hooks
+fi
+```
+
+**执行操作**：
+1. 复制 `hooks/ace-pre-commit` 到 `.git/hooks/pre-commit`
+2. 复制 `hooks/ace-pre-push` 到 `.git/hooks/pre-push`
+3. 设置执行权限 `chmod +x .git/hooks/pre-*`
+
+**如果 hooks 已存在**：
+- 检查是否已包含 ACE 检查
+- 如未包含，追加 ACE 检查到现有 hook
+- 不覆盖用户自定义 hooks
+
+**输出**：
+```
+✅ ACE Git Hooks 已安装
+
+.git/hooks/
+├── pre-commit      # 提交时检查待处理观察
+└── pre-push        # 推送时检查反思阈值
+
+💡 ACE: Git 操作将自动触发 ACE 检查
+```
+
+**如果不是 Git 仓库**：
+```
+ℹ️  非 Git 仓库，跳过 hooks 安装
+   如需手动安装: cp hooks/ace-* .git/hooks/ && chmod +x .git/hooks/ace-*
+```
+
+### 步骤4: 保存配置并完成
 
 ```bash
 mkdir -p .seed
@@ -106,6 +195,10 @@ mkdir -p .seed
 ✅ SEED 初始化完成
 
 配置文件: .seed/config.json
+
+🧠 ACE 自演化: 已启用
+   观察目录: .seed/observations/
+   Git Hooks: 已安装
 
 下一步:
 1. 检查配置: cat .seed/config.json

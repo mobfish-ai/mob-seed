@@ -48,7 +48,7 @@ allowed-tools: Read, Write, Edit, Bash, Task, TodoWrite
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-## SEED 四原则
+## SEED 四原则 + ACE 自演化
 
 | 字母 | 原则 | 核心哲学 | 铁律 |
 |------|------|----------|------|
@@ -56,8 +56,68 @@ allowed-tools: Read, Write, Edit, Bash, Task, TodoWrite
 | **E** | Emit | 自动派生 | 所有产物必须从规格自动生成 |
 | **E** | Execute | 自动执行 | CI/CD 自动触发，无需人工 |
 | **D** | Defend | 守护规范 | 防御手动干预、守护自动化流程 |
+| **A** | **ACE** | **自演化** | **系统从经验中学习，持续进化** |
 
-**口诀**: Single 定单源，Emit 自派生，Execute 自动跑，Defend 守规范。
+**口诀**: Single 定单源，Emit 自派生，Execute 自动跑，Defend 守规范，**ACE 自演化**。
+
+---
+
+## ACE 自演化机制（核心行为）
+
+> **ACE = Agentic Context Engineering**
+> ACE 不是可选功能，是**基础设施**。像空气一样无处不在，无需刻意呼吸。
+> 任何使用 mob-seed 的项目自动享受 ACE 自演化的好处。
+
+### ACE 三阶段循环
+
+```
+┌──────────────────────────────────────────────────────────────┐
+│                    ACE 自演化循环                             │
+├──────────────────────────────────────────────────────────────┤
+│                                                               │
+│  Observe（观察）──► Reflect（反思）──► Curate（策展）         │
+│       │                  │                  │                 │
+│       ▼                  ▼                  ▼                 │
+│  自动收集问题      分析根因提取模式    更新规格/工具/文档      │
+│                                                               │
+└──────────────────────────────────────────────────────────────┘
+```
+
+### ACE 行为约定（不可违反）
+
+Claude 在执行 mob-seed 命令时**必须**遵守以下行为：
+
+| 触发条件 | 必须执行 | 输出 |
+|----------|----------|------|
+| 测试失败 | 调用 `collectFromExecute()` | `💡 ACE: 收集 N 条观察` |
+| 规格漂移 | 调用 `collectFromDefend()` | `💡 ACE: 收集 N 条观察` |
+| 用户说"又/再次/还是" | 创建 pattern_detected 观察 | `💡 ACE: 已记录重复模式` |
+| 用户报告问题 | 创建 user_feedback 观察 | `💡 ACE: 已记录反馈` |
+| 同类观察 ≥ 3 | 主动提议反思 | `💡 ACE: 建议进行反思分析` |
+
+### ACE 触发点
+
+```
+/mob-seed:exec   → 步骤末尾自动调用 ACE 收集器
+/mob-seed:defend → 步骤末尾自动调用 ACE 收集器
+/mob-seed        → 智能入口分析用户输入
+git commit       → pre-commit hook 检查 ACE 状态
+git push         → pre-push hook 检查反思阈值
+```
+
+### ACE 存储结构
+
+```
+.seed/
+├── observations/          # 观察记录
+│   ├── index.json         # 观察索引（JSON 格式）
+│   └── obs-*.md           # 单个观察（YAML frontmatter + Markdown）
+├── reflections/           # 反思记录
+│   ├── index.json         # 反思索引（JSON 格式）
+│   └── ref-*.md           # 单个反思（YAML frontmatter + Markdown）
+└── learning/              # 学习成果
+    └── patterns.json      # 提取的模式
+```
 
 ---
 

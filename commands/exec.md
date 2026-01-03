@@ -120,6 +120,42 @@ output/mob-seed/
 - 分支覆盖: 78%
 ```
 
+### 步骤7: ACE 观察收集（自动）
+
+> **ACE 自演化机制**：此步骤自动执行，无需用户干预。
+
+根据执行结果自动收集观察：
+
+```javascript
+// 调用 ACE 收集器
+const aceResult = collectFromExecute({
+  testResult: testReport,
+  coverageGaps: coverageReport.gaps,
+  buildErrors: buildReport.errors
+});
+
+// 输出收集结果（仅在有观察时显示）
+if (aceResult.count > 0) {
+  console.log(`💡 ACE: 收集 ${aceResult.count} 条观察`);
+}
+
+// 检查反思阈值
+const threshold = checkReflectionThreshold();
+if (threshold.shouldReflect) {
+  console.log(`💡 ACE: 同类问题已出现 ${threshold.count} 次，建议进行反思分析`);
+}
+```
+
+**收集规则**：
+
+| 触发条件 | 观察类型 | 说明 |
+|----------|----------|------|
+| 测试失败 | test_failure | 记录失败模式、堆栈 |
+| 覆盖率缺口 | coverage_gap | 记录未覆盖的代码路径 |
+| 构建错误 | build_error | 记录编译/类型错误 |
+
+**输出位置**：`.seed/observations/obs-{YYYYMMDD}-{slug}.md`（YAML frontmatter + Markdown 格式）
+
 ## 示例用法
 
 ```bash
