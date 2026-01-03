@@ -39,5 +39,26 @@
   "sync": {
     "autoBackup": true,
     "defaultDirection": "spec"
+  },
+
+  "ace": {
+    "enabled": true,
+    "sources": {
+      "core": ["test_failure", "spec_drift", "coverage_gap", "user_feedback"],
+      "extensions": []
+    },
+    "reflect": {
+      "auto_trigger": true,
+      "thresholds": {
+        "same_type": 3,
+        "same_spec": 2,
+        "time_window_hours": 24
+      }
+    },
+    "paths": {
+      "observations": ".seed/observations",
+      "reflections": ".seed/reflections",
+      "learning": ".seed/learning"
+    }
   }
 }
