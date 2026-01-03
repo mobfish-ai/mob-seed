@@ -1,6 +1,6 @@
 {
   "name": "mob-seed",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "description": "SEED Methodology - Spec-Driven Development with OpenSpec Native Support",
   "type": "commonjs",
   "scripts": {
