@@ -6,6 +6,45 @@
 
 ---
 
+## [3.2.0] - 2026-01-03
+
+### Added
+
+**智能项目初始化**
+- `scripts/detect-project.js` - 智能检测项目结构 (408 行)
+  - 自动检测 src/test/docs 目录（支持多种命名约定：src/lib/server/app, test/tests/__tests__)
+  - 从 package.json 提取项目信息（名称、描述、版本、仓库）
+  - 自动识别技术栈（语言、运行时、框架、测试工具、构建工具）
+  - 生成适配当前项目的 config.json 和 project.md
+
+**ACE 观察**
+- `.seed/observations/obs-20260103-init-improvements.md` - 记录初始化问题和解决方案
+
+### Fixed
+
+**模板通用化**
+- `templates/openspec/mission.yaml` - 移除 mob-seed 特定哲学内容
+  - 修改标题：从 "The Covenant Between Human Intent and AI Intelligence" 改为 "Defining Purpose, Principles, and Evolution Boundaries"
+  - 添加通用说明，适用于所有项目类型
+- `templates/openspec/AGENTS.md` - 更新到 v3.0 命令格式 (完全重写，204 行变更)
+  - 所有命令从 `/mob-seed-*` 格式更新为 `/mob-seed:*` 格式
+  - 简化 OpenSpec 生命周期说明（Draft → Implementing → Archived）
+  - 新增故障排除章节
+
+### Changed
+
+**初始化流程优化**
+- `commands/init.md` - 新增智能检测步骤
+  - 步骤 1.1: 运行检测脚本自动生成配置
+  - 步骤 1.3: 明确使用通用 mission 模板（而非 mob-seed 自己的 mission）
+  - 输出示例展示检测结果
+- `CLAUDE.md` - 新增 lesson #17: init 命令必须智能检测项目结构
+  - 禁止硬编码路径默认值
+  - 禁止复制 mob-seed 配置到用户项目
+  - 能自动填充的信息不要让用户手动填写
+
+---
+
 ## [3.1.0] - 2026-01-03
 
 ### Added
