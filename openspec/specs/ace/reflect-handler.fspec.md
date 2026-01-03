@@ -1,6 +1,6 @@
 # Feature: Reflect 命令处理器
 
-> 状态: draft
+> 状态: archived
 > 归档日期: 2026-01-03
 > 版本: 1.0.0
 > 技术栈: JavaScript
