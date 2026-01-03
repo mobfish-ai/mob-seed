@@ -1,6 +1,7 @@
 # Feature: Promote 命令处理器
 
 > 状态: draft
+> 归档日期: 2026-01-03
 > 版本: 1.0.0
 > 技术栈: JavaScript
 > 派生路径: skills/mob-seed/lib/ace/
@@ -52,10 +53,10 @@ The system SHALL promote a triaged observation to a proposal.
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-001: 实现 promoteObservation() 函数
-- [ ] AC-002: 验证观察状态为 triaged
-- [ ] AC-003: 拒绝 promote 其他状态的观察
-- [ ] AC-004: 创建提案目录和 proposal.md
+- [x] AC-001: 实现 promoteObservation() 函数
+- [x] AC-002: 验证观察状态为 triaged
+- [x] AC-003: 拒绝 promote 其他状态的观察
+- [x] AC-004: 创建提案目录和 proposal.md
 
 ---
 
@@ -88,10 +89,10 @@ The system SHALL promote an accepted reflection to a proposal.
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-005: 实现 promoteReflection() 函数
-- [ ] AC-006: 验证反思状态为 accepted
-- [ ] AC-007: 将反思的建议行动转换为提案任务
-- [ ] AC-008: 关联的观察状态也更新为 promoted
+- [x] AC-005: 实现 promoteReflection() 函数
+- [x] AC-006: 验证反思状态为 accepted
+- [x] AC-007: 将反思的建议行动转换为提案任务
+- [x] AC-008: 关联的观察状态也更新为 promoted
 
 ---
 
@@ -133,8 +134,8 @@ The system SHALL generate a proposal from observation/reflection content.
 
 ### Phase 1: {阶段名称}
 
-- [ ] 任务 1
-- [ ] 任务 2
+- [x] 任务 1
+- [x] 任务 2
 
 ## 影响范围
 
@@ -143,10 +144,10 @@ The system SHALL generate a proposal from observation/reflection content.
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-009: 生成符合 proposal.md 格式的文件
-- [ ] AC-010: 自动填充概述、问题分析、建议方案
-- [ ] AC-011: 包含完整来源追溯表
-- [ ] AC-012: 将建议行动转换为实施任务
+- [x] AC-009: 生成符合 proposal.md 格式的文件
+- [x] AC-010: 自动填充概述、问题分析、建议方案
+- [x] AC-011: 包含完整来源追溯表
+- [x] AC-012: 将建议行动转换为实施任务
 
 ---
 
@@ -177,10 +178,10 @@ for (const obsId of reflection.observations) {
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-013: 更新观察的 status 为 promoted
-- [ ] AC-014: 设置 proposal_id 字段
-- [ ] AC-015: 设置 promoted_at 时间戳
-- [ ] AC-016: 更新索引文件
+- [x] AC-013: 更新观察的 status 为 promoted
+- [x] AC-014: 设置 proposal_id 字段
+- [x] AC-015: 设置 promoted_at 时间戳
+- [x] AC-016: 更新索引文件
 
 ---
 
@@ -210,9 +211,9 @@ source:
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-017: 提案 frontmatter 包含 source 字段
-- [ ] AC-018: source 记录类型、ID、创建时间
-- [ ] AC-019: 支持从提案反向查找来源
+- [x] AC-017: 提案 frontmatter 包含 source 字段
+- [x] AC-018: source 记录类型、ID、创建时间
+- [x] AC-019: 支持从提案反向查找来源
 
 ---
 
@@ -236,10 +237,10 @@ The system SHALL provide interactive confirmation before creating proposal.
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-020: 显示待 promote 的内容摘要
-- [ ] AC-021: 允许用户自定义提案名称
-- [ ] AC-022: 提供默认名称建议
-- [ ] AC-023: 确认后才创建
+- [x] AC-020: 显示待 promote 的内容摘要
+- [x] AC-021: 允许用户自定义提案名称
+- [x] AC-022: 提供默认名称建议
+- [x] AC-023: 确认后才创建
 
 ---
 
@@ -261,9 +262,9 @@ The system SHALL support promoting multiple observations at once.
 | `--separate` | 分别创建提案（默认） |
 
 **Acceptance Criteria:**
-- [ ] AC-024: 支持多个 ID 参数
-- [ ] AC-025: 支持 `--as` 合并为单个提案
-- [ ] AC-026: 默认分别创建提案
+- [x] AC-024: 支持多个 ID 参数
+- [x] AC-025: 支持 `--as` 合并为单个提案
+- [x] AC-026: 默认分别创建提案
 
 ---
 

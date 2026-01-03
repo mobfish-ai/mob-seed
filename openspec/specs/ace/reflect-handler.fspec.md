@@ -1,6 +1,7 @@
 # Feature: Reflect 命令处理器
 
 > 状态: draft
+> 归档日期: 2026-01-03
 > 版本: 1.0.0
 > 技术栈: JavaScript
 > 派生路径: skills/mob-seed/lib/ace/
@@ -43,10 +44,10 @@ The system SHALL trigger reflection analysis via `/mob-seed:spec reflect` comman
 | `--patterns` | 指定模式类型 | 全部 |
 
 **Acceptance Criteria:**
-- [ ] AC-001: 实现 `/mob-seed:spec reflect` 子操作
-- [ ] AC-002: 读取 triaged 状态的观察
-- [ ] AC-003: 调用 PatternMatcher 进行分析
-- [ ] AC-004: 返回反思建议列表
+- [x] AC-001: 实现 `/mob-seed:spec reflect` 子操作
+- [x] AC-002: 读取 triaged 状态的观察
+- [x] AC-003: 调用 PatternMatcher 进行分析
+- [x] AC-004: 返回反思建议列表
 
 ---
 
@@ -86,10 +87,10 @@ The system SHALL provide interactive confirmation for reflection candidates.
 | q | quit | 退出交互 |
 
 **Acceptance Criteria:**
-- [ ] AC-005: 显示反思建议列表
-- [ ] AC-006: 每个建议显示置信度、教训、观察
-- [ ] AC-007: 支持 a/r/s/q 快捷键
-- [ ] AC-008: 接受后创建 draft 状态反思
+- [x] AC-005: 显示反思建议列表
+- [x] AC-006: 每个建议显示置信度、教训、观察
+- [x] AC-007: 支持 a/r/s/q 快捷键
+- [x] AC-008: 接受后创建 draft 状态反思
 
 ---
 
@@ -112,10 +113,10 @@ The system SHALL create Reflection records when user accepts candidates.
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-009: 调用 createReflection() 创建反思
-- [ ] AC-010: 反思文件包含教训、分析、建议行动
-- [ ] AC-011: 自动填充来源追溯表
-- [ ] AC-012: 更新索引文件
+- [x] AC-009: 调用 createReflection() 创建反思
+- [x] AC-010: 反思文件包含教训、分析、建议行动
+- [x] AC-011: 自动填充来源追溯表
+- [x] AC-012: 更新索引文件
 
 ---
 
@@ -146,9 +147,9 @@ if (candidate.confidence >= autoThreshold) {
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-013: 支持 `--auto` 选项
-- [ ] AC-014: 配置 auto_accept_threshold
-- [ ] AC-015: 自动接受的反思标记 source: auto
+- [x] AC-013: 支持 `--auto` 选项
+- [x] AC-014: 配置 auto_accept_threshold
+- [x] AC-015: 自动接受的反思标记 source: auto
 
 ---
 
@@ -173,9 +174,9 @@ The system SHALL handle cases with no pattern matches.
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-016: 检测无匹配情况
-- [ ] AC-017: 显示友好的空结果提示
-- [ ] AC-018: 提供下一步建议
+- [x] AC-016: 检测无匹配情况
+- [x] AC-017: 显示友好的空结果提示
+- [x] AC-018: 提供下一步建议
 
 ---
 
@@ -210,10 +211,10 @@ The system SHALL support listing and viewing existing reflections.
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-019: 实现 `--list` 选项
-- [ ] AC-020: 显示时间相对表示
-- [ ] AC-021: 实现 `--show <id>` 选项
-- [ ] AC-022: 显示完整反思内容
+- [x] AC-019: 实现 `--list` 选项
+- [x] AC-020: 显示时间相对表示
+- [x] AC-021: 实现 `--show <id>` 选项
+- [x] AC-022: 显示完整反思内容
 
 ---
 
@@ -234,10 +235,10 @@ The system SHALL support accepting or rejecting draft reflections.
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-023: 实现 `--accept <id>` 选项
-- [ ] AC-024: 实现 `--reject <id>` 选项
-- [ ] AC-025: 拒绝需要理由
-- [ ] AC-026: 更新反思状态和索引
+- [x] AC-023: 实现 `--accept <id>` 选项
+- [x] AC-024: 实现 `--reject <id>` 选项
+- [x] AC-025: 拒绝需要理由
+- [x] AC-026: 更新反思状态和索引
 
 ---
 

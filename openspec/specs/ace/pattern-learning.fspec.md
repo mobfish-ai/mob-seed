@@ -1,6 +1,7 @@
 # Feature: 历史模式学习
 
 > 状态: draft
+> 归档日期: 2026-01-03
 > 版本: 1.0.0
 > 技术栈: JavaScript
 > 派生路径: skills/mob-seed/lib/ace/
@@ -53,10 +54,10 @@ The system SHALL collect accepted reflections for pattern learning.
 | 问题复发 | 标记 effective = false |
 
 **Acceptance Criteria:**
-- [ ] AC-001: 定义学习样本结构
-- [ ] AC-002: 反思接受时收集样本
-- [ ] AC-003: 提案归档时更新有效性
-- [ ] AC-004: 支持手动标记问题复发
+- [x] AC-001: 定义学习样本结构
+- [x] AC-002: 反思接受时收集样本
+- [x] AC-003: 提案归档时更新有效性
+- [x] AC-004: 支持手动标记问题复发
 
 ---
 
@@ -100,11 +101,11 @@ function extractKeywords(text) {
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-005: 提取类型特征
-- [ ] AC-006: 提取模块/目录特征
-- [ ] AC-007: 提取错误类型特征
-- [ ] AC-008: 提取关键词特征
-- [ ] AC-009: 计算时间聚类特征
+- [x] AC-005: 提取类型特征
+- [x] AC-006: 提取模块/目录特征
+- [x] AC-007: 提取错误类型特征
+- [x] AC-008: 提取关键词特征
+- [x] AC-009: 计算时间聚类特征
 
 ---
 
@@ -170,10 +171,10 @@ function calculateSimilarity(current, historical) {
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-010: 实现特征相似度计算
-- [ ] AC-011: 支持多维度加权匹配
-- [ ] AC-012: 返回相似度排序的匹配结果
-- [ ] AC-013: 配置相似度阈值
+- [x] AC-010: 实现特征相似度计算
+- [x] AC-011: 支持多维度加权匹配
+- [x] AC-012: 返回相似度排序的匹配结果
+- [x] AC-013: 配置相似度阈值
 
 ---
 
@@ -249,10 +250,10 @@ function adjustConfidence(base, similarity, wasEffective) {
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-014: 在候选中附加历史参考
-- [ ] AC-015: 显示历史案例详情
-- [ ] AC-016: 根据历史有效性调整置信度
-- [ ] AC-017: 显示历史策略是否有效
+- [x] AC-014: 在候选中附加历史参考
+- [x] AC-015: 显示历史案例详情
+- [x] AC-016: 根据历史有效性调整置信度
+- [x] AC-017: 显示历史策略是否有效
 
 ---
 
@@ -317,10 +318,10 @@ async function checkRecurrence(reflection) {
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-018: 归档后请求效果反馈
-- [ ] AC-019: 存储反馈记录
-- [ ] AC-020: 自动检测问题复发
-- [ ] AC-021: 复发时标记历史记录
+- [x] AC-018: 归档后请求效果反馈
+- [x] AC-019: 存储反馈记录
+- [x] AC-020: 自动检测问题复发
+- [x] AC-021: 复发时标记历史记录
 
 ---
 
@@ -375,10 +376,10 @@ async function cleanupLearningData(retentionDays = 365) {
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-022: 定义学习数据存储结构
-- [ ] AC-023: 实现敏感信息脱敏
-- [ ] AC-024: 支持数据过期清理
-- [ ] AC-025: 保留有效样本不过期
+- [x] AC-022: 定义学习数据存储结构
+- [x] AC-023: 实现敏感信息脱敏
+- [x] AC-024: 支持数据过期清理
+- [x] AC-025: 保留有效样本不过期
 
 ---
 
@@ -415,10 +416,10 @@ The system SHALL provide learning statistics and insights.
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-026: 统计样本数量和有效率
-- [ ] AC-027: 识别最常见模式
-- [ ] AC-028: 识别最有效策略
-- [ ] AC-029: 计算问题复发率
+- [x] AC-026: 统计样本数量和有效率
+- [x] AC-027: 识别最常见模式
+- [x] AC-028: 识别最有效策略
+- [x] AC-029: 计算问题复发率
 
 ---
 

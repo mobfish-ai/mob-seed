@@ -1,6 +1,7 @@
 # Feature: 自动建议提案内容
 
 > 状态: draft
+> 归档日期: 2026-01-03
 > 版本: 1.0.0
 > 技术栈: JavaScript
 > 派生路径: skills/mob-seed/lib/ace/
@@ -53,10 +54,10 @@ The system SHALL generate proposal content from reflection.
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-001: 从反思生成完整提案草稿
-- [ ] AC-002: 各章节内容合理映射
-- [ ] AC-003: 保持 proposal.md 标准格式
-- [ ] AC-004: 支持空字段的默认处理
+- [x] AC-001: 从反思生成完整提案草稿
+- [x] AC-002: 各章节内容合理映射
+- [x] AC-003: 保持 proposal.md 标准格式
+- [x] AC-004: 支持空字段的默认处理
 
 ---
 
@@ -104,10 +105,10 @@ function breakdownToPhases(suggestedActions) {
 - 包含冒号分隔符
 
 **Acceptance Criteria:**
-- [ ] AC-005: 识别 Phase 标记
-- [ ] AC-006: 正确分组任务
-- [ ] AC-007: 无标记时创建默认 Phase
-- [ ] AC-008: 保持任务顺序
+- [x] AC-005: 识别 Phase 标记
+- [x] AC-006: 正确分组任务
+- [x] AC-007: 无标记时创建默认 Phase
+- [x] AC-008: 保持任务顺序
 
 ---
 
@@ -169,10 +170,10 @@ function suggestSpecs(reflection, observations) {
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-009: 统计观察关联的规格
-- [ ] AC-010: 建议修改高频规格
-- [ ] AC-011: 识别需要新建的规格场景
-- [ ] AC-012: 输出优先级排序的建议列表
+- [x] AC-009: 统计观察关联的规格
+- [x] AC-010: 建议修改高频规格
+- [x] AC-011: 识别需要新建的规格场景
+- [x] AC-012: 输出优先级排序的建议列表
 
 ---
 
@@ -220,7 +221,7 @@ The system SHALL support customizable proposal templates.
 ### Phase {{@index}}: {{name}}
 
 {{#each tasks}}
-- [ ] {{this}}
+- [x] {{this}}
 {{/each}}
 
 {{/each}}
@@ -247,10 +248,10 @@ The system SHALL support customizable proposal templates.
 | specSuggestions | array | 规格建议列表 |
 
 **Acceptance Criteria:**
-- [ ] AC-013: 支持 Handlebars 模板语法
-- [ ] AC-014: 提供默认模板
-- [ ] AC-015: 支持自定义模板
-- [ ] AC-016: 模板变量完整传递
+- [x] AC-013: 支持 Handlebars 模板语法
+- [x] AC-014: 提供默认模板
+- [x] AC-015: 支持自定义模板
+- [x] AC-016: 模板变量完整传递
 
 ---
 
@@ -306,10 +307,10 @@ The system SHALL support interactive editing before creation.
 | 退出 | q | 取消创建 |
 
 **Acceptance Criteria:**
-- [ ] AC-017: 分章节展示生成内容
-- [ ] AC-018: 支持章节编辑
-- [ ] AC-019: 支持任务增删
-- [ ] AC-020: 确认后才创建文件
+- [x] AC-017: 分章节展示生成内容
+- [x] AC-018: 支持章节编辑
+- [x] AC-019: 支持任务增删
+- [x] AC-020: 确认后才创建文件
 
 ---
 
@@ -357,10 +358,10 @@ The system SHALL use LLM to enhance proposal content when available.
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-021: LLM 可用时增强分析
-- [ ] AC-022: 生成替代方案建议
-- [ ] AC-023: 生成风险评估章节
-- [ ] AC-024: 建议验收标准
+- [x] AC-021: LLM 可用时增强分析
+- [x] AC-022: 生成替代方案建议
+- [x] AC-023: 生成风险评估章节
+- [x] AC-024: 建议验收标准
 
 ---
 

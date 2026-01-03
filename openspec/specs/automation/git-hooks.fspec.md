@@ -1,6 +1,6 @@
 # Feature: Git Hooks (Git 钩子自动化)
 
-> 状态: implementing
+> 状态: archived
 > 版本: 1.0.0
 > 技术栈: Shell/JavaScript
 > 派生路径: .seed/hooks/, .seed/scripts/

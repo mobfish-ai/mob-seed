@@ -1,6 +1,7 @@
 # Feature: LLM 辅助反思
 
 > 状态: draft
+> 归档日期: 2026-01-03
 > 版本: 1.0.0
 > 技术栈: JavaScript
 > 派生路径: skills/mob-seed/lib/ace/
@@ -65,11 +66,11 @@ interface LLMProvider {
 | Mock | 测试 | `ace.llm.provider: "mock"` |
 
 **Acceptance Criteria:**
-- [ ] AC-001: 定义 LLMProvider 接口
-- [ ] AC-002: 实现 OpenAI 适配器
-- [ ] AC-003: 实现 Anthropic 适配器
-- [ ] AC-004: 实现 Ollama 本地适配器
-- [ ] AC-005: 提供 Mock 适配器用于测试
+- [x] AC-001: 定义 LLMProvider 接口
+- [x] AC-002: 实现 OpenAI 适配器
+- [x] AC-003: 实现 Anthropic 适配器
+- [x] AC-004: 实现 Ollama 本地适配器
+- [x] AC-005: 提供 Mock 适配器用于测试
 
 ---
 
@@ -108,10 +109,10 @@ The system SHALL support LLM configuration in config.json.
 | llm.fallback | string | "rule-based" | 失败时回退策略 |
 
 **Acceptance Criteria:**
-- [ ] AC-006: 支持 LLM 配置读取
-- [ ] AC-007: API 密钥从环境变量读取
-- [ ] AC-008: 配置校验（必填项检查）
-- [ ] AC-009: 提供合理默认值
+- [x] AC-006: 支持 LLM 配置读取
+- [x] AC-007: API 密钥从环境变量读取
+- [x] AC-008: 配置校验（必填项检查）
+- [x] AC-009: 提供合理默认值
 
 ---
 
@@ -174,11 +175,11 @@ The system SHALL use LLM to analyze observations when enabled.
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-010: 实现提示词模板
-- [ ] AC-011: 支持上下文注入
-- [ ] AC-012: 解析 LLM JSON 响应
-- [ ] AC-013: 处理格式错误响应
-- [ ] AC-014: 与规则匹配结果合并
+- [x] AC-010: 实现提示词模板
+- [x] AC-011: 支持上下文注入
+- [x] AC-012: 解析 LLM JSON 响应
+- [x] AC-013: 处理格式错误响应
+- [x] AC-014: 与规则匹配结果合并
 
 ---
 
@@ -214,10 +215,10 @@ async function analyzeWithFallback(observations) {
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-015: LLM 禁用时使用规则匹配
-- [ ] AC-016: API 失败时自动回退
-- [ ] AC-017: 记录回退原因
-- [ ] AC-018: 回退后继续正常流程
+- [x] AC-015: LLM 禁用时使用规则匹配
+- [x] AC-016: API 失败时自动回退
+- [x] AC-017: 记录回退原因
+- [x] AC-018: 回退后继续正常流程
 
 ---
 
@@ -260,10 +261,10 @@ function mergeResults(llmResults, ruleResults) {
 - 按置信度降序排列
 
 **Acceptance Criteria:**
-- [ ] AC-019: 实现结果合并逻辑
-- [ ] AC-020: 去除重复候选
-- [ ] AC-021: 保留来源标记
-- [ ] AC-022: 按置信度排序
+- [x] AC-019: 实现结果合并逻辑
+- [x] AC-020: 去除重复候选
+- [x] AC-021: 保留来源标记
+- [x] AC-022: 按置信度排序
 
 ---
 
@@ -311,10 +312,10 @@ The system SHALL show LLM source in reflection candidates.
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-023: 显示来源标记 (规则/LLM)
-- [ ] AC-024: 支持 [d] 详情查看
-- [ ] AC-025: 显示 LLM 推理过程
-- [ ] AC-026: 显示完整建议行动
+- [x] AC-023: 显示来源标记 (规则/LLM)
+- [x] AC-024: 支持 [d] 详情查看
+- [x] AC-025: 显示 LLM 推理过程
+- [x] AC-026: 显示完整建议行动
 
 ---
 
@@ -361,10 +362,10 @@ class LLMRateLimiter {
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-027: 限制每次调用的观察数量
-- [ ] AC-028: 限制每日调用次数
-- [ ] AC-029: 实现调用间隔控制
-- [ ] AC-030: 超限时给出明确提示
+- [x] AC-027: 限制每次调用的观察数量
+- [x] AC-028: 限制每日调用次数
+- [x] AC-029: 实现调用间隔控制
+- [x] AC-030: 超限时给出明确提示
 
 ---
 

@@ -1,6 +1,7 @@
 # Feature: observe 子操作 - 手动添加观察
 
 > 状态: draft
+> 归档日期: 2026-01-03
 > 版本: 1.0.0
 > 技术栈: JavaScript
 > 派生路径: skills/mob-seed/lib/ace/
@@ -54,10 +55,10 @@ Options:
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-001: 实现 `/mob-seed:spec observe` 子操作
-- [ ] AC-002: 支持交互式模式
-- [ ] AC-003: 支持快速模式（命令行参数）
-- [ ] AC-004: 创建的观察 source 为 `manual`
+- [x] AC-001: 实现 `/mob-seed:spec observe` 子操作
+- [x] AC-002: 支持交互式模式
+- [x] AC-003: 支持快速模式（命令行参数）
+- [x] AC-004: 创建的观察 source 为 `manual`
 
 ---
 
@@ -92,10 +93,10 @@ The system SHALL guide users through observation creation interactively.
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-005: 询问观察类型（选择题）
-- [ ] AC-006: 询问关联规格（可选，支持自动补全）
-- [ ] AC-007: 询问观察描述（必填）
-- [ ] AC-008: 询问建议（可选）
+- [x] AC-005: 询问观察类型（选择题）
+- [x] AC-006: 询问关联规格（可选，支持自动补全）
+- [x] AC-007: 询问观察描述（必填）
+- [x] AC-008: 询问建议（可选）
 
 ---
 
@@ -131,10 +132,10 @@ triaged:
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-009: 实现 `--list` 选项
-- [ ] AC-010: 支持 `--status` 过滤
-- [ ] AC-011: 显示状态分组统计
-- [ ] AC-012: 显示时间相对表示
+- [x] AC-009: 实现 `--list` 选项
+- [x] AC-010: 支持 `--status` 过滤
+- [x] AC-011: 显示状态分组统计
+- [x] AC-012: 显示时间相对表示
 
 ---
 
@@ -175,9 +176,9 @@ The system SHALL provide a command to view observation details.
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-013: 实现 `--show <id>` 选项
-- [ ] AC-014: 显示完整观察内容
-- [ ] AC-015: 显示可执行的后续操作
+- [x] AC-013: 实现 `--show <id>` 选项
+- [x] AC-014: 显示完整观察内容
+- [x] AC-015: 显示可执行的后续操作
 
 ---
 
@@ -196,10 +197,10 @@ The system SHALL allow deleting observations in raw status.
 - THEN 报错，提示只能删除 raw 状态的观察
 
 **Acceptance Criteria:**
-- [ ] AC-016: 实现 `--delete <id>` 选项
-- [ ] AC-017: 只允许删除 raw 状态的观察
-- [ ] AC-018: 删除前需确认
-- [ ] AC-019: 删除后更新索引
+- [x] AC-016: 实现 `--delete <id>` 选项
+- [x] AC-017: 只允许删除 raw 状态的观察
+- [x] AC-018: 删除前需确认
+- [x] AC-019: 删除后更新索引
 
 ---
 

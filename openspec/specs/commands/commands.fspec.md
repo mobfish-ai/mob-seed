@@ -1,6 +1,6 @@
 # Feature: SEED 命令系统
 
-> 状态: implementing
+> 状态: archived
 > 版本: 2.0.0
 > 技术栈: Markdown
 > 派生路径: commands/

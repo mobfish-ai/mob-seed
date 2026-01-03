@@ -1,6 +1,7 @@
 # Feature: 任务自动生成
 
 > 状态: archived
+> 归档日期: 2026-01-03
 > 版本: 1.0.0
 > 技术栈: JavaScript
 > 派生路径: skills/mob-seed/lib/spec/
@@ -148,9 +149,9 @@ source: proposal.md
 
 **关联规格**: `specs/ace/observation.fspec.md`
 
-- [ ] 创建 observation.fspec.md
-- [ ] 定义数据类型
-- [ ] 实现状态机
+- [x] 创建 observation.fspec.md
+- [x] 定义数据类型
+- [x] 实现状态机
 
 **派生产物**:
 - `lib/ace/observation.js`

@@ -1,30 +1,36 @@
 {
   "version": "1.0.0",
-  "created": "2026-01-03T00:00:00+08:00",
-  "updated": "2026-01-03T14:00:00+08:00",
-  "stats": {
-    "total": 1,
-    "by_status": {
-      "raw": 0,
-      "triaged": 0,
-      "promoted": 1,
-      "ignored": 0
-    },
-    "by_type": {
-      "test_failure": 0,
-      "coverage_gap": 0,
-      "spec_drift": 0,
-      "user_feedback": 1
-    }
-  },
+  "updated": "2026-01-03T12:00:00.000Z",
   "observations": [
     {
-      "id": "obs-20260103-release-workflow",
-      "type": "user_feedback",
+      "id": "obs-20260103-11bb24",
+      "type": "pattern_insight",
+      "status": "raw",
+      "created": "2026-01-03T07:03:30.038Z",
+      "spec": "openspec/changes/v3.0-ace-integration"
+    },
+    {
+      "id": "obs-20260103-afd88e",
+      "type": "pattern_insight",
       "status": "promoted",
-      "created": "2026-01-03T13:00:00+08:00",
-      "summary": "发布流程版本文件提交不完整",
-      "promoted_to": "ref-20260103-release-workflow"
+      "created": "2026-01-03T06:51:15.050Z",
+      "spec": "openspec/changes/v3.1-ace-fusion"
+    },
+    {
+      "id": "obs-20260103-archive-incomplete-pattern",
+      "type": "pattern_insight",
+      "status": "raw",
+      "created": "2026-01-03T12:00:00.000Z",
+      "spec": "archive.md",
+      "severity": "high",
+      "occurrences": 3
     }
-  ]
+  ],
+  "stats": {
+    "total": 3,
+    "raw": 2,
+    "triaged": 0,
+    "promoted": 1,
+    "ignored": 0
+  }
 }

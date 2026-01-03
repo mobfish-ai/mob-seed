@@ -1,6 +1,7 @@
 # Feature: 规则匹配式反思
 
 > 状态: draft
+> 归档日期: 2026-01-03
 > 版本: 1.0.0
 > 技术栈: JavaScript
 > 派生路径: skills/mob-seed/lib/ace/
@@ -42,10 +43,10 @@ function matchTypeAggregation(observations, threshold = 3) {
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-001: 实现 matchTypeAggregation() 函数
-- [ ] AC-002: 只处理 triaged 状态的观察
-- [ ] AC-003: 阈值可配置，默认 3
-- [ ] AC-004: 返回匹配的观察分组
+- [x] AC-001: 实现 matchTypeAggregation() 函数
+- [x] AC-002: 只处理 triaged 状态的观察
+- [x] AC-003: 阈值可配置，默认 3
+- [x] AC-004: 返回匹配的观察分组
 
 ---
 
@@ -67,10 +68,10 @@ function matchSpecAggregation(observations, threshold = 2) {
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-005: 实现 matchSpecAggregation() 函数
-- [ ] AC-006: 按 related_spec 字段分组
-- [ ] AC-007: 阈值可配置，默认 2
-- [ ] AC-008: 返回匹配的观察分组和关联规格
+- [x] AC-005: 实现 matchSpecAggregation() 函数
+- [x] AC-006: 按 related_spec 字段分组
+- [x] AC-007: 阈值可配置，默认 2
+- [x] AC-008: 返回匹配的观察分组和关联规格
 
 ---
 
@@ -92,10 +93,10 @@ function matchTimeClustering(observations, windowHours = 24, threshold = 2) {
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-009: 实现 matchTimeClustering() 函数
-- [ ] AC-010: 按 context.file 或 related_spec 确定模块
-- [ ] AC-011: 时间窗口可配置，默认 24 小时
-- [ ] AC-012: 返回时间窗口内的观察分组
+- [x] AC-009: 实现 matchTimeClustering() 函数
+- [x] AC-010: 按 context.file 或 related_spec 确定模块
+- [x] AC-011: 时间窗口可配置，默认 24 小时
+- [x] AC-012: 返回时间窗口内的观察分组
 
 ---
 
@@ -124,10 +125,10 @@ function matchKeywordSimilarity(observations, threshold = 0.7) {
 | Levenshtein | 字符级别，适合错误信息 | O(m*n) |
 
 **Acceptance Criteria:**
-- [ ] AC-013: 实现 matchKeywordSimilarity() 函数
-- [ ] AC-014: 使用 Jaccard 相似度计算
-- [ ] AC-015: 阈值可配置，默认 0.7
-- [ ] AC-016: 返回相似观察的聚类
+- [x] AC-013: 实现 matchKeywordSimilarity() 函数
+- [x] AC-014: 使用 Jaccard 相似度计算
+- [x] AC-015: 阈值可配置，默认 0.7
+- [x] AC-016: 返回相似观察的聚类
 
 ---
 
@@ -158,10 +159,10 @@ The system SHALL run all pattern matchers and combine results.
 **去重策略**: 如果同一组观察被多个模式匹配，选择置信度最高的
 
 **Acceptance Criteria:**
-- [ ] AC-017: 实现 PatternMatcher 类
-- [ ] AC-018: runAllPatterns() 执行所有匹配器
-- [ ] AC-019: 去除重复的匹配结果
-- [ ] AC-020: 按置信度排序返回
+- [x] AC-017: 实现 PatternMatcher 类
+- [x] AC-018: runAllPatterns() 执行所有匹配器
+- [x] AC-019: 去除重复的匹配结果
+- [x] AC-020: 按置信度排序返回
 
 ---
 
@@ -193,10 +194,10 @@ The system SHALL generate Reflection candidates from pattern matches.
 | keyword_similarity | "多个观察包含相似描述: {keywords}" |
 
 **Acceptance Criteria:**
-- [ ] AC-021: 实现 generateCandidate() 函数
-- [ ] AC-022: 根据模式类型生成教训描述
-- [ ] AC-023: 生成建议行动列表
-- [ ] AC-024: 置信度基于观察数量和匹配强度
+- [x] AC-021: 实现 generateCandidate() 函数
+- [x] AC-022: 根据模式类型生成教训描述
+- [x] AC-023: 生成建议行动列表
+- [x] AC-024: 置信度基于观察数量和匹配强度
 
 ---
 
@@ -222,9 +223,9 @@ The system SHALL support configurable thresholds from .seed/config.json.
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-025: 从 config.json 读取阈值配置
-- [ ] AC-026: 配置缺失时使用默认值
-- [ ] AC-027: 支持运行时覆盖配置
+- [x] AC-025: 从 config.json 读取阈值配置
+- [x] AC-026: 配置缺失时使用默认值
+- [x] AC-027: 支持运行时覆盖配置
 
 ---
 

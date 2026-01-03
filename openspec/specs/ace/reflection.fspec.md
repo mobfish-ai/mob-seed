@@ -1,6 +1,7 @@
 # Feature: 反思数据结构
 
 > 状态: draft
+> 归档日期: 2026-01-03
 > 版本: 1.0.0
 > 技术栈: JavaScript
 > 派生路径: skills/mob-seed/lib/ace/
@@ -58,10 +59,10 @@ The system SHALL define a Reflection type with all required fields.
 | `manual` | 手动创建 | 用户主动 reflect |
 
 **Acceptance Criteria:**
-- [ ] AC-001: Reflection 类型定义包含所有必需字段
-- [ ] AC-002: 支持 5 种模式类型
-- [ ] AC-003: observations 字段为观察 ID 数组
-- [ ] AC-004: 至少关联 2 个观察
+- [x] AC-001: Reflection 类型定义包含所有必需字段
+- [x] AC-002: 支持 5 种模式类型
+- [x] AC-003: observations 字段为观察 ID 数组
+- [x] AC-004: 至少关联 2 个观察
 
 ---
 
@@ -91,10 +92,10 @@ The system SHALL implement a state machine for Reflection status.
 | rejected | - | - | 终态 |
 
 **Acceptance Criteria:**
-- [ ] AC-005: 实现 draft → accepted 转换
-- [ ] AC-006: 实现 draft → rejected 转换
-- [ ] AC-007: accepted 为终态，不可变更
-- [ ] AC-008: rejected 为终态，不可变更
+- [x] AC-005: 实现 draft → accepted 转换
+- [x] AC-006: 实现 draft → rejected 转换
+- [x] AC-007: accepted 为终态，不可变更
+- [x] AC-008: rejected 为终态，不可变更
 
 ---
 
@@ -110,9 +111,9 @@ The system SHALL generate unique Reflection IDs.
 **示例**: `ref-20260101-a1b2`
 
 **Acceptance Criteria:**
-- [ ] AC-009: 实现 generateReflectionId() 函数
-- [ ] AC-010: ID 格式符合规范 (ref-YYYYMMDD-hash)
-- [ ] AC-011: 同一天内 ID 唯一
+- [x] AC-009: 实现 generateReflectionId() 函数
+- [x] AC-010: ID 格式符合规范 (ref-YYYYMMDD-hash)
+- [x] AC-011: 同一天内 ID 唯一
 
 ---
 
@@ -159,10 +160,10 @@ pattern: type_aggregation
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-012: 实现反思 Markdown 文件存储
-- [ ] AC-013: 文件路径符合 .seed/reflections/{id}.md
-- [ ] AC-014: YAML frontmatter 格式正确
-- [ ] AC-015: Markdown 内容包含教训、分析、建议
+- [x] AC-012: 实现反思 Markdown 文件存储
+- [x] AC-013: 文件路径符合 .seed/reflections/{id}.md
+- [x] AC-014: YAML frontmatter 格式正确
+- [x] AC-015: Markdown 内容包含教训、分析、建议
 
 ---
 
@@ -192,10 +193,10 @@ The system SHALL maintain an index of all Reflections.
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-016: 实现索引文件 index.json
-- [ ] AC-017: 索引按状态分组
-- [ ] AC-018: 索引包含按模式的统计信息
-- [ ] AC-019: 索引自动更新
+- [x] AC-016: 实现索引文件 index.json
+- [x] AC-017: 索引按状态分组
+- [x] AC-018: 索引包含按模式的统计信息
+- [x] AC-019: 索引自动更新
 
 ---
 

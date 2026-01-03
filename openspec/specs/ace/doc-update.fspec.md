@@ -1,6 +1,7 @@
 # Feature: ACE 文档更新
 
 > 状态: draft
+> 归档日期: 2026-01-03
 > 版本: 1.0.0
 > 技术栈: Markdown
 > 派生路径: docs/, CLAUDE.md
@@ -62,11 +63,11 @@ The system SHALL update CLAUDE.md to include ACE-related guidance.
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-001: 新增 ACE 闭环章节
-- [ ] AC-002: 说明观察收集方式（自动/手动）
-- [ ] AC-003: 说明反思触发和模式识别
-- [ ] AC-004: 说明整合提案流程
-- [ ] AC-005: 更新目录结构说明
+- [x] AC-001: 新增 ACE 闭环章节
+- [x] AC-002: 说明观察收集方式（自动/手动）
+- [x] AC-003: 说明反思触发和模式识别
+- [x] AC-004: 说明整合提案流程
+- [x] AC-005: 更新目录结构说明
 
 ---
 
@@ -88,10 +89,10 @@ The system SHALL update README.md and README.zh-CN.md with ACE features.
 - 两份文档结构和内容完全对应
 
 **Acceptance Criteria:**
-- [ ] AC-006: README.md 新增 ACE 功能描述
-- [ ] AC-007: README.zh-CN.md 同步更新
-- [ ] AC-008: Quick Start 包含 ACE 命令示例
-- [ ] AC-009: 架构图包含 ACE 闭环
+- [x] AC-006: README.md 新增 ACE 功能描述
+- [x] AC-007: README.zh-CN.md 同步更新
+- [x] AC-008: Quick Start 包含 ACE 命令示例
+- [x] AC-009: 架构图包含 ACE 闭环
 
 ---
 
@@ -117,10 +118,10 @@ The system SHALL update command reference documentation.
 | `/mob-seed:defend` | 自动记录偏离观察 |
 
 **Acceptance Criteria:**
-- [ ] AC-010: 文档化所有新增子操作
-- [ ] AC-011: 说明命令选项和参数
-- [ ] AC-012: 提供使用示例
-- [ ] AC-013: 说明命令增强内容
+- [x] AC-010: 文档化所有新增子操作
+- [x] AC-011: 说明命令选项和参数
+- [x] AC-012: 提供使用示例
+- [x] AC-013: 说明命令增强内容
 
 ---
 
@@ -166,10 +167,10 @@ The system SHALL document ACE configuration options.
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-014: 文档化完整配置结构
-- [ ] AC-015: 说明每个配置项的作用
-- [ ] AC-016: 提供配置示例
-- [ ] AC-017: 说明默认值
+- [x] AC-014: 文档化完整配置结构
+- [x] AC-015: 说明每个配置项的作用
+- [x] AC-016: 提供配置示例
+- [x] AC-017: 说明默认值
 
 ---
 
@@ -217,10 +218,10 @@ Spec → Emit → Execute → Defend
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-018: 创建 ACE 概念说明文档
-- [ ] AC-019: 解释核心概念（观察、反思、整合）
-- [ ] AC-020: 说明与 SEED 的关系
-- [ ] AC-021: 提供使用场景示例
+- [x] AC-018: 创建 ACE 概念说明文档
+- [x] AC-019: 解释核心概念（观察、反思、整合）
+- [x] AC-020: 说明与 SEED 的关系
+- [x] AC-021: 提供使用场景示例
 
 ---
 
@@ -247,10 +248,10 @@ The system SHALL update CHANGELOG.md for v3.0 release.
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-022: 列出所有新增功能
-- [ ] AC-023: 列出所有变更
-- [ ] AC-024: 遵循 Keep a Changelog 格式
-- [ ] AC-025: 基于 git log 生成，不遗漏
+- [x] AC-022: 列出所有新增功能
+- [x] AC-023: 列出所有变更
+- [x] AC-024: 遵循 Keep a Changelog 格式
+- [x] AC-025: 基于 git log 生成，不遗漏
 
 ---
 

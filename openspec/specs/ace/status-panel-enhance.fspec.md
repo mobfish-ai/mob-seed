@@ -1,6 +1,7 @@
 # Feature: 状态面板增强 - 观察统计显示
 
 > 状态: draft
+> 归档日期: 2026-01-03
 > 版本: 1.0.0
 > 技术栈: JavaScript
 > 派生路径: skills/mob-seed/lib/ux/
@@ -55,10 +56,10 @@ The system SHALL display observation statistics in the status panel.
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-001: 在状态面板添加"观察状态"区块
-- [ ] AC-002: 显示各状态数量统计
-- [ ] AC-003: triaged 状态按优先级细分
-- [ ] AC-004: 显示操作提示
+- [x] AC-001: 在状态面板添加"观察状态"区块
+- [x] AC-002: 显示各状态数量统计
+- [x] AC-003: triaged 状态按优先级细分
+- [x] AC-004: 显示操作提示
 
 ---
 
@@ -91,9 +92,9 @@ function getObservationStats() {
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-005: 实现 getObservationStats() 函数
-- [ ] AC-006: 从 index.json 读取统计
-- [ ] AC-007: 索引不存在时返回空统计
+- [x] AC-005: 实现 getObservationStats() 函数
+- [x] AC-006: 从 index.json 读取统计
+- [x] AC-007: 索引不存在时返回空统计
 
 ---
 
@@ -127,9 +128,9 @@ function getPriorityDistribution() {
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-008: 实现 getPriorityDistribution() 函数
-- [ ] AC-009: 只显示有数量的优先级
-- [ ] AC-010: P0/P1 使用醒目颜色
+- [x] AC-008: 实现 getPriorityDistribution() 函数
+- [x] AC-009: 只显示有数量的优先级
+- [x] AC-010: P0/P1 使用醒目颜色
 
 ---
 
@@ -160,9 +161,9 @@ The system SHALL indicate observation health status.
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-011: 实现健康度计算逻辑
-- [ ] AC-012: 根据健康度显示不同颜色
-- [ ] AC-013: 积压时显示警告提示
+- [x] AC-011: 实现健康度计算逻辑
+- [x] AC-012: 根据健康度显示不同颜色
+- [x] AC-013: 积压时显示警告提示
 
 ---
 
@@ -184,9 +185,9 @@ The system SHALL provide quick action suggestions based on observation state.
 | promoted > 0 | `/mob-seed:spec --list draft` |
 
 **Acceptance Criteria:**
-- [ ] AC-014: 根据状态生成操作建议
-- [ ] AC-015: 建议可直接复制执行
-- [ ] AC-016: 优先显示高优先级操作
+- [x] AC-014: 根据状态生成操作建议
+- [x] AC-015: 建议可直接复制执行
+- [x] AC-016: 优先显示高优先级操作
 
 ---
 

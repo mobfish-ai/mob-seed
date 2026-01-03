@@ -1,6 +1,7 @@
 # Feature: 观察数据结构
 
 > 状态: draft
+> 归档日期: 2026-01-03
 > 版本: 1.0.0
 > 技术栈: JavaScript
 > 派生路径: skills/mob-seed/lib/ace/
@@ -65,10 +66,10 @@ The system SHALL define the observation data structure with required and optiona
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-001: 定义 Observation 类型
-- [ ] AC-002: 定义 ObservationType 枚举
-- [ ] AC-003: 定义 ObservationStatus 枚举
-- [ ] AC-004: 导出类型定义
+- [x] AC-001: 定义 Observation 类型
+- [x] AC-002: 定义 ObservationType 枚举
+- [x] AC-003: 定义 ObservationStatus 枚举
+- [x] AC-004: 导出类型定义
 
 ---
 
@@ -106,10 +107,10 @@ The system SHALL enforce observation state transitions according to the defined 
 | ignored | - | 终态，只读 |
 
 **Acceptance Criteria:**
-- [ ] AC-005: 实现 canTransition(from, to) 函数
-- [ ] AC-006: 实现 transition(obs, newStatus) 函数
-- [ ] AC-007: 终态（promoted, ignored）不可转换
-- [ ] AC-008: 转换时更新 updated 时间戳
+- [x] AC-005: 实现 canTransition(from, to) 函数
+- [x] AC-006: 实现 transition(obs, newStatus) 函数
+- [x] AC-007: 终态（promoted, ignored）不可转换
+- [x] AC-008: 转换时更新 updated 时间戳
 
 ---
 
@@ -159,10 +160,10 @@ spec: openspec/specs/parser.fspec.md
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-009: 实现 saveObservation(obs) 函数
-- [ ] AC-010: 实现 loadObservation(id) 函数
-- [ ] AC-011: 文件名格式为 {id}.md
-- [ ] AC-012: YAML frontmatter 包含所有必需字段
+- [x] AC-009: 实现 saveObservation(obs) 函数
+- [x] AC-010: 实现 loadObservation(id) 函数
+- [x] AC-011: 文件名格式为 {id}.md
+- [x] AC-012: YAML frontmatter 包含所有必需字段
 
 ---
 
@@ -200,10 +201,10 @@ The system SHALL maintain an index file for efficient observation querying.
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-013: 实现 updateIndex() 函数
-- [ ] AC-014: 实现 listObservations(filter) 函数
-- [ ] AC-015: 实现 getStats() 函数
-- [ ] AC-016: 索引文件路径为 .seed/observations/index.json
+- [x] AC-013: 实现 updateIndex() 函数
+- [x] AC-014: 实现 listObservations(filter) 函数
+- [x] AC-015: 实现 getStats() 函数
+- [x] AC-016: 索引文件路径为 .seed/observations/index.json
 
 ---
 
@@ -216,9 +217,9 @@ The system SHALL generate unique observation IDs.
 - THEN 生成格式为 `obs-{YYYYMMDD}-{random6}` 的唯一 ID
 
 **Acceptance Criteria:**
-- [ ] AC-017: 实现 generateObservationId() 函数
-- [ ] AC-018: ID 格式为 obs-{日期}-{6位随机字符}
-- [ ] AC-019: 确保 ID 唯一性（检查已存在文件）
+- [x] AC-017: 实现 generateObservationId() 函数
+- [x] AC-018: ID 格式为 obs-{日期}-{6位随机字符}
+- [x] AC-019: 确保 ID 唯一性（检查已存在文件）
 
 ---
 

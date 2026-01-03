@@ -122,6 +122,57 @@ function checkArchivePreConditions(proposalPath, options = {}) {
 }
 
 /**
+ * 递归查找规格文件
+ * @param {string} dir - 要搜索的目录
+ * @returns {string[]} 规格文件路径列表
+ */
+function findSpecFiles(dir) {
+  const results = [];
+  if (!fs.existsSync(dir)) {
+    return results;
+  }
+
+  const entries = fs.readdirSync(dir, { withFileTypes: true });
+  for (const entry of entries) {
+    const fullPath = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      results.push(...findSpecFiles(fullPath));
+    } else if (entry.name.endsWith('.fspec.md') || entry.name.endsWith('.spec.md')) {
+      results.push(fullPath);
+    }
+  }
+
+  return results;
+}
+
+/**
+ * 标记文件中的所有 checkbox 为完成状态
+ * @param {string} filePath - 文件路径
+ */
+function markCheckboxesComplete(filePath) {
+  if (!fs.existsSync(filePath)) {
+    return;
+  }
+
+  let content = fs.readFileSync(filePath, 'utf-8');
+
+  // 标记所有未完成的 checkbox 为完成
+  // 匹配: - [ ] 或 - [ ] 开头的行
+  content = content.replace(/^- \[ \]/gm, '- [x]');
+
+  // 添加归档日期（如果没有）
+  const today = new Date().toISOString().slice(0, 10);
+  if (!content.includes('> 归档日期:')) {
+    // 在状态行后添加归档日期
+    if (content.includes('> 状态:')) {
+      content = content.replace(/(> 状态:.*)/m, `$1\n> 归档日期: ${today}`);
+    }
+  }
+
+  fs.writeFileSync(filePath, content, 'utf-8');
+}
+
+/**
  * 从文件路径提取领域名称
  * @param {string} filePath - 规格文件路径
  * @returns {string} 领域名称
@@ -408,6 +459,39 @@ function archiveProposal(proposalName, openspecRoot, options = {}) {
     const archivedProposalMd = path.join(archivePath, 'proposal.md');
     if (fs.existsSync(archivedProposalMd)) {
       updateSpecState(archivedProposalMd, 'archived');
+      // 标记所有 AC checkbox 为完成
+      markCheckboxesComplete(archivedProposalMd);
+    }
+
+    // 更新归档的所有 .fspec.md 文件状态和 checkbox
+    const archivedSpecsDir = path.join(archivePath, 'specs');
+    if (fs.existsSync(archivedSpecsDir)) {
+      const archivedSpecFiles = findSpecFiles(archivedSpecsDir);
+      for (const specFile of archivedSpecFiles) {
+        updateSpecState(specFile, 'archived');
+        markCheckboxesComplete(specFile);
+      }
+    }
+
+    // 复制规格文件到真相源 specs/ 目录
+    for (const specFile of specFiles) {
+      const relativePath = path.relative(proposalSpecsDir, specFile);
+      const domain = extractDomain(specFile);
+      const targetPath = path.join(specsDir, domain, path.basename(specFile));
+
+      fs.mkdirSync(path.dirname(targetPath), { recursive: true });
+
+      // 复制并更新状态
+      let content = fs.readFileSync(path.join(archivePath, 'specs', relativePath), 'utf-8');
+      // 确保有状态行
+      if (!content.includes('> 状态:')) {
+        content = content.replace(/(> 版本:.*)/m, '$1\n> 状态: archived');
+      } else {
+        content = content.replace(/> 状态:.*/, '> 状态: archived');
+      }
+      // 标记 checkbox
+      content = content.replace(/^- \[ \]/gm, '- [x]');
+      fs.writeFileSync(targetPath, content, 'utf-8');
     }
   }
 
@@ -462,5 +546,8 @@ module.exports = {
   formatRequirement,
   archiveProposal,
   getArchivableProposals,
-  archiveAll
+  archiveAll,
+  // 新增的辅助函数
+  findSpecFiles,
+  markCheckboxesComplete
 };

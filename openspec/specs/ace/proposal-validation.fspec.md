@@ -1,6 +1,7 @@
 # Feature: 提案完整性验证
 
 > 状态: draft
+> 归档日期: 2026-01-03
 > 版本: 1.0.0
 > 技术栈: JavaScript
 > 派生路径: skills/mob-seed/lib/spec/
@@ -60,9 +61,9 @@ function validateProposalCompleteness(proposalPath) {
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-001: 解析 proposal.md 提取所有任务
-- [ ] AC-002: 检查每个任务是否有 `→ \`xxx.fspec.md\`` 格式的关联
-- [ ] AC-003: 返回缺失 fspec 的任务列表
+- [x] AC-001: 解析 proposal.md 提取所有任务
+- [x] AC-002: 检查每个任务是否有 `→ \`xxx.fspec.md\`` 格式的关联
+- [x] AC-003: 返回缺失 fspec 的任务列表
 
 ---
 
@@ -91,9 +92,9 @@ function validateFspecExistence(proposalDir, specs) {
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-004: 检查 specs/ 目录下是否存在引用的 fspec
-- [ ] AC-005: 支持嵌套目录 (如 specs/ace/xxx.fspec.md)
-- [ ] AC-006: 返回不存在的 fspec 文件列表
+- [x] AC-004: 检查 specs/ 目录下是否存在引用的 fspec
+- [x] AC-005: 支持嵌套目录 (如 specs/ace/xxx.fspec.md)
+- [x] AC-006: 返回不存在的 fspec 文件列表
 
 ---
 
@@ -109,9 +110,9 @@ The system SHALL verify that all fspec files are in appropriate status.
 | review → archived | 所有 fspec 必须是 review 或更高状态 |
 
 **Acceptance Criteria:**
-- [ ] AC-007: 读取 fspec 的状态字段
-- [ ] AC-008: 验证状态符合转换要求
-- [ ] AC-009: 返回状态不符的 fspec 列表
+- [x] AC-007: 读取 fspec 的状态字段
+- [x] AC-008: 验证状态符合转换要求
+- [x] AC-009: 返回状态不符的 fspec 列表
 
 ---
 
@@ -144,10 +145,10 @@ async function transitionProposal(proposalName, newStatus) {
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-010: review → archived 时执行验证
-- [ ] AC-011: 验证失败时显示详细错误
-- [ ] AC-012: 验证失败时阻止状态转换
-- [ ] AC-013: 提供明确的修复建议
+- [x] AC-010: review → archived 时执行验证
+- [x] AC-011: 验证失败时显示详细错误
+- [x] AC-012: 验证失败时阻止状态转换
+- [x] AC-013: 提供明确的修复建议
 
 ---
 
@@ -176,10 +177,10 @@ Phase 2: 反思能力
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-014: 按 Phase 分组显示检查结果
-- [ ] AC-015: 使用 ✅/❌ 图标区分状态
-- [ ] AC-016: 显示完成百分比
-- [ ] AC-017: 汇总错误数量
+- [x] AC-014: 按 Phase 分组显示检查结果
+- [x] AC-015: 使用 ✅/❌ 图标区分状态
+- [x] AC-016: 显示完成百分比
+- [x] AC-017: 汇总错误数量
 
 ---
 
@@ -199,10 +200,10 @@ The system SHALL provide a standalone validation command.
 - 生成完整性报告
 
 **Acceptance Criteria:**
-- [ ] AC-018: 实现 `/mob-seed:spec validate` 子操作
-- [ ] AC-019: 支持指定提案名称
-- [ ] AC-020: 输出完整验证报告
-- [ ] AC-021: 返回退出码（0 成功，1 失败）
+- [x] AC-018: 实现 `/mob-seed:spec validate` 子操作
+- [x] AC-019: 支持指定提案名称
+- [x] AC-020: 输出完整验证报告
+- [x] AC-021: 返回退出码（0 成功，1 失败）
 
 ---
 

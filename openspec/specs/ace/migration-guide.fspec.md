@@ -1,6 +1,7 @@
 # Feature: v3.0 迁移指南
 
 > 状态: draft
+> 归档日期: 2026-01-03
 > 版本: 1.0.0
 > 技术栈: Markdown
 > 派生路径: docs/migration/
@@ -57,10 +58,10 @@ v3.0 引入 ACE (Agentic Context Engineering) 能力，实现规格自演化闭�
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-001: 创建迁移概览文档
-- [ ] AC-002: 列出兼容性矩阵
-- [ ] AC-003: 提供快速迁移步骤
-- [ ] AC-004: 说明新增内容
+- [x] AC-001: 创建迁移概览文档
+- [x] AC-002: 列出兼容性矩阵
+- [x] AC-003: 提供快速迁移步骤
+- [x] AC-004: 说明新增内容
 
 ---
 
@@ -88,10 +89,10 @@ find . -name "*.md" -exec sed -i '' 's/\/mob-seed-/\/mob-seed:/g' {} \;
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-005: 列出所有命令变更
-- [ ] AC-006: 说明变更原因
-- [ ] AC-007: 提供迁移脚本（可选）
-- [ ] AC-008: 标注已移除的命令
+- [x] AC-005: 列出所有命令变更
+- [x] AC-006: 说明变更原因
+- [x] AC-007: 提供迁移脚本（可选）
+- [x] AC-008: 标注已移除的命令
 
 ---
 
@@ -134,10 +135,10 @@ The system SHALL document configuration changes.
 - `ace.enabled: false` 可禁用 ACE 功能
 
 **Acceptance Criteria:**
-- [ ] AC-009: 说明配置字段变更
-- [ ] AC-010: 提供前后对比示例
-- [ ] AC-011: 说明自动升级行为
-- [ ] AC-012: 说明如何禁用 ACE
+- [x] AC-009: 说明配置字段变更
+- [x] AC-010: 提供前后对比示例
+- [x] AC-011: 说明自动升级行为
+- [x] AC-012: 说明如何禁用 ACE
 
 ---
 
@@ -175,10 +176,10 @@ The system SHALL document directory structure changes.
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-013: 说明新增目录结构
-- [ ] AC-014: 说明自动创建行为
-- [ ] AC-015: 提供 .gitignore 建议
-- [ ] AC-016: 确保不影响现有文件
+- [x] AC-013: 说明新增目录结构
+- [x] AC-014: 说明自动创建行为
+- [x] AC-015: 提供 .gitignore 建议
+- [x] AC-016: 确保不影响现有文件
 
 ---
 
@@ -229,10 +230,10 @@ The system SHALL provide an upgrade command.
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-017: 实现 `--upgrade` 选项
-- [ ] AC-018: 备份现有配置
-- [ ] AC-019: 自动添加新目录和配置
-- [ ] AC-020: 显示升级摘要和下一步提示
+- [x] AC-017: 实现 `--upgrade` 选项
+- [x] AC-018: 备份现有配置
+- [x] AC-019: 自动添加新目录和配置
+- [x] AC-020: 显示升级摘要和下一步提示
 
 ---
 
@@ -266,10 +267,10 @@ Week 4+: L3 完整闭环
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-021: 定义采用级别
-- [ ] AC-022: 说明每个级别的功能
-- [ ] AC-023: 提供渐进采用路径建议
-- [ ] AC-024: 说明如何在级别间切换
+- [x] AC-021: 定义采用级别
+- [x] AC-022: 说明每个级别的功能
+- [x] AC-023: 提供渐进采用路径建议
+- [x] AC-024: 说明如何在级别间切换
 
 ---
 
@@ -300,10 +301,10 @@ A: 删除 `.seed/observations/`、`.seed/reflections/` 目录，
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-025: 收集并回答常见问题
-- [ ] AC-026: 涵盖兼容性问题
-- [ ] AC-027: 涵盖回滚方法
-- [ ] AC-028: 随用户反馈持续更新
+- [x] AC-025: 收集并回答常见问题
+- [x] AC-026: 涵盖兼容性问题
+- [x] AC-027: 涵盖回滚方法
+- [x] AC-028: 随用户反馈持续更新
 
 ---
 

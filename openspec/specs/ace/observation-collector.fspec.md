@@ -1,6 +1,7 @@
 # Feature: 观察自动收集器
 
 > 状态: draft
+> 归档日期: 2026-01-03
 > 版本: 1.0.0
 > 技术栈: JavaScript
 > 派生路径: skills/mob-seed/lib/ace/
@@ -83,10 +84,10 @@ function collectFromExecute(result) {
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-001: 实现 collectFromExecute(result) 函数
-- [ ] AC-002: 测试失败时创建 test_failure 观察
-- [ ] AC-003: 覆盖率不足时创建 coverage_gap 观察
-- [ ] AC-004: 观察包含 runId 用于追溯
+- [x] AC-001: 实现 collectFromExecute(result) 函数
+- [x] AC-002: 测试失败时创建 test_failure 观察
+- [x] AC-003: 覆盖率不足时创建 coverage_gap 观察
+- [x] AC-004: 观察包含 runId 用于追溯
 
 ---
 
@@ -130,9 +131,9 @@ function collectFromDefend(result) {
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-005: 实现 collectFromDefend(result) 函数
-- [ ] AC-006: 规格偏离时创建 spec_drift 观察
-- [ ] AC-007: 观察包含偏离类型和详情
+- [x] AC-005: 实现 collectFromDefend(result) 函数
+- [x] AC-006: 规格偏离时创建 spec_drift 观察
+- [x] AC-007: 观察包含偏离类型和详情
 
 ---
 
@@ -166,9 +167,9 @@ function findDuplicate(obs, existing) {
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-008: 实现 findDuplicate(obs, existing) 函数
-- [ ] AC-009: 相同信号不创建重复观察
-- [ ] AC-010: 重复信号更新已有观察的 updated 时间戳
+- [x] AC-008: 实现 findDuplicate(obs, existing) 函数
+- [x] AC-009: 相同信号不创建重复观察
+- [x] AC-010: 重复信号更新已有观察的 updated 时间戳
 
 ---
 
@@ -217,10 +218,10 @@ class ObservationCollector {
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-011: 实现 ObservationCollector 类
-- [ ] AC-012: 提供 processExecuteResult 方法
-- [ ] AC-013: 提供 processDefendResult 方法
-- [ ] AC-014: 返回收集结果（新增数、更新数、跳过数）
+- [x] AC-011: 实现 ObservationCollector 类
+- [x] AC-012: 提供 processExecuteResult 方法
+- [x] AC-013: 提供 processDefendResult 方法
+- [x] AC-014: 返回收集结果（新增数、更新数、跳过数）
 
 ---
 
@@ -245,9 +246,9 @@ The system SHALL report collection results to the user.
 ```
 
 **Acceptance Criteria:**
-- [ ] AC-015: 实现收集结果格式化输出
-- [ ] AC-016: 显示分类统计（按类型）
-- [ ] AC-017: 提示用户查看详情的命令
+- [x] AC-015: 实现收集结果格式化输出
+- [x] AC-016: 显示分类统计（按类型）
+- [x] AC-017: 提示用户查看详情的命令
 
 ---
 
