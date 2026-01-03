@@ -99,9 +99,11 @@ function parseProposal(proposalContent) {
     }
 
     // 检测任务列表项 (AC-005)
-    // 支持格式: - [ ] xxx → `xxx.fspec.md` 或 - [x] xxx → `xxx.fspec.md`
+    // 支持格式: - [ ] xxx → `xxx.fspec.md` 或 - [x] xxx → `xxx.fspec.md` ✅
+    //           - [ ] xxx → `xxx.fspec.md` (REQ-001, REQ-002)
     // 注意：不在 AC 或派生产物区块内才解析为任务
-    const taskListMatch = line.match(/^-\s+\[([ x])\]\s+(.+?)(?:\s+→\s+`([^`]+)`)?$/);
+    // 允许行尾有可选的 REQ 引用和状态标记（✅ ✓ 等）
+    const taskListMatch = line.match(/^-\s+\[([ x])\]\s+(.+?)(?:\s+→\s+`([^`]+)`)?(?:\s+\([^)]+\))?(?:\s*[✅✓✔☑]*)?$/);
     if (taskListMatch && currentPhase && !inACSection && !inDerivedOutputsSection) {
       const completed = taskListMatch[1] === 'x';
       const description = taskListMatch[2].trim();

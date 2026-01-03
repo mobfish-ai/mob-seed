@@ -1,0 +1,63 @@
+# {{name}}
+
+> **状态**: draft
+> **版本**: 1.0.0
+> **创建**: {{created}}
+> **来源**: {{source.id}}
+
+## 概述
+
+{{overview}}
+
+## 来源追溯
+
+本提案源自以下观察/反思：
+
+| ID | 类型 | 描述 | 创建时间 |
+|----|------|------|---------|
+{{#each sources}}
+| {{id}} | {{type}} | {{description}} | {{created}} |
+{{/each}}
+
+## 问题分析
+
+{{analysis}}
+
+## 建议方案
+
+{{solution}}
+
+## 实施阶段
+
+{{#each phases}}
+### Phase {{add @index 1}}: {{name}}
+
+{{#each tasks}}
+- [ ] {{this}}
+{{/each}}
+
+{{/each}}
+
+## 规格影响
+
+{{#each specSuggestions}}
+- {{#if (eq type "modify")}}修改{{else}}新建{{/if}} `{{spec}}`: {{reason}}
+{{/each}}
+
+{{#if risks}}
+## 风险评估
+
+| 风险 | 缓解措施 |
+|------|---------|
+{{#each risks}}
+| {{risk}} | {{mitigation}} |
+{{/each}}
+{{/if}}
+
+{{#if acceptanceCriteria}}
+## 验收标准
+
+{{#each acceptanceCriteria}}
+- [ ] {{this}}
+{{/each}}
+{{/if}}

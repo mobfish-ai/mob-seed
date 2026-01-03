@@ -250,6 +250,7 @@ function observationToMarkdown(obs) {
   if (obs.spec) frontmatter.push(`spec: ${obs.spec}`);
   if (obs.priority) frontmatter.push(`priority: ${obs.priority}`);
   if (obs.proposal_id) frontmatter.push(`proposal_id: ${obs.proposal_id}`);
+  if (obs.promoted_at) frontmatter.push(`promoted_at: ${obs.promoted_at}`);
   if (obs.proposalName) frontmatter.push(`proposalName: ${obs.proposalName}`);
   if (obs.note) frontmatter.push(`note: ${obs.note}`);
 
@@ -423,6 +424,7 @@ function parseObservationMarkdown(content) {
     spec: metadata.spec || undefined,
     priority: metadata.priority || undefined,
     proposal_id: metadata.proposal_id || undefined,
+    promoted_at: metadata.promoted_at || undefined,
     proposalName: metadata.proposalName || undefined,
     note: metadata.note || undefined,
     description: descMatch ? descMatch[1].trim() : '',

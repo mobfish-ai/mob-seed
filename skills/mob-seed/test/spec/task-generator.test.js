@@ -265,7 +265,8 @@ describe('task-generator', () => {
       fs.mkdirSync(proposalDir, { recursive: true });
       fs.writeFileSync(path.join(proposalDir, 'proposal.md'), SAMPLE_PROPOSAL);
 
-      const result = generateTasksFromProposal(tempDir, 'test-proposal');
+      // skipValidation: true 因为测试不需要创建完整的 fspec 文件
+      const result = generateTasksFromProposal(tempDir, 'test-proposal', { skipValidation: true });
 
       assert.strictEqual(result.success, true);
       assert.strictEqual(result.path, path.join(proposalDir, 'tasks.md'));
@@ -278,8 +279,8 @@ describe('task-generator', () => {
       fs.mkdirSync(proposalDir, { recursive: true });
       fs.writeFileSync(path.join(proposalDir, 'proposal.md'), SAMPLE_PROPOSAL);
 
-      // 第一次生成
-      const result1 = generateTasksFromProposal(tempDir, 'test-proposal');
+      // 第一次生成 (skipValidation: true)
+      const result1 = generateTasksFromProposal(tempDir, 'test-proposal', { skipValidation: true });
       assert.strictEqual(result1.success, true);
 
       const content1 = fs.readFileSync(result1.path, 'utf-8');
@@ -287,7 +288,7 @@ describe('task-generator', () => {
 
       // 等待一小段时间
       // 第二次生成（覆盖）
-      const result2 = generateTasksFromProposal(tempDir, 'test-proposal');
+      const result2 = generateTasksFromProposal(tempDir, 'test-proposal', { skipValidation: true });
       assert.strictEqual(result2.success, true);
 
       const content2 = fs.readFileSync(result2.path, 'utf-8');
@@ -307,7 +308,7 @@ describe('task-generator', () => {
       fs.mkdirSync(proposalDir, { recursive: true });
       fs.writeFileSync(path.join(proposalDir, 'proposal.md'), SAMPLE_PROPOSAL);
 
-      const result = generateTasksFromProposal(tempDir, 'test-proposal');
+      const result = generateTasksFromProposal(tempDir, 'test-proposal', { skipValidation: true });
 
       assert.strictEqual(result.success, true);
       assert.ok(result.stats, '应该返回统计信息');
@@ -339,11 +340,11 @@ describe('task-generator', () => {
       fs.mkdirSync(proposalDir, { recursive: true });
       fs.writeFileSync(path.join(proposalDir, 'proposal.md'), SAMPLE_PROPOSAL);
 
-      // 先生成
-      generateTasksFromProposal(tempDir, 'test-proposal');
+      // 先生成 (skipValidation: true)
+      generateTasksFromProposal(tempDir, 'test-proposal', { skipValidation: true });
 
-      // 更新状态
-      const result = updateTasksStatus(tempDir, 'test-proposal');
+      // 更新状态 (skipValidation: true)
+      const result = updateTasksStatus(tempDir, 'test-proposal', { skipValidation: true });
       assert.strictEqual(result.success, true);
     });
 
@@ -352,8 +353,8 @@ describe('task-generator', () => {
       fs.mkdirSync(proposalDir, { recursive: true });
       fs.writeFileSync(path.join(proposalDir, 'proposal.md'), SAMPLE_PROPOSAL);
 
-      generateTasksFromProposal(tempDir, 'test-proposal');
-      updateTasksStatus(tempDir, 'test-proposal');
+      generateTasksFromProposal(tempDir, 'test-proposal', { skipValidation: true });
+      updateTasksStatus(tempDir, 'test-proposal', { skipValidation: true });
 
       const content = fs.readFileSync(path.join(proposalDir, 'tasks.md'), 'utf-8');
       assert.ok(content.includes('请勿手动编辑'), '更新后应保留警告');
@@ -508,7 +509,8 @@ status: review
 
     // 模拟状态转换到 implementing 时触发任务生成
     // 这通常在 spec 命令中实现，这里直接调用生成函数
-    const result = generateTasksFromProposal(tempDir, 'test-proposal');
+    // 注意: 真实场景需要验证，但这里测试格式生成，跳过验证
+    const result = generateTasksFromProposal(tempDir, 'test-proposal', { skipValidation: true });
 
     assert.strictEqual(result.success, true);
     assert.ok(fs.existsSync(path.join(proposalDir, 'tasks.md')));

@@ -9,6 +9,7 @@
 const fs = require('fs');
 const path = require('path');
 const { parseProposalFile, getFspecStatus } = require('./proposal-parser');
+const { canTransitionToImplementing, generateBlockMessage } = require('./proposal-validator');
 
 // ============================================================================
 // 状态映射 (REQ-004)
@@ -130,12 +131,16 @@ function generateTasksContent(parseResult, proposalName, projectRoot) {
  * 从 Proposal 生成 tasks.md (AC-001, AC-002, AC-003)
  * @param {string} projectRoot - 项目根目录
  * @param {string} proposalName - 提案名称
- * @returns {{success: boolean, path?: string, error?: string}} 生成结果
+ * @param {Object} options - 选项
+ * @param {boolean} options.skipValidation - 跳过验证（默认 false）
+ * @returns {{success: boolean, path?: string, error?: string, validationResult?: Object}} 生成结果
  */
-function generateTasksFromProposal(projectRoot, proposalName) {
+function generateTasksFromProposal(projectRoot, proposalName, options = {}) {
+  const { skipValidation = false } = options;
   const proposalDir = path.join(projectRoot, 'openspec', 'changes', proposalName);
   const proposalPath = path.join(proposalDir, 'proposal.md');
   const tasksPath = path.join(proposalDir, 'tasks.md');
+  const specsDir = path.join(proposalDir, 'specs');
 
   // 检查 proposal.md 存在
   if (!fs.existsSync(proposalPath)) {
@@ -143,6 +148,21 @@ function generateTasksFromProposal(projectRoot, proposalName) {
       success: false,
       error: `Proposal 文件不存在: ${proposalPath}`
     };
+  }
+
+  // P0 修复: 验证提案完整性 (review → implementing 状态转换)
+  // @see proposal-validation.fspec.md
+  if (!skipValidation) {
+    const { allowed, result } = canTransitionToImplementing(proposalPath, { specsDir });
+
+    if (!allowed) {
+      return {
+        success: false,
+        blocked: true,
+        error: generateBlockMessage(result),
+        validationResult: result
+      };
+    }
   }
 
   try {
@@ -183,9 +203,11 @@ function generateTasksFromProposal(projectRoot, proposalName) {
  * 更新 tasks.md 中的任务状态 (AC-012, AC-013, AC-014)
  * @param {string} projectRoot - 项目根目录
  * @param {string} proposalName - 提案名称
+ * @param {Object} options - 选项
+ * @param {boolean} options.skipValidation - 跳过验证（默认 false）
  * @returns {{success: boolean, updated?: number, error?: string}} 更新结果
  */
-function updateTasksStatus(projectRoot, proposalName) {
+function updateTasksStatus(projectRoot, proposalName, options = {}) {
   const proposalDir = path.join(projectRoot, 'openspec', 'changes', proposalName);
   const tasksPath = path.join(proposalDir, 'tasks.md');
 
@@ -197,7 +219,7 @@ function updateTasksStatus(projectRoot, proposalName) {
   }
 
   // 重新生成以更新状态
-  return generateTasksFromProposal(projectRoot, proposalName);
+  return generateTasksFromProposal(projectRoot, proposalName, options);
 }
 
 // ============================================================================
