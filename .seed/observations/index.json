@@ -1,11 +1,11 @@
 {
   "version": "1.0.0",
   "created": "2026-01-03T00:00:00+08:00",
-  "updated": "2026-01-03T00:00:00+08:00",
+  "updated": "2026-01-03T13:00:00+08:00",
   "stats": {
-    "total": 0,
+    "total": 1,
     "by_status": {
-      "raw": 0,
+      "raw": 1,
       "triaged": 0,
       "promoted": 0,
       "ignored": 0
@@ -14,8 +14,16 @@
       "test_failure": 0,
       "coverage_gap": 0,
       "spec_drift": 0,
-      "user_feedback": 0
+      "user_feedback": 1
     }
   },
-  "observations": []
+  "observations": [
+    {
+      "id": "obs-20260103-release-workflow",
+      "type": "user_feedback",
+      "status": "raw",
+      "created": "2026-01-03T13:00:00+08:00",
+      "summary": "发布流程版本文件提交不完整"
+    }
+  ]
 }
