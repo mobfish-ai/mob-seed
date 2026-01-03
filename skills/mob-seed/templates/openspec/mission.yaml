@@ -1,13 +1,12 @@
 # ============================================================================
 # PROJECT MISSION STATEMENT
-# The Covenant Between Human Intent and AI Intelligence
+# Defining Purpose, Principles, and Evolution Boundaries
 # ============================================================================
 #
 # This file defines the existential purpose, guiding principles, and evolution
-# boundaries for your project. It serves as the North Star for both human
-# contributors and AI agents participating in development.
+# boundaries for your project. It serves as the North Star for all contributors.
 #
-# Bilingual: English (primary) | 中文 (secondary)
+# Format: YAML with bilingual content (English | 中文)
 #
 # Version: 1.0.0
 # Created: {{TIMESTAMP}}

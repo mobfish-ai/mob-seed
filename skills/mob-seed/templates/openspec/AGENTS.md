@@ -23,9 +23,9 @@
 ## OpenSpec 生命周期
 
 ```
-Draft → Review → Implement → Archive
-  ↓        ↓         ↓          ↓
-changes/ 人类审查  代码实现   specs/
+Draft → Implementing → Archived
+  ↓          ↓            ↓
+changes/   开发中       specs/
 ```
 
 ### 状态说明
@@ -33,7 +33,6 @@ changes/ 人类审查  代码实现   specs/
 | 状态 | 目录 | 说明 |
 |------|------|------|
 | `draft` | changes/ | 规格编写中 |
-| `review` | changes/ | 等待人类审查 |
 | `implementing` | changes/ | 代码实现中 |
 | `archived` | specs/ | 已完成并归档 |
 
@@ -41,78 +40,58 @@ changes/ 人类审查  代码实现   specs/
 
 ## 工作流程
 
-### 1. 创建变更提案
+### 1. 创建规格提案
 
 ```bash
-/mob-seed-spec --proposal "feature-name"
+/mob-seed:spec "feature-name"
 ```
 
 创建 `openspec/changes/feature-name/` 目录，包含：
-- `proposal.md` - 提案说明
-- `tasks.md` - 任务清单
+- `proposal.md` - 变更提案
 - `specs/` - Delta 规格文件
 
-### 2. 编写规格
+### 2. 编辑规格
 
-在 `changes/[feature]/specs/[domain]/` 中编写 fspec 格式规格：
+使用 **OpenSpec Delta 语法** 编写规格文件。
 
-```markdown
-# Feature: 功能名称
+规格文件命名: `{module}.fspec.md`
 
-> 状态: draft
-> 版本: 1.0.0
-> 技术栈: TypeScript
-> 派生路径: src/auth/
+状态: `draft` → `implementing`
 
-## ADDED Requirements
-
-### REQ-001: 需求标题
-The system SHALL [行为描述].
-
-**Scenario: 场景名称**
-- WHEN [前置条件]
-- THEN [期望结果]
-
-**Acceptance Criteria:**
-- [ ] AC-001: 验收条件
-```
-
-### 3. 提交审查
+### 3. 派生代码
 
 ```bash
-/mob-seed-spec --submit "feature-name"
-```
-
-状态变更: `draft` → `review`
-
-### 4. 派生代码
-
-```bash
-/mob-seed-emit "feature-name"
+/mob-seed:emit
 ```
 
 根据规格自动生成：
-- 代码骨架 (`src/`)
-- 测试用例 (`test/`)
-- 文档 (`docs/`)
+- 代码骨架（基于 `.seed/config.json` 中的 `paths.src`）
+- 测试用例（基于 `paths.test`）
+- 文档（基于 `paths.docs`）
 
-状态变更: `review` → `implementing`
-
-### 5. 执行测试
+### 4. 执行测试
 
 ```bash
-/mob-seed-exec "feature-name"
+/mob-seed:exec
 ```
 
-运行派生的测试，验证实现。
+运行测试，验证实现是否符合规格。
+
+### 5. 守护同步
+
+```bash
+/mob-seed:defend
+```
+
+检查规格与代码的同步状态，确保一致性。
 
 ### 6. 归档规格
 
 ```bash
-/mob-seed-archive "feature-name"
+/mob-seed:archive "feature-name"
 ```
 
-将 Delta 规格合并到 `specs/`，变更目录移动到 `archive/`。
+将 Delta 规格合并到 `specs/`，变更提案移动到 `archive/`。
 
 状态变更: `implementing` → `archived`
 
@@ -127,17 +106,29 @@ fspec = OpenSpec Delta + SEED 元数据
 | 标记 | 说明 |
 |------|------|
 | `## ADDED` | 新增的需求 |
-| `## MODIFIED` | 修改的需求 |
+| `## CHANGED` | 修改的需求 |
 | `## REMOVED` | 删除的需求 |
 
-### SEED 元数据
+### 示例
 
-| 字段 | 说明 |
-|------|------|
-| `状态` | draft / review / implementing / archived |
-| `版本` | 语义化版本号 |
-| `技术栈` | 使用的技术栈包名称 |
-| `派生路径` | 代码生成目标目录 |
+```markdown
+---
+状态: implementing
+模块: authentication
+类型: feature
+---
+
+# 用户认证模块
+
+## ADDED
+
+### FR-001: 用户登录
+用户可以使用邮箱和密码登录系统。
+
+#### AC-001: 验证邮箱格式
+- [ ] 输入无效邮箱时，显示格式错误提示
+- [ ] 输入有效邮箱时，验证通过
+```
 
 ---
 
@@ -145,58 +136,95 @@ fspec = OpenSpec Delta + SEED 元数据
 
 | 命令 | 说明 |
 |------|------|
-| `/mob-seed-init --openspec` | 初始化 OpenSpec 结构 |
-| `/mob-seed-spec --proposal` | 创建变更提案 |
-| `/mob-seed-spec --submit` | 提交审查 |
-| `/mob-seed-emit` | 派生代码/测试 |
-| `/mob-seed-exec` | 执行测试 |
-| `/mob-seed-archive` | 归档完成的变更 |
-| `/mob-seed-status` | 查看所有规格状态 |
-| `/mob-seed-diff` | 查看规格与代码差异 |
-| `/mob-seed-defend` | 守护同步 |
+| `/mob-seed:init` | 初始化 OpenSpec 结构 |
+| `/mob-seed:seed` | 查看项目状态和建议 |
+| `/mob-seed:spec` | 创建/管理规格 |
+| `/mob-seed:emit` | 派生代码/测试/文档 |
+| `/mob-seed:exec` | 执行测试 |
+| `/mob-seed:defend` | 守护规格与代码同步 |
+| `/mob-seed:archive` | 归档完成的变更 |
 
 ---
 
-## AI 行为约束
+## 配置文件
 
-### 必须遵守
+### .seed/config.json
 
-1. **先规格后代码**: 任何功能实现前，先确认规格存在
-2. **Delta 格式**: 变更规格使用 ADDED/MODIFIED/REMOVED 标记
-3. **状态一致**: 状态字段必须与实际工作阶段一致
-4. **归档完整**: 功能完成后必须执行 archive 归档
+项目配置文件，定义路径和行为：
 
-### 禁止行为
+```json
+{
+  "paths": {
+    "specs": "openspec/specs",
+    "src": "检测到的源码目录",
+    "test": "检测到的测试目录",
+    "docs": "检测到的文档目录"
+  }
+}
+```
 
-1. ❌ 直接修改 `specs/` 中的已归档规格
-2. ❌ 跳过 review 状态直接实现
-3. ❌ 代码实现后不更新规格状态
-4. ❌ 删除变更目录而不归档
+### .seed/mission.md
 
----
-
-## 项目特定配置
-
-### 技术栈
-
-本项目使用 **{技术栈名称}** 技术栈包。
-
-### 派生模板
-
-| 类型 | 模板 | 输出路径 |
-|------|------|----------|
-| 代码 | {模板名} | src/{module}/ |
-| 测试 | {模板名} | test/{module}/ |
-| 文档 | markdown | docs/{module}/ |
-
-### 自定义规则
-
-{项目特定的 AI 行为规则}
+项目使命声明，定义：
+- 项目目标和愿景
+- 核心原则和反目标
+- AI 与人类协作的契约
 
 ---
 
-## 参考
+## 最佳实践
 
-- [OpenSpec 官方规范](https://github.com/PaulJuliusMartinez/openspec)
-- [SEED 方法论文档](.claude/skills/mob-seed/SKILL.md)
-- [fspec 格式规范](.claude/skills/mob-seed/templates/)
+### 规格编写
+
+1. **一次一个功能**: 每个提案专注于单一功能
+2. **可测试的 AC**: 每个 AC 必须可以通过测试验证
+3. **清晰的依赖**: 明确标注对其他模块的依赖
+
+### 代码实现
+
+1. **先测试后代码**: emit 会生成测试骨架，先让测试通过
+2. **增量开发**: 一次实现一个 AC
+3. **及时守护**: 定期运行 `/mob-seed:defend` 检查同步
+
+### 归档时机
+
+满足以下条件时归档：
+- ✅ 所有 AC 的测试通过
+- ✅ 代码与规格同步（defend 无警告）
+- ✅ 文档已更新
+
+---
+
+## 故障排除
+
+### 问题: emit 生成的路径不对
+
+**原因**: `.seed/config.json` 路径配置与项目不符
+
+**解决**: 检查 `config.json` 中的 `paths` 配置是否正确
+
+### 问题: defend 报告规格与代码不同步
+
+**原因**: 代码修改后未更新规格
+
+**解决**:
+1. 确认代码变更是否必要
+2. 如必要，更新对应的规格文件
+3. 重新运行 `/mob-seed:defend`
+
+### 问题: 归档失败
+
+**原因**: 可能有测试未通过或同步检查失败
+
+**解决**:
+1. 运行 `/mob-seed:exec` 确保测试通过
+2. 运行 `/mob-seed:defend` 确保同步
+3. 修复问题后重新归档
+
+---
+
+## 更多信息
+
+- SEED 方法论详细文档: 查看 `.seed/mission.md`
+- OpenSpec 规范: https://openspec.dev
+- 项目约定: 查看 `openspec/project.md`
