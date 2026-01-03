@@ -2,8 +2,9 @@
 id: obs-20260103-archive-incomplete-pattern
 type: pattern_insight
 severity: high
-status: raw
+status: resolved
 created: 2026-01-03T12:00:00Z
+updated: 2026-01-03T16:05:00Z
 source: defend
 related_specs:
   - archive.md
@@ -13,6 +14,12 @@ tags:
   - process-gap
   - repeated-pattern
 occurrences: 3
+resolution:
+  decision: resolved
+  priority: completed
+  reason: 已在 v3.1.0 通过 archiver.js 修复 (findSpecFiles + markCheckboxesComplete)
+  relatedProposal: v3.1-ace-fusion
+  resolvedAt: 2026-01-03T16:05:00Z
 ---
 
 # 归档流程不完整问题（重复模式）

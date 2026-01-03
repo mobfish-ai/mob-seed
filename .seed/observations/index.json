@@ -1,12 +1,13 @@
 {
   "version": "1.0.0",
-  "updated": "2026-01-03T12:00:00.000Z",
+  "updated": "2026-01-03T16:05:00.000Z",
   "observations": [
     {
       "id": "obs-20260103-11bb24",
       "type": "pattern_insight",
-      "status": "raw",
+      "status": "resolved",
       "created": "2026-01-03T07:03:30.038Z",
+      "updated": "2026-01-03T16:05:00.000Z",
       "spec": "openspec/changes/v3.0-ace-integration"
     },
     {
@@ -19,8 +20,9 @@
     {
       "id": "obs-20260103-archive-incomplete-pattern",
       "type": "pattern_insight",
-      "status": "raw",
+      "status": "resolved",
       "created": "2026-01-03T12:00:00.000Z",
+      "updated": "2026-01-03T16:05:00.000Z",
       "spec": "archive.md",
       "severity": "high",
       "occurrences": 3
@@ -28,9 +30,9 @@
   ],
   "stats": {
     "total": 3,
-    "raw": 2,
+    "raw": 0,
     "triaged": 0,
     "promoted": 1,
-    "ignored": 0
+    "resolved": 2
   }
 }
