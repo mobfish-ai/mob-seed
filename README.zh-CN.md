@@ -175,6 +175,131 @@ your-project/
 /mob-seed:spec promote <reflection-id>
 ```
 
+## Brownfield 迁移
+
+> **v3.3.0**: 现有项目一键迁移，无需手动编写规格
+
+对于已有代码但没有规格的项目，mob-seed 提供 **Brownfield 迁移** —— 一个从现有代码逆向生成规格的完整工作流。
+
+### 概览
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                    Brownfield 迁移流程                               │
+│                                                                      │
+│  现有代码 ──► spec extract ──► spec enrich ──► 完整规格             │
+│       │                                                   │          │
+│       │              brownfield（一键迁移）               │          │
+│       └──────────────────────────────────────────────────►│          │
+│                                                           │          │
+│                   defend --sync-direction=code            │          │
+│       ◄───────────────────────────────────────────────────┘          │
+│  （双向同步保持规格和代码一致）                                       │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+### 分步迁移
+
+#### 1. 从代码提取规格
+
+```bash
+# 从单个文件提取规格
+/mob-seed:spec extract src/auth/login.js
+
+# 输出: openspec/specs/login.fspec.md（骨架规格）
+```
+
+`spec extract` 命令使用 AST 解析：
+- 检测导出的函数和类
+- 提取 JSDoc 注释和类型注解
+- 生成包含方法表的骨架 fspec
+
+#### 2. 用测试丰富规格
+
+```bash
+# 用测试用例中的验收标准丰富规格
+/mob-seed:spec enrich openspec/specs/login.fspec.md
+
+# 扫描相关测试文件
+# 添加带质量标记的 AC 条目（Tests/JSDoc/AI/Template）
+```
+
+`spec enrich` 命令：
+- 解析测试文件提取验收标准
+- 使用 AI 生成缺失的功能需求
+- 为每个 AC 标记质量来源（如 `[Tests]`、`[JSDoc]`、`[AI]`）
+
+#### 3. 一键迁移
+
+```bash
+# 一次性迁移整个项目
+/mob-seed:brownfield
+
+# 选项：
+#   --dry-run        预览但不修改
+#   --incremental    仅处理变更文件
+#   --continue       从断点续传
+```
+
+`brownfield` 命令编排：
+1. 项目结构检测
+2. 批量 `spec extract` 处理所有源文件
+3. 批量 `spec enrich` 处理所有规格
+4. 进度报告和断点续传支持
+
+### 双向同步
+
+迁移后，使用 `defend` 命令的同步方向选项保持规格和代码同步：
+
+```bash
+# 传统模式：验证代码匹配规格（规格 → 代码）
+/mob-seed:defend
+
+# 反向模式：更新规格以匹配代码变更（代码 → 规格）
+/mob-seed:defend --sync-direction=code
+
+# 双向模式：双向检测偏离
+/mob-seed:defend --sync-direction=bidirectional
+```
+
+#### 偏离检测
+
+defend 命令检测多种类型的偏离：
+
+| 偏离类型 | 严重性 | 说明 |
+|----------|--------|------|
+| `method_added` | 中 | 代码中新增方法，规格中没有 |
+| `method_removed` | 高 | 规格中有方法，代码中已删除 |
+| `signature_changed` | 中 | 方法签名不匹配 |
+| `parameter_added` | 低 | 新增参数 |
+| `parameter_removed` | 高 | 参数被删除 |
+
+#### 更新提案
+
+检测到偏离时，mob-seed 生成更新提案：
+
+```bash
+# 预览模式查看提议的更新
+/mob-seed:defend --sync-direction=code --dry-run
+
+# 输出：
+# 检测到偏离: 3 个问题
+#
+# --- derived_outputs ---
+# + | 函数 | `newMethod(a, b)` | 新增方法 |
+#
+# 风险等级: 中
+# 可自动应用: 2/3
+```
+
+### 迁移最佳实践
+
+1. **从高价值模块开始**：优先迁移核心业务逻辑
+2. **审核 AI 生成的内容**：标记为 `[AI]` 的规格需要人工审核
+3. **迁移后运行测试**：确保 `defend` 通过后再提交
+4. **使用增量模式**：大型代码库分批迁移
+5. **同步前备份**：`--dry-run` 选项可预览所有变更
+
 ## 命令列表
 
 > **v3.0.0**: 命令统一为子命令模式 (`/mob-seed:*`)，集成 ACE 自演化

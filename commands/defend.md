@@ -2,7 +2,7 @@
 name: mob-seed:defend
 description: SEED D阶段 - 守护规格与代码的同步（含原则验证）
 allowed-tools: Read, Write, Edit, Bash, Glob, Grep
-argument-hint: <spec-path> [--check] [--fix] [--report] [--strict] [--no-cache]
+argument-hint: <spec-path> [--check] [--fix] [--report] [--strict] [--no-cache] [--quick] [--incremental] [--cached]
 ---
 
 # mob-seed:defend
@@ -57,6 +57,9 @@ fi
 | `--report` | 生成详细报告 | - |
 | `--strict` | 严格模式（警告也算失败）| - |
 | `--no-cache` | 强制重新检查（忽略缓存）| - |
+| `--quick` | 快速模式：仅检查 staged 文件（pre-commit 用）| - |
+| `--incremental` | 增量模式：检查未推送 commits（pre-push 用）| - |
+| `--cached` | 仅检查缓存是否命中（不执行完整检查）| - |
 
 ### 步骤1.5: 检查缓存（性能优化）
 
@@ -376,16 +379,24 @@ SPEC_FILES=$(echo "$STAGED_FILES" | grep -E '\.(fspec\.md|js|ts)$')
 if [ -n "$SPEC_FILES" ]; then
     echo "🔍 SEED 快速检查..."
 
+    # 三层回退模式查找脚本
+    find_hook_script() {
+        local script_name="$1"
+        [ -f "skills/mob-seed/lib/hooks/${script_name}.js" ] && echo "skills/mob-seed/lib/hooks/${script_name}.js" && return 0
+        [ -f ".seed/scripts/${script_name}.js" ] && echo ".seed/scripts/${script_name}.js" && return 0
+        return 1
+    }
+
     # 检查缓存
-    if node .seed/scripts/check-cache.js --files="$SPEC_FILES"; then
+    CACHE_CHECKER=$(find_hook_script "cache-checker" || find_hook_script "check-cache" || echo "")
+    if [ -n "$CACHE_CHECKER" ] && node "$CACHE_CHECKER" --files="$SPEC_FILES"; then
         echo "✅ 使用缓存结果"
         exit 0
     fi
 
     # 快速同步检查（仅 staged 文件）
-    node .seed/scripts/quick-defend.js --files="$SPEC_FILES"
-
-    if [ $? -ne 0 ]; then
+    QUICK_DEFENDER=$(find_hook_script "quick-defender" || find_hook_script "quick-defend" || echo "")
+    if [ -n "$QUICK_DEFENDER" ] && ! node "$QUICK_DEFENDER" --files="$SPEC_FILES"; then
         echo "❌ SEED 检查失败"
         echo "使用 SKIP_SEED_CHECK=1 git commit 跳过（不推荐）"
         exit 1
@@ -405,20 +416,28 @@ exit 0
 
 echo "🔍 SEED 增量检查..."
 
+# 三层回退模式查找脚本
+find_hook_script() {
+    local script_name="$1"
+    [ -f "skills/mob-seed/lib/hooks/${script_name}.js" ] && echo "skills/mob-seed/lib/hooks/${script_name}.js" && return 0
+    [ -f ".seed/scripts/${script_name}.js" ] && echo ".seed/scripts/${script_name}.js" && return 0
+    return 1
+}
+
 # 获取未推送的 commits 涉及的文件
 UNPUSHED_FILES=$(git diff --name-only origin/main...HEAD)
 
 # 增量检查（使用缓存）
-node .seed/scripts/incremental-defend.js --files="$UNPUSHED_FILES"
-
-if [ $? -ne 0 ]; then
+INCREMENTAL_DEFENDER=$(find_hook_script "incremental-defender" || find_hook_script "incremental-defend" || echo "")
+if [ -n "$INCREMENTAL_DEFENDER" ] && ! node "$INCREMENTAL_DEFENDER" --files="$UNPUSHED_FILES"; then
     echo "❌ SEED 检查失败，推送被阻止"
     echo "请修复问题后重新推送"
     exit 1
 fi
 
 # 更新缓存
-node .seed/scripts/update-cache.js --files="$UNPUSHED_FILES"
+CACHE_UPDATER=$(find_hook_script "cache-updater" || find_hook_script "update-cache" || echo "")
+[ -n "$CACHE_UPDATER" ] && node "$CACHE_UPDATER" --files="$UNPUSHED_FILES"
 
 exit 0
 ```

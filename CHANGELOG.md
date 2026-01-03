@@ -6,6 +6,93 @@
 
 ---
 
+## [3.3.0] - 2026-01-04
+
+### Added
+
+**Brownfield Migration（一键迁移）**
+
+现有项目无需手动编写规格，一键从代码逆向生成完整规格。
+
+**Phase 1: spec extract 命令**
+- `lib/spec/from-code.js` - 代码提取主入口
+- `lib/spec/parser.js` - 规格文件 I/O
+- `lib/parsers/ast-javascript.js` - JavaScript AST 解析器
+- `lib/cli/spec-extract.js` - CLI 包装
+- `scripts/reverse-engineer.js` - AST 逆向工程脚本
+  - `extractMethodsAST()` - 方法提取
+  - `extractJSDoc()` - JSDoc 提取
+  - @babel/parser 可选依赖（回退到正则）
+
+**Phase 2: spec enrich 命令**
+- `lib/spec/enrich.js` - 规格补充引擎
+- `lib/parsers/test-parser.js` - 测试文件解析
+- `lib/cli/spec-enrich.js` - CLI 包装
+- 从测试用例提取验收标准
+- AI 辅助生成功能需求
+- 质量标注（`[Tests]`/`[JSDoc]`/`[AI]`/`[Template]`）
+
+**Phase 3: brownfield 命令**
+- `lib/brownfield/orchestrator.js` - 工作流编排
+- `lib/brownfield/project-detector.js` - 项目结构检测
+- `lib/brownfield/state-manager.js` - 状态管理/断点续传
+- `lib/brownfield/report-generator.js` - 迁移报告生成
+- `lib/cli/brownfield.js` - CLI 包装
+- 支持 `--dry-run`、`--incremental`、`--continue` 选项
+
+**Phase 4: defend 双向同步**
+- `lib/defend/drift-detector.js` - 偏离检测引擎
+  - 检测类型：method_added, method_removed, signature_changed, parameter_added, parameter_removed
+  - 严重性分级：high, medium, low
+- `lib/defend/update-proposer.js` - 更新提案生成
+  - 保护区域（requirements, acceptance_criteria）禁止自动更新
+  - 风险评估和自动应用判断
+- `lib/defend/bidirectional-sync.js` - 双向同步引擎
+  - `--sync-direction=spec`: 规格→代码（验证）
+  - `--sync-direction=code`: 代码→规格（反向同步）
+  - `--sync-direction=bidirectional`: 双向检测
+
+**新增规格文件 (6 个)**
+- `openspec/changes/v3.3-brownfield-support/specs/architecture-refactor.fspec.md`
+- `openspec/changes/v3.3-brownfield-support/specs/spec-extract.fspec.md`
+- `openspec/changes/v3.3-brownfield-support/specs/spec-enrich.fspec.md`
+- `openspec/changes/v3.3-brownfield-support/specs/brownfield.fspec.md`
+- `openspec/changes/v3.3-brownfield-support/specs/defend-bidirectional.fspec.md`
+- `openspec/changes/v3.3-brownfield-support/specs/reverse-engineer-ast.fspec.md`
+
+**最佳实践集成**
+- `docs/best-practices-review.md` - 架构决策复盘
+- `docs/best-practices-integration.md` - 检查清单集成方案
+- `scripts/verify-architecture-decisions.js` - 架构决策验证脚本
+
+### Changed
+
+**架构重构 (REFACTOR-001)**
+- 通用能力从 `.seed/scripts/` 迁移到 `skills/mob-seed/lib/hooks/`
+  - `check-cache.js` → `hooks/cache-checker.js`
+  - `quick-defend.js` → `hooks/quick-defender.js`
+  - `incremental-defend.js` → `hooks/incremental-defender.js`
+  - `update-cache.js` → `hooks/cache-updater.js`
+- `commands/defend.md` 扩展 `--quick`、`--incremental`、`--cached` 选项
+- 用户项目现在可以正常调用这些能力
+
+**文档更新**
+- README.md / README.zh-CN.md 新增 Brownfield Migration 章节 (+125 行)
+- CLAUDE.md 新增经验教训 #19: 架构重构遵循渐进式五步法
+
+### Tests
+
+- 新增测试用例：约 200+ 个
+- 测试覆盖：
+  - `test/spec/from-code.test.js` - spec extract 测试
+  - `test/spec/enrich.test.js` - spec enrich 测试
+  - `test/brownfield/*.test.js` - brownfield 模块测试 (76 tests)
+  - `test/defend/drift-detector.test.js` - 偏离检测测试 (27 tests)
+  - `test/defend/update-proposer.test.js` - 更新提案测试 (33 tests)
+  - `test/defend/bidirectional-sync.test.js` - 双向同步测试 (27 tests)
+
+---
+
 ## [3.2.1] - 2026-01-03
 
 ### Changed
@@ -343,7 +430,11 @@
 
 ---
 
-[Unreleased]: https://github.com/mobfish-ai/mob-seed/compare/v3.0.0...HEAD
+[Unreleased]: https://github.com/mobfish-ai/mob-seed/compare/v3.3.0...HEAD
+[3.3.0]: https://github.com/mobfish-ai/mob-seed/compare/v3.2.1...v3.3.0
+[3.2.1]: https://github.com/mobfish-ai/mob-seed/compare/v3.2.0...v3.2.1
+[3.2.0]: https://github.com/mobfish-ai/mob-seed/compare/v3.1.0...v3.2.0
+[3.1.0]: https://github.com/mobfish-ai/mob-seed/compare/v3.0.0...v3.1.0
 [3.0.0]: https://github.com/mobfish-ai/mob-seed/compare/v2.1.1...v3.0.0
 [2.1.1]: https://github.com/mobfish-ai/mob-seed/compare/v2.1.0...v2.1.1
 [2.1.0]: https://github.com/mobfish-ai/mob-seed/compare/v2.0.0...v2.1.0

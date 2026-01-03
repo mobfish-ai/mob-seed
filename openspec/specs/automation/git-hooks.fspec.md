@@ -135,17 +135,17 @@ The system SHALL provide incremental-defend.js for thorough validation.
 ### Node.js 脚本
 
 ```javascript
+// 新路径 (v3.3.0+): skills/mob-seed/lib/hooks/
+// skills/mob-seed/lib/hooks/cache-checker.js    - 检查文件是否有有效缓存
+// skills/mob-seed/lib/hooks/quick-defender.js   - 快速 SEED 同步检查
+// skills/mob-seed/lib/hooks/incremental-defender.js - 增量 SEED 检查（带缓存）
+// skills/mob-seed/lib/hooks/cache-updater.js    - 更新检查缓存
+
+// 旧路径 (向后兼容，已弃用):
 // .seed/scripts/check-cache.js
-// 检查文件是否有有效缓存
-
 // .seed/scripts/quick-defend.js
-// 快速 SEED 同步检查
-
 // .seed/scripts/incremental-defend.js
-// 增量 SEED 检查（带缓存）
-
 // .seed/scripts/update-cache.js
-// 更新检查缓存
 ```
 
 ## 配置项

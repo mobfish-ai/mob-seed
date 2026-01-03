@@ -87,8 +87,26 @@ fi
 
 1. 读取模板文件：`$SKILL_DIR/templates/{template}.fspec.md`
 2. 读取创建指导：`$SKILL_DIR/prompts/spec-create.md`
-3. 根据用户需求填充模板
-4. 输出到：`{config.paths.specs}/{name}.fspec.md`
+3. **完成架构决策检查清单**（新增）：
+   - 模板自动包含 8 个架构决策点
+   - **必须在编写详细规格前完成所有决策**
+   - 完成后将 frontmatter 中 `architecture_decisions_completed` 设为 `true`
+
+   **8 个决策点**：
+   - 目录结构设计（分层/分组/扁平）
+   - 命名规范（动词-对象/对象-动词/名词）
+   - 库与 CLI 分离
+   - 错误处理策略（优雅降级/快速失败/静默失败）
+   - 退出码设计（分层/简单/不关心）
+   - Git Hooks 集成方式
+   - 测试覆盖率要求（按风险分级/统一标准）
+   - 废弃策略（版本化/立即废弃）
+
+   > 📚 **参考文档**: `openspec/changes/v3.3-brownfield-support/best-practices-integration.md`
+   > 📖 **实例**: `spec-extract.fspec.md`, `spec-enrich.fspec.md`
+
+4. 根据用户需求填充模板（在架构决策完成后）
+5. 输出到：`{config.paths.specs}/{name}.fspec.md`
 
 **OpenSpec 提案完整性检查** (自动执行):
 
@@ -211,6 +229,12 @@ fs.writeFileSync(path.join(proposalDir, 'tasks.md'), tasksContent);
 ## 规格文件格式 (.fspec.md)
 
 ```markdown
+---
+status: draft
+created: YYYY-MM-DD
+architecture_decisions_completed: false
+---
+
 # {功能名称} 规格
 
 > 版本: 1.0.0
@@ -221,6 +245,23 @@ fs.writeFileSync(path.join(proposalDir, 'tasks.md'), tasksContent);
 - 功能描述
 - 目标用户
 - 核心价值
+
+## 架构决策检查清单 (Architecture Decisions)
+
+> **重要**: 在编写详细规格前，先完成以下架构决策检查。
+> 完成所有检查后，将 frontmatter 中 `architecture_decisions_completed` 设为 `true`。
+
+### 1. 目录结构设计
+- [ ] 按功能分层（推荐）
+- [ ] 按模块分组
+- [ ] 扁平结构
+
+**选择**: ____________
+**理由**: ____________
+
+### 2-8. 其他决策点...
+
+（完整检查清单见模板文件）
 
 ## 需求 (Requirements)
 ### 功能需求

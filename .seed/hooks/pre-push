@@ -50,9 +50,26 @@ while read local_ref local_sha remote_ref remote_sha; do
 
     echo -e "${YELLOW}检查文件: $(echo "$SPEC_FILES" | wc -l | tr -d ' ') 个${NC}"
 
+    # 三层回退模式查找脚本
+    find_hook_script() {
+        local script_name="$1"
+        # Layer 1: 库路径（mob-seed 项目内）
+        if [ -f "skills/mob-seed/lib/hooks/${script_name}.js" ]; then
+            echo "skills/mob-seed/lib/hooks/${script_name}.js"
+            return 0
+        fi
+        # Layer 2: 旧路径（向后兼容）
+        if [ -f ".seed/scripts/${script_name}.js" ]; then
+            echo ".seed/scripts/${script_name}.js"
+            return 0
+        fi
+        return 1
+    }
+
     # 增量检查（使用缓存）
-    if [ -f ".seed/scripts/incremental-defend.js" ]; then
-        if ! node .seed/scripts/incremental-defend.js --files="$SPEC_FILES"; then
+    INCREMENTAL_DEFENDER=$(find_hook_script "incremental-defender" || find_hook_script "incremental-defend" || echo "")
+    if [ -n "$INCREMENTAL_DEFENDER" ]; then
+        if ! node "$INCREMENTAL_DEFENDER" --files="$SPEC_FILES"; then
             echo -e "${RED}❌ SEED 检查失败，推送被阻止${NC}"
             echo -e "${YELLOW}请修复问题后重新推送${NC}"
             exit 1
@@ -60,8 +77,9 @@ while read local_ref local_sha remote_ref remote_sha; do
     fi
 
     # 更新缓存
-    if [ -f ".seed/scripts/update-cache.js" ]; then
-        node .seed/scripts/update-cache.js --files="$SPEC_FILES" 2>/dev/null || true
+    CACHE_UPDATER=$(find_hook_script "cache-updater" || find_hook_script "update-cache" || echo "")
+    if [ -n "$CACHE_UPDATER" ]; then
+        node "$CACHE_UPDATER" --files="$SPEC_FILES" 2>/dev/null || true
     fi
 
     echo -e "${GREEN}✅ SEED 增量检查通过${NC}"
