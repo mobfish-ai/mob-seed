@@ -42,6 +42,7 @@ argument-hint: [subcommand] [options]
 | exec | 执行测试 |
 | defend | 守护检查 |
 | archive | 归档提案 |
+| ace | ACE 自演化管理 |
 
 ### 全局选项
 
@@ -94,12 +95,13 @@ const options = {
 │  ─────────                        ─────────                  │
 │                                                              │
 │  /mob-seed                     →  智能状态面板               │
-│  /mob-seed init                →  commands/mob-seed/init.md  │
-│  /mob-seed spec "登录"         →  commands/mob-seed/spec.md  │
-│  /mob-seed emit                →  commands/mob-seed/emit.md  │
-│  /mob-seed exec                →  commands/mob-seed/exec.md  │
-│  /mob-seed defend              →  commands/mob-seed/defend.md│
-│  /mob-seed archive             →  commands/mob-seed/archive.md│
+│  /mob-seed init                →  commands/init.md           │
+│  /mob-seed spec "登录"         →  commands/spec.md           │
+│  /mob-seed emit                →  commands/emit.md           │
+│  /mob-seed exec                →  commands/exec.md           │
+│  /mob-seed defend              →  commands/defend.md         │
+│  /mob-seed archive             →  commands/archive.md        │
+│  /mob-seed ace                 →  commands/ace.md            │
 │                                                              │
 └─────────────────────────────────────────────────────────────┘
 ```
@@ -134,7 +136,15 @@ const status = await collectStatus();
 - 缺失：规格定义但代码未实现
 - 不一致：实现与规格描述不符
 
-#### 3.4 输出报告
+#### 3.4 ACE 状态检查
+
+```javascript
+// 检查 ACE 观察状态
+const aceStatus = checkACEStatus();
+// 返回: { raw, triaged, promoted, patterns, shouldReflect }
+```
+
+#### 3.5 输出报告
 
 ```
 🌱 SEED 项目状态
@@ -152,9 +162,15 @@ const status = await collectStatus();
 📊 漂移检测
    ✅ 无漂移
 
+🧠 ACE 自演化
+   观察: {raw} 待处理 / {total} 总数
+   模式: {patterns} 个已提取
+   {shouldReflect ? "⚠️ 达到反思阈值" : "✅ 状态健康"}
+
 💡 建议行动
    1. 运行 /mob-seed defend --fix 修复文档版本
    2. 补充 5 个缺失的 AC 测试
+   {raw > 0 ? "3. 运行 /mob-seed ace 处理待处理观察" : ""}
 
 下一步: /mob-seed <action> 或 /mob-seed --auto 自动执行
 ```
