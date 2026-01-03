@@ -1,8 +1,9 @@
 ---
-status: implementing
+status: archived
 created: 2026-01-03
-updated: 2026-01-03
+updated: 2026-01-04
 version: 3.3.0
+archived: 2026-01-04
 ---
 
 # v3.3 Brownfield Support - 棕地项目反向工程
