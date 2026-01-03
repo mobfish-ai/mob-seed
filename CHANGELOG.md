@@ -6,6 +6,78 @@
 
 ---
 
+## [3.0.0] - 2026-01-02
+
+### ⚠️ Breaking Changes
+- **ACE 集成**: 新增 Observe/Reflect/Curate 闭环，扩展 SEED 方法论
+- **规格目录扩展**: `.seed/observations/` 和 `.seed/reflections/` 新增目录
+
+### Added
+
+**ACE 核心模块** (11 个新模块，约 5000+ 行代码)
+- `lib/ace/observation.js` - 观察对象和索引管理 (702 行)
+- `lib/ace/observation-collector.js` - 自动收集测试失败/规格偏离 (380 行)
+- `lib/ace/observation-stats.js` - 观察统计分析 (367 行)
+- `lib/ace/observe-handler.js` - 手动观察命令处理 (527 行)
+- `lib/ace/triage-handler.js` - 观察分类归档 (702 行)
+- `lib/ace/reflection.js` - 反思生成和管理
+- `lib/ace/reflection-trigger.js` - 阈值触发器
+- `lib/ace/feature-extractor.js` - 模式特征提取
+- `lib/ace/similarity-matcher.js` - 历史模式匹配
+- `lib/ace/feedback-collector.js` - 效果反馈收集
+- `lib/spec/proposal-validator.js` - 提案完整性验证
+
+**新增规格文件** (16 个 ACE 规格)
+- `openspec/changes/v3.0-ace-integration/specs/ace/observation.fspec.md`
+- `openspec/changes/v3.0-ace-integration/specs/ace/observation-collector.fspec.md`
+- `openspec/changes/v3.0-ace-integration/specs/ace/spec-observe-command.fspec.md`
+- `openspec/changes/v3.0-ace-integration/specs/ace/spec-triage-command.fspec.md`
+- `openspec/changes/v3.0-ace-integration/specs/ace/status-panel-enhance.fspec.md`
+- `openspec/changes/v3.0-ace-integration/specs/ace/task-generation.fspec.md`
+- `openspec/changes/v3.0-ace-integration/specs/ace/reflection.fspec.md`
+- `openspec/changes/v3.0-ace-integration/specs/ace/reflection-trigger.fspec.md`
+- `openspec/changes/v3.0-ace-integration/specs/ace/spec-reflect-command.fspec.md`
+- `openspec/changes/v3.0-ace-integration/specs/ace/pattern-learning.fspec.md`
+- `openspec/changes/v3.0-ace-integration/specs/ace/auto-propose.fspec.md`
+- `openspec/changes/v3.0-ace-integration/specs/ace/llm-reflect.fspec.md`
+- `openspec/changes/v3.0-ace-integration/specs/ace/proposal-validation.fspec.md`
+- `openspec/changes/v3.0-ace-integration/specs/ace/doc-update.fspec.md`
+
+**新增 ACE 命令**
+- `/mob-seed:spec observe` - 手动添加观察
+- `/mob-seed:spec triage` - 观察分类归档
+- `/mob-seed:spec reflect` - 触发反思分析
+- `/mob-seed:spec promote` - 将反思升级为提案
+
+**文档更新**
+- `docs/concepts/ace-overview.md` - ACE 概念说明文档
+- `docs/concepts/openspec-lifecycle.md` - 更新包含 ACE 闭环
+- README.md / README.zh-CN.md - 新增 ACE 章节
+- CLAUDE.md - 新增 ACE 开发指南
+
+**验证脚本**
+- `scripts/verify-task-progress.js` - 任务进度验证
+- `scripts/verify-docs.js` - 文档完整性验证
+- `scripts/verify-seed-sync.js` - SEED 同步验证
+- `scripts/verify-archive.js` - 归档完整性验证
+
+### Changed
+- 状态面板增强：显示观察统计信息
+- Execute 命令：自动收集测试失败观察
+- Defend 命令：自动检测规格偏离观察
+- 配置扩展：新增 `ace` 配置节
+
+### Fixed
+- 归档流程：修复规格文件状态和 AC checkbox 遗漏
+- 程序化验证：建立归档执行标准
+- 版本管理：实施单源版本管理方案
+
+### Tests
+- 1029+ tests passed (新增约 3000+ 行测试代码)
+- ACE 模块测试覆盖：observation, collector, stats, handler, triage
+
+---
+
 ## [2.1.1] - 2026-01-01
 
 ### Fixed
@@ -182,7 +254,8 @@
 
 ---
 
-[Unreleased]: https://github.com/mobfish-ai/mob-seed/compare/v2.1.1...HEAD
+[Unreleased]: https://github.com/mobfish-ai/mob-seed/compare/v3.0.0...HEAD
+[3.0.0]: https://github.com/mobfish-ai/mob-seed/compare/v2.1.1...v3.0.0
 [2.1.1]: https://github.com/mobfish-ai/mob-seed/compare/v2.1.0...v2.1.1
 [2.1.0]: https://github.com/mobfish-ai/mob-seed/compare/v2.0.0...v2.1.0
 [2.0.0]: https://github.com/mobfish-ai/mob-seed/compare/v1.2.0...v2.0.0

@@ -6,16 +6,20 @@
 
 ## Overview
 
-**mob-seed** is a Claude Code skill that implements the SEED methodology for spec-driven development. It automates the workflow from specification to code, tests, and documentation.
+**mob-seed** is a Claude Code skill that implements the SEED methodology for spec-driven development. It automates the workflow from specification to code, tests, and documentation, with **ACE (Agentic Context Engineering)** enabling self-evolution through execution feedback.
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │                     🌱 SEED Methodology                          │
-│                     OpenSpec + fspec Native                      │
+│               OpenSpec + fspec Native + ACE Self-Evolution       │
 │                                                                  │
 │  "One seed, one tree, fully automated growth"                   │
 │                                                                  │
 │  Spec (seed) ──auto-grow──► Code + Tests + Docs (tree)          │
+│       ▲                                        │                 │
+│       │           ┌────────────────────────────┘                 │
+│       │           ▼                                              │
+│       └── ACE (Observe → Reflect → Curate) ◄───┘                 │
 │                                                                  │
 │  openspec/specs/*.fspec.md  →  src/ + test/ + docs/             │
 │                                                                  │
@@ -32,6 +36,37 @@
 | **D** | Defend | Guard standards | Prevent manual intervention |
 
 **Mnemonic**: Single defines source, Emit auto-derives, Execute auto-runs, Defend guards standards.
+
+## ACE Self-Evolution
+
+ACE (Agentic Context Engineering) enables specs to evolve from execution feedback:
+
+```
+┌───────────────────────────────────────────────────────────────────┐
+│                        SEED + ACE Cycle                            │
+│                                                                    │
+│   Spec ──────► Emit ──────► Execute ──────► Defend                │
+│    ▲                           │              │                   │
+│    │                           ▼              ▼                   │
+│    │                    ┌──────────────────────────┐              │
+│    │                    │ Observe (collect signals)│              │
+│    │                    └───────────┬──────────────┘              │
+│    │                                ▼                              │
+│    │                    ┌──────────────────────────┐              │
+│    │                    │ Reflect (identify patterns)│            │
+│    │                    └───────────┬──────────────┘              │
+│    │                                ▼                              │
+│    │                    ┌──────────────────────────┐              │
+│    └────────────────────│ Curate (evolve spec)     │              │
+│                         └──────────────────────────┘              │
+└───────────────────────────────────────────────────────────────────┘
+```
+
+| Stage | Description | Trigger |
+|-------|-------------|---------|
+| **Observe** | Collect execution signals (test failures, spec drift) | Auto/Manual |
+| **Reflect** | Identify patterns across observations | Threshold trigger |
+| **Curate** | Propose spec improvements from insights | Manual review |
 
 ## Installation
 
@@ -127,9 +162,24 @@ your-project/
 /mob-seed:defend
 ```
 
+### 5. Self-Evolution (ACE)
+
+```bash
+# Add manual observation
+/mob-seed:spec observe "Test flaky in CI due to timing"
+
+# Trigger reflection analysis
+/mob-seed:spec reflect
+
+# Promote insight to proposal
+/mob-seed:spec promote <reflection-id>
+```
+
 ## Commands
 
-> **v2.1.0**: Commands unified to subcommand pattern (`/mob-seed:*`)
+> **v3.0.0**: Commands unified to subcommand pattern (`/mob-seed:*`) with ACE integration
+
+### Core SEED Commands
 
 | Command | Description |
 |---------|-------------|
@@ -140,6 +190,15 @@ your-project/
 | `/mob-seed:exec` | E: Auto-execute CI |
 | `/mob-seed:defend` | D: Guard compliance |
 | `/mob-seed:archive` | Archive completed proposals |
+
+### ACE Commands (Self-Evolution)
+
+| Command | Description |
+|---------|-------------|
+| `/mob-seed:spec observe` | Add manual observation |
+| `/mob-seed:spec triage` | Categorize observations |
+| `/mob-seed:spec reflect` | Trigger pattern analysis |
+| `/mob-seed:spec promote` | Promote insight to proposal |
 
 ## OpenSpec Lifecycle
 

@@ -208,10 +208,40 @@ source: proposal.md
 
 | 任务 | 规格 | 状态 |
 |------|------|------|
-| 2.1 定义反思数据结构 | - | :hourglass: pending |
-| 2.2 规则匹配式反思 | - | :hourglass: pending |
-| 2.3 reflect 子操作 | - | :hourglass: pending |
-| 2.4 反思结果展示 | - | :hourglass: pending |
+| 2.1 定义反思数据结构 | reflection.fspec.md | :white_check_mark: completed |
+| 2.2 规则匹配式反思 | pattern-matcher.fspec.md | :white_check_mark: completed |
+| 2.3 reflect 子操作 | reflect-handler.fspec.md | :white_check_mark: completed |
+| 2.4 反思结果展示 | reflect-handler.fspec.md | :white_check_mark: completed |
+
+---
+
+### 任务 2.1: 定义反思数据结构
+
+**关联规格**: `specs/ace/reflection.fspec.md`
+
+**派生产物**:
+- `skills/mob-seed/lib/ace/reflection.js` ✅
+- `skills/mob-seed/test/ace/reflection.test.js` ✅ (33/33 pass)
+
+---
+
+### 任务 2.2: 规则匹配式反思
+
+**关联规格**: `specs/ace/pattern-matcher.fspec.md`
+
+**派生产物**:
+- `skills/mob-seed/lib/ace/pattern-matcher.js` ✅
+- `skills/mob-seed/test/ace/pattern-matcher.test.js` ✅ (32/32 pass)
+
+---
+
+### 任务 2.3-2.4: reflect 子操作与结果展示
+
+**关联规格**: `specs/ace/reflect-handler.fspec.md`
+
+**派生产物**:
+- `skills/mob-seed/lib/ace/reflect-handler.js` ✅
+- `skills/mob-seed/test/ace/reflect-handler.test.js` ✅ (31/31 pass)
 
 ---
 
@@ -219,10 +249,42 @@ source: proposal.md
 
 | 任务 | 规格 | 状态 |
 |------|------|------|
-| 3.1 promote 子操作 | - | :hourglass: pending |
-| 3.2 来源追溯链完整 | - | :hourglass: pending |
-| 3.3 文档更新 | - | :hourglass: pending |
-| 3.4 迁移指南 | - | :hourglass: pending |
+| 3.1 promote 子操作 | promote-handler.fspec.md | :white_check_mark: completed |
+| 3.2 来源追溯链完整 | promote-handler.fspec.md | :white_check_mark: completed |
+| 3.3 文档更新 | doc-update.fspec.md | :white_check_mark: completed |
+| 3.4 迁移指南 | migration-guide.fspec.md | :white_check_mark: completed |
+
+---
+
+### 任务 3.1-3.2: promote 子操作与来源追溯链
+
+**关联规格**: `specs/ace/promote-handler.fspec.md`
+
+**派生产物**:
+- `skills/mob-seed/lib/ace/promote-handler.js` ✅
+- `skills/mob-seed/test/ace/promote-handler.test.js` ✅ (37/37 pass)
+
+---
+
+### 任务 3.3: 文档更新
+
+**关联规格**: `specs/ace/doc-update.fspec.md`
+
+**派生产物**:
+- CLAUDE.md ✅
+- README.md / README.zh-CN.md ✅
+- docs/concepts/ace-overview.md ✅
+- CHANGELOG.md ✅
+
+---
+
+### 任务 3.4: 迁移指南
+
+**关联规格**: `specs/ace/migration-guide.fspec.md`
+
+**派生产物**:
+- `skills/mob-seed/lib/init/upgrade.js` ✅
+- `skills/mob-seed/test/init/upgrade.test.js` ✅ (21/21 pass)
 
 ---
 
@@ -230,9 +292,52 @@ source: proposal.md
 
 | 任务 | 规格 | 状态 |
 |------|------|------|
-| 4.1 LLM 辅助反思 | - | :hourglass: pending |
-| 4.2 自动建议提案内容 | - | :hourglass: pending |
-| 4.3 历史模式学习 | - | :hourglass: pending |
+| 4.1 LLM 辅助反思 | llm-reflect.fspec.md | :white_check_mark: completed |
+| 4.2 自动建议提案内容 | auto-propose.fspec.md | :white_check_mark: completed |
+| 4.3 历史模式学习 | pattern-learning.fspec.md | :white_check_mark: completed |
+
+---
+
+### 任务 4.1: LLM 辅助反思
+
+**关联规格**: `specs/ace/llm-reflect.fspec.md`
+
+**派生产物**:
+- `skills/mob-seed/lib/ace/llm-reflect.js` ✅
+- `skills/mob-seed/test/ace/llm-reflect.test.js` ✅ (40/40 pass)
+
+---
+
+### 任务 4.2: 自动建议提案内容
+
+**关联规格**: `specs/ace/auto-propose.fspec.md`
+
+**派生产物**:
+- `skills/mob-seed/lib/ace/phase-breakdown.js` ✅
+- `skills/mob-seed/lib/ace/spec-suggester.js` ✅
+- `skills/mob-seed/lib/ace/proposal-generator.js` ✅
+- `skills/mob-seed/test/ace/auto-propose.test.js` ✅ (77/77 pass)
+
+---
+
+### 任务 4.3: 历史模式学习
+
+**关联规格**: `specs/ace/pattern-learning.fspec.md`
+
+**派生产物**:
+- `skills/mob-seed/lib/ace/feature-extractor.js` ✅
+- `skills/mob-seed/lib/ace/similarity-matcher.js` ✅
+- `skills/mob-seed/lib/ace/feedback-collector.js` ✅
+- `skills/mob-seed/lib/ace/pattern-learner.js` ✅
+- `skills/mob-seed/test/ace/pattern-learning.test.js` ✅ (58/58 pass)
+
+---
+
+## 阻塞性修复 (P0)
+
+| 任务 | 规格 | 状态 |
+|------|------|------|
+| P0.1 提案完整性验证 | proposal-validation.fspec.md | :white_check_mark: completed |
 
 ---
 
@@ -240,10 +345,11 @@ source: proposal.md
 
 ```
 Phase 1: [████████████████████] 100% (6/6) ✅
-Phase 2: [                    ] 0% (0/4)
-Phase 3: [                    ] 0% (0/4)
-Phase 4: [                    ] 0% (0/3)
-总进度:  [███████░░░░░░░░░░░░░] 35% (6/17)
+Phase 2: [████████████████████] 100% (4/4) ✅
+Phase 3: [████████████████████] 100% (4/4) ✅
+Phase 4: [████████████████████] 100% (3/3) ✅
+P0:      [████████████████████] 100% (1/1) ✅
+总进度:  [████████████████████] 100% (18/18)
 ```
 
 ### 测试统计
@@ -255,4 +361,14 @@ Phase 4: [                    ] 0% (0/3)
 | observe-handler.js | 32/32 | ✅ |
 | triage-handler.js | 26/26 | ✅ |
 | task-generator.js | 32/32 | ✅ |
-| **累计** | **165/165** | ✅ |
+| reflection.js | 33/33 | ✅ |
+| pattern-matcher.js | 32/32 | ✅ |
+| reflect-handler.js | 31/31 | ✅ |
+| promote-handler.js | 37/37 | ✅ |
+| upgrade.js | 21/21 | ✅ |
+| llm-reflect.js | 40/40 | ✅ |
+| auto-propose.js (phase-breakdown, spec-suggester, proposal-generator) | 77/77 | ✅ |
+| pattern-learning.js (feature-extractor, similarity-matcher, feedback-collector, pattern-learner) | 58/58 | ✅ |
+| proposal-validator.js | 45/45 | ✅ |
+| llm-analyzer.js | 490/490 | ✅ |
+| **累计** | **1029/1029** | ✅ |

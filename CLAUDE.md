@@ -99,6 +99,87 @@ draft → review → implementing → archived
 - `specs/` 目录: 稳定规格
 - `archive/` 目录: 已归档历史
 
+## ACE 闭环 (Observe → Reflect → Curate)
+
+ACE (Agentic Context Engineering) 让系统能从执行反馈中学习并演化规格。
+
+### 与 SEED 的关系
+
+```
+Spec → Emit → Execute → Defend
+  ▲                │        │
+  │                ▼        ▼
+  │         Observe → Reflect → Curate
+  └──────────────────────────────────┘
+```
+
+### 观察收集
+
+- **自动观察**: Execute/Defend 自动记录失败和偏离
+- **手动观察**: `/mob-seed:spec observe "描述"`
+- **观察类型**: test_failure, spec_drift, coverage_gap, user_feedback
+
+### 反思分析
+
+- **触发**: `/mob-seed:spec reflect`
+- **自动模式识别**:
+  - 类型聚合: 同类错误 ≥3 次
+  - 规格聚合: 同规格问题 ≥2 次
+  - 时间窗口: 24 小时内密集问题
+
+### 整合提案
+
+- **升级**: `/mob-seed:spec promote <reflection-id>`
+- 创建正式变更提案
+- 进入 OpenSpec 生命周期
+
+### ACE 命令
+
+| 命令 | 用途 |
+|------|------|
+| `/mob-seed:spec observe` | 手动添加观察 |
+| `/mob-seed:spec triage` | 归类待处理观察 |
+| `/mob-seed:spec reflect` | 触发反思分析 |
+| `/mob-seed:spec promote` | 反思升级为提案 |
+
+### ACE 目录结构
+
+```
+.seed/
+├── observations/     # 观察记录
+│   ├── index.json   # 索引
+│   └── obs-xxx.md   # 单个观察
+├── reflections/      # 反思记录
+│   ├── index.json   # 索引
+│   └── ref-xxx.md   # 单个反思
+└── learning/         # 模式学习
+    ├── samples.json  # 历史样本
+    └── feedback.json # 效果反馈
+```
+
+### ACE 配置
+
+在 `.seed/config.json` 中配置 ACE 行为：
+
+```json
+{
+  "ace": {
+    "enabled": true,
+    "sources": {
+      "core": ["test_failure", "spec_drift", "coverage_gap", "user_feedback"]
+    },
+    "reflect": {
+      "auto_trigger": true,
+      "thresholds": {
+        "same_type": 3,
+        "same_spec": 2,
+        "time_window_hours": 24
+      }
+    }
+  }
+}
+```
+
 ## 核心规则 ⚠️
 
 > **完整定义见 [.seed/mission.md](.seed/mission.md)**
@@ -609,8 +690,8 @@ cd skills/mob-seed && node --test test/**/*.test.js
 
 ## 当前状态
 
-- **版本**: 2.1.1
-- **变更提案**: v3.0-ace-integration (implementing, 50% Phase 1)
-- **模块**: 19/22 已实现 (新增 3 个 ACE 模块)
-- **测试**: 569 pass (原 494 + 新增 75)
-- **规格**: 23 个稳定规格 + 6 个 ACE 规格 (draft)
+- **版本**: 3.0.0
+- **变更提案**: v3.0-ace-integration (implementing, 100%)
+- **模块**: 27 个已实现 (ACE: observation, reflection, ace/*, spec/*)
+- **测试**: 1029 pass
+- **规格**: 23 + 16 ACE 规格 = 39 个规格

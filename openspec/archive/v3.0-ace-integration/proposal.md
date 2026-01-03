@@ -1,6 +1,6 @@
 # SEED v3.0: ACE 融合提案
 
-> **状态**: implementing
+> **状态**: archived
 > **版本**: 3.0.0
 > **创建**: 2026-01-01
 > **基于**: ACE Framework (Stanford/SambaNova/Berkeley)
@@ -806,23 +806,27 @@ P4: Backlog  (user_feedback + 低影响)
 
 ### Phase 2: 反思能力 (v3.0-beta)
 
-- [ ] 定义反思数据结构
-- [ ] 规则匹配式反思（模式识别）
-- [ ] `/mob-seed:spec reflect` 触发分析
-- [ ] 反思结果展示
+- [ ] 定义反思数据结构 → `reflection.fspec.md`
+- [ ] 规则匹配式反思（模式识别） → `pattern-matcher.fspec.md`
+- [ ] `/mob-seed:spec reflect` 触发分析 → `reflect-handler.fspec.md`
+- [ ] 反思结果展示 → `reflect-handler.fspec.md` (REQ-002, REQ-005, REQ-006)
 
 ### Phase 3: 整合闭环 (v3.0)
 
-- [ ] `/mob-seed:spec promote` 升级为提案
-- [ ] 来源追溯链完整
-- [ ] 文档更新
-- [ ] 迁移指南
+- [ ] `/mob-seed:spec promote` 升级为提案 → `promote-handler.fspec.md`
+- [ ] 来源追溯链完整 → `promote-handler.fspec.md` (REQ-005)
+- [ ] 文档更新 → `doc-update.fspec.md`
+- [ ] 迁移指南 → `migration-guide.fspec.md`
 
 ### Phase 4: 智能增强 (v3.1+)
 
-- [ ] LLM 辅助反思
-- [ ] 自动建议提案内容
-- [ ] 历史模式学习
+- [ ] LLM 辅助反思 → `llm-reflect.fspec.md`
+- [ ] 自动建议提案内容 → `auto-propose.fspec.md`
+- [ ] 历史模式学习 → `pattern-learning.fspec.md`
+
+### 阻塞性修复 (P0)
+
+- [ ] 提案完整性验证 → `proposal-validation.fspec.md`
 
 ---
 
