@@ -6,6 +6,35 @@
 
 ---
 
+## [3.1.0] - 2026-01-03
+
+### Added
+
+**ACE 无缝融合** (4 层集成)
+- `L1 Skill 核心层`: SKILL.md 原则定义，AI 阅读后自动激活 ACE 模式
+- `L2 命令嵌入层`: 6 个命令（seed/spec/emit/exec/defend/archive）嵌入 ACE 提示
+- `L3 对话拦截层`: 会话开始/结束自动触发观察收集
+- `L4 Hooks 保障层`: Git pre-commit/pre-push 强制验证
+
+**归档流程增强**
+- `findSpecFiles(dir)` - 递归查找规格文件
+- `markCheckboxesComplete(filePath)` - 标记 checkbox + 自动添加归档日期
+- 归档时自动更新真相源 `specs/` 目录的状态和 checkbox
+
+### Fixed
+
+- **归档辅助函数缺失**: `archiver.js` 调用了未定义的函数，导致归档不完整
+- **规格状态不一致**: 14 个 ACE 规格文件状态从 `draft` 修复为 `archived`
+- **归档日期缺失**: 批量补全 v3.1-ace-fusion 归档的归档日期
+
+### Changed
+
+- 命令文档格式更新，新增 ACE 集成说明
+- SKILL.md 新增 ACE 反思循环和观察系统说明
+- Git hooks 目录结构调整
+
+---
+
 ## [3.0.0] - 2026-01-02
 
 ### ⚠️ Breaking Changes
