@@ -852,6 +852,48 @@ node scripts/bump-version.js 3.0.0 --release
 - ❌ 禁止把通用能力放在项目特定目录（`.seed/`）
 - ❌ 禁止先写完所有代码再写测试（易脱节）
 
+### 20. 禁止跳过 SEED Hook 检查
+
+> **ACE 来源**: v3.4.0 发布时的错误决策
+
+**问题**: v3.4.0 发布时，pre-push hook 报错，我选择用 `git push --no-verify` 跳过检查。
+
+**为什么这是错误决策**:
+
+| 问题 | 分析 |
+|------|------|
+| 违反 SEED 精神 | D (Defend) 的存在就是守护同步，跳过等于放弃防护 |
+| 没先诊断 | 应该先运行 incremental-defender 分析具体错误 |
+| 走捷径 | `--no-verify` 是"绕过问题"而非"解决问题" |
+| 过度自信 | 假设自己对变更的理解正确，认定是误报 |
+
+**正确做法**:
+
+```
+Hook 报错
+    ↓
+运行 incremental-defender 分析具体错误
+    ↓
+├── 真问题 → 补充缺失内容
+└── 误报 → 修复 hook 检测逻辑
+    ↓
+正常提交推送（不跳过）
+```
+
+**SKIP_SEED_CHECK 的正确使用场景**:
+- ✅ 紧急热修复（事后必须补充验证）
+- ✅ Hook 本身有 bug 导致无法运行（需同时提 issue 修复）
+- ❌ 因为"觉得是误报"就跳过
+- ❌ 因为"赶时间发布"就跳过
+- ❌ 因为"对自己的代码有信心"就跳过
+
+**教训**:
+- ✅ Hook 报错时，先诊断再决策
+- ✅ 如果是误报，修复 hook 逻辑而非跳过
+- ✅ 如果是真问题，补充缺失内容
+- ❌ 禁止因为"觉得是误报"就用 `--no-verify`
+- ❌ 禁止因为时间压力走捷径
+
 ## 快速开始
 
 ```bash
@@ -873,9 +915,9 @@ cd skills/mob-seed && node --test test/**/*.test.js
 
 ## 当前状态
 
-- **版本**: 3.3.0
-- **变更提案**: v3.3-brownfield-support (implementing)
-- **模块**: 35+ 个已实现 (新增: brownfield/*, defend/*, spec/*, parsers/*, hooks/*)
-- **测试**: 1287 pass
-- **规格**: 45 个规格 (openspec/specs/ + openspec/changes/)
+- **版本**: 3.4.0
+- **变更提案**: v3.4-scripts-consolidation (archived)
+- **模块**: 40+ 个已实现 (新增: hooks/scenario, hooks/cache-*, hooks/*-defender)
+- **测试**: 1387 pass
+- **规格**: 48 个规格 (openspec/specs/ + openspec/changes/)
 - **ACE 状态**: 已初始化，首个模式已提取 (pat-release-integrity)
