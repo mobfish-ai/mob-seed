@@ -14,6 +14,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { detectScenario, formatLabel, isDevelopment } = require('./scenario');
 
 // 可选依赖：js-yaml（mission.md 解析需要）
 let yaml = null;
@@ -30,8 +31,12 @@ const colors = {
   yellow: '\x1b[33m',
   blue: '\x1b[34m',
   cyan: '\x1b[36m',
+  magenta: '\x1b[35m',
   reset: '\x1b[0m'
 };
+
+// 当前运行场景
+let currentScenario = null;
 
 /**
  * 加载配置
@@ -254,16 +259,29 @@ module.exports = {
 if (require.main === module) {
   const args = process.argv.slice(2);
   let files = '';
+  let verbose = false;
 
   for (const arg of args) {
     if (arg.startsWith('--files=')) {
       files = arg.substring(8);
+    } else if (arg === '--verbose' || arg === '-v') {
+      verbose = true;
     }
   }
 
   if (!files) {
-    console.error('Usage: incremental-defender.js --files="file1\\nfile2"');
+    console.error('Usage: incremental-defender.js --files="file1\\nfile2" [--verbose]');
     process.exit(1);
+  }
+
+  // 检测运行场景
+  const { scenario, pluginPath } = detectScenario();
+  currentScenario = scenario;
+
+  // 开发模式显示额外信息
+  if (isDevelopment(scenario) && verbose) {
+    console.log(`${colors.cyan}[开发模式]${colors.reset} 运行 incremental-defender`);
+    console.log(`${colors.cyan}插件路径:${colors.reset} ${pluginPath}`);
   }
 
   const config = loadConfig();

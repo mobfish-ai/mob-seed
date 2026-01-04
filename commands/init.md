@@ -250,9 +250,9 @@ openspec/
 💡 ACE: 项目已启用自演进能力
 ```
 
-### 步骤3: 安装 ACE Git Hooks（可选）
+### 步骤3: 安装 SEED Git Hooks（可选）
 
-检查项目是否为 Git 仓库，如果是则安装 ACE hooks：
+检查项目是否为 Git 仓库，如果是则安装 SEED hooks：
 
 **检查条件**：
 ```bash
@@ -261,31 +261,48 @@ if [ -d ".git" ]; then
 fi
 ```
 
-**执行操作**：
-1. 复制 `hooks/ace-pre-commit` 到 `.git/hooks/pre-commit`
-2. 复制 `hooks/ace-pre-push` 到 `.git/hooks/pre-push`
-3. 设置执行权限 `chmod +x .git/hooks/pre-*`
+**特殊情况检测**：
+```bash
+# 如果是 mob-seed 项目自身（dogfooding），跳过 hooks 安装
+if [ -f "skills/mob-seed/lib/hooks/quick-defender.js" ]; then
+    echo "ℹ️  检测到 mob-seed 项目，使用 dogfooding 模式"
+    echo "   请手动运行: cp skills/mob-seed/hooks/* .git/hooks/ && chmod +x .git/hooks/pre-*"
+    # 跳过自动安装，避免覆盖开发者的自定义设置
+fi
+```
+
+**执行操作（用户项目）**：
+1. 从 SKILL_DIR 复制 hooks：
+   ```bash
+   cp "$SKILL_DIR/hooks/pre-commit" .git/hooks/pre-commit
+   cp "$SKILL_DIR/hooks/pre-push" .git/hooks/pre-push
+   ```
+2. 设置执行权限：
+   ```bash
+   chmod +x .git/hooks/pre-*
+   ```
 
 **如果 hooks 已存在**：
-- 检查是否已包含 ACE 检查
-- 如未包含，追加 ACE 检查到现有 hook
-- 不覆盖用户自定义 hooks
+- 检查是否已包含 SEED 检查（检查 `.seed/config.json` 条件）
+- 如已包含，跳过安装并提示
+- 如未包含，询问用户是否覆盖
 
 **输出**：
 ```
-✅ ACE Git Hooks 已安装
+✅ SEED Git Hooks 已安装
 
 .git/hooks/
-├── pre-commit      # 提交时检查待处理观察
-└── pre-push        # 推送时检查反思阈值
+├── pre-commit      # commit 时快速检查 staged 文件
+└── pre-push        # push 时增量检查未推送 commits
 
-💡 ACE: Git 操作将自动触发 ACE 检查
+💡 SEED: Git 操作将自动触发规格同步检查
 ```
 
 **如果不是 Git 仓库**：
 ```
 ℹ️  非 Git 仓库，跳过 hooks 安装
-   如需手动安装: cp hooks/ace-* .git/hooks/ && chmod +x .git/hooks/ace-*
+   初始化 Git 后可手动安装:
+   cp "$SKILL_DIR/hooks/pre-*" .git/hooks/ && chmod +x .git/hooks/pre-*
 ```
 
 ### 步骤4: 保存配置并完成

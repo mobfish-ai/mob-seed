@@ -6,6 +6,60 @@
 
 ---
 
+## [3.4.0] - 2026-01-04
+
+### Added
+
+**场景检测模块**
+- `lib/hooks/scenario.js` - 运行环境检测（5 种场景）
+  - DOGFOODING: mob-seed 项目内开发
+  - USER_ENV: 用户通过 SEED_PLUGIN_PATH 环境变量配置
+  - USER_PLUGIN: 用户通过 Claude Code 插件安装
+  - COMPAT: 兼容模式（.seed/scripts 存在）
+  - MISSING: 脚本未找到
+- 四层回退策略：Layer 0 (env var) → Layer 1 (dogfooding) → Layer 2 (compat) → Layer 3 (plugin)
+- 场景标签显示：`[开发模式]`、`[用户项目]`、`[兼容模式]`
+
+**Git Hooks 整合**
+- `skills/mob-seed/hooks/` - 统一 hooks 目录
+  - `pre-commit` - 快速检查（带场景标识）
+  - `pre-push` - 增量检查（带场景标识）
+  - `ace-pre-commit` / `ace-pre-push` - ACE 闭环钩子
+  - `README.md` - hooks 使用文档
+
+**测试补充（57 个新测试）**
+- `test/hooks/scenario.test.js` - 场景检测测试 (21 tests)
+- `test/hooks/quick-defender.test.js` - 快速检查测试 (22 tests)
+- `test/hooks/cache-checker.test.js` - 缓存检查测试 (17 tests)
+- `test/hooks/cache-updater.test.js` - 缓存更新测试 (13 tests)
+- `test/hooks/incremental-defender.test.js` - 增量检查测试 (27 tests)
+
+### Changed
+
+**脚本整合（单一真相源）**
+- 所有脚本迁移到 `skills/mob-seed/scripts/`：
+  - `check-cache.js`, `quick-defend.js`, `incremental-defend.js`, `update-cache.js`
+  - `reverse-engineer.js`, `verify-*.js` 等验证脚本
+- 项目级目录现在是符号链接：
+  - `.seed/scripts/` → `../skills/mob-seed/scripts/`
+  - `.seed/hooks/` → `../skills/mob-seed/hooks/`
+
+**命令更新**
+- `commands/defend.md` - 新增 Git Hooks 场景检测文档
+- `commands/init.md` - 更新 hooks 安装流程（使用 skills/mob-seed/hooks/）
+
+**hooks 模块更新**
+- `lib/hooks/quick-defender.js` - 集成场景检测
+- `lib/hooks/incremental-defender.js` - 集成场景检测
+- `lib/hooks/index.js` - 导出 scenario 模块
+
+### Tests
+
+- hooks 模块测试：100 tests (新增 57)
+- 全部测试：1387 pass / 0 fail
+
+---
+
 ## [3.3.0] - 2026-01-04
 
 ### Added

@@ -385,11 +385,12 @@ if (threshold.shouldReflect) {
 
 ### pre-commit hook
 
-**快速检查**：仅检查 staged 文件
+**快速检查**：仅检查 staged 文件，支持场景检测
 
 ```bash
 #!/bin/bash
 # .git/hooks/pre-commit
+# 完整代码见 skills/mob-seed/hooks/pre-commit
 
 # 跳过检查（紧急情况）
 if [ "$SKIP_SEED_CHECK" = "1" ]; then
@@ -397,77 +398,43 @@ if [ "$SKIP_SEED_CHECK" = "1" ]; then
     exit 0
 fi
 
-# 获取 staged 文件
-STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACM)
+# 四层回退模式查找脚本（自动检测运行场景）
+# Layer 0: $SEED_PLUGIN_PATH/lib/hooks/   → [用户项目] 环境变量配置
+# Layer 1: skills/mob-seed/lib/hooks/     → [开发模式] mob-seed dogfooding
+# Layer 2: .seed/scripts/                 → [兼容模式] 旧版本
+# Layer 3: ~/.claude/plugins/.../lib/hooks/ → [用户项目] Claude Code 插件
 
-# 过滤规格相关文件
-SPEC_FILES=$(echo "$STAGED_FILES" | grep -E '\.(fspec\.md|js|ts)$')
-
-if [ -n "$SPEC_FILES" ]; then
-    echo "🔍 SEED 快速检查..."
-
-    # 三层回退模式查找脚本
-    find_hook_script() {
-        local script_name="$1"
-        [ -f "skills/mob-seed/lib/hooks/${script_name}.js" ] && echo "skills/mob-seed/lib/hooks/${script_name}.js" && return 0
-        [ -f ".seed/scripts/${script_name}.js" ] && echo ".seed/scripts/${script_name}.js" && return 0
-        return 1
-    }
-
-    # 检查缓存
-    CACHE_CHECKER=$(find_hook_script "cache-checker" || find_hook_script "check-cache" || echo "")
-    if [ -n "$CACHE_CHECKER" ] && node "$CACHE_CHECKER" --files="$SPEC_FILES"; then
-        echo "✅ 使用缓存结果"
-        exit 0
-    fi
-
-    # 快速同步检查（仅 staged 文件）
-    QUICK_DEFENDER=$(find_hook_script "quick-defender" || find_hook_script "quick-defend" || echo "")
-    if [ -n "$QUICK_DEFENDER" ] && ! node "$QUICK_DEFENDER" --files="$SPEC_FILES"; then
-        echo "❌ SEED 检查失败"
-        echo "使用 SKIP_SEED_CHECK=1 git commit 跳过（不推荐）"
-        exit 1
-    fi
-fi
-
-exit 0
+# 场景标识输出示例：
+# 🔍 SEED 快速检查... [开发模式] mob-seed dogfooding
+# 🔍 SEED 快速检查... [用户项目] Claude Code 插件
 ```
 
 ### pre-push hook
 
-**增量检查**：检查所有未推送的 commits
+**增量检查**：检查所有未推送的 commits，支持场景检测
 
 ```bash
 #!/bin/bash
 # .git/hooks/pre-push
+# 完整代码见 skills/mob-seed/hooks/pre-push
 
-echo "🔍 SEED 增量检查..."
-
-# 三层回退模式查找脚本
-find_hook_script() {
-    local script_name="$1"
-    [ -f "skills/mob-seed/lib/hooks/${script_name}.js" ] && echo "skills/mob-seed/lib/hooks/${script_name}.js" && return 0
-    [ -f ".seed/scripts/${script_name}.js" ] && echo ".seed/scripts/${script_name}.js" && return 0
-    return 1
-}
-
-# 获取未推送的 commits 涉及的文件
-UNPUSHED_FILES=$(git diff --name-only origin/main...HEAD)
-
-# 增量检查（使用缓存）
-INCREMENTAL_DEFENDER=$(find_hook_script "incremental-defender" || find_hook_script "incremental-defend" || echo "")
-if [ -n "$INCREMENTAL_DEFENDER" ] && ! node "$INCREMENTAL_DEFENDER" --files="$UNPUSHED_FILES"; then
-    echo "❌ SEED 检查失败，推送被阻止"
-    echo "请修复问题后重新推送"
-    exit 1
-fi
-
-# 更新缓存
-CACHE_UPDATER=$(find_hook_script "cache-updater" || find_hook_script "update-cache" || echo "")
-[ -n "$CACHE_UPDATER" ] && node "$CACHE_UPDATER" --files="$UNPUSHED_FILES"
-
-exit 0
+# 使用相同的四层回退策略查找脚本
+# 场景标识输出示例：
+# 🔍 SEED 增量检查... [开发模式] mob-seed dogfooding
+# 🔍 SEED 增量检查... [用户项目] Claude Code 插件
 ```
+
+### 场景检测说明
+
+| 场景 | 代号 | 颜色 | 描述 |
+|------|------|------|------|
+| 开发模式 | `dogfooding` | 青色 | mob-seed 项目自身开发 |
+| 用户项目（环境变量） | `user-env` | 洋红 | init 时设置 SEED_PLUGIN_PATH |
+| 用户项目（插件路径） | `user-plugin` | 洋红 | Claude Code 插件默认路径 |
+| 兼容模式 | `compat` | 黄色 | 旧版本符号链接 |
+| 脚本缺失 | `missing` | 红色 | 找不到验证脚本 |
+
+详细文档见: `skills/mob-seed/hooks/README.md`
 
 ### CI 集成 (PR 完整检查)
 
@@ -520,11 +487,16 @@ jobs:
 ## 安装 Git Hooks
 
 ```bash
-# 自动安装 hooks
-/mob-seed:init --hooks
+# 自动安装（通过 init 命令）
+/mob-seed:init
 
-# 手动安装
-cp .seed/hooks/pre-commit .git/hooks/
-cp .seed/hooks/pre-push .git/hooks/
+# 手动安装（从技能目录）
+# mob-seed 项目（dogfooding）:
+cp skills/mob-seed/hooks/pre-commit .git/hooks/
+cp skills/mob-seed/hooks/pre-push .git/hooks/
+chmod +x .git/hooks/pre-*
+
+# 用户项目（从 Claude Code 插件）:
+cp ~/.claude/plugins/mobfish-ai/mob-seed/skills/mob-seed/hooks/pre-* .git/hooks/
 chmod +x .git/hooks/pre-*
 ```

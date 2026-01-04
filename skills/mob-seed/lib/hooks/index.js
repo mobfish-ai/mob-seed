@@ -10,8 +10,17 @@ const cacheChecker = require('./cache-checker');
 const quickDefender = require('./quick-defender');
 const incrementalDefender = require('./incremental-defender');
 const cacheUpdater = require('./cache-updater');
+const scenario = require('./scenario');
 
 module.exports = {
+  // 场景检测
+  scenario,
+  detectScenario: scenario.detectScenario,
+  formatLabel: scenario.formatLabel,
+  isDevelopment: scenario.isDevelopment,
+  isUserProject: scenario.isUserProject,
+  SCENARIOS: scenario.SCENARIOS,
+
   // 缓存检查
   cacheChecker,
   checkCache: cacheChecker.checkCache,
