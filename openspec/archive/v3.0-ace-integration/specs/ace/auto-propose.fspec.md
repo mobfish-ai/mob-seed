@@ -1,11 +1,12 @@
+---
+status: archived
+archived: 2026-01-02
+version: 1.0.0
+tech_stack: JavaScript
+derived_path: skills/mob-seed/lib/ace/
+priority: Phase 4 (v3.1+)
+---
 # Feature: 自动建议提案内容
-
-> 状态: draft
-> 版本: 1.0.0
-> 技术栈: JavaScript
-> 派生路径: skills/mob-seed/lib/ace/
-> 优先级: Phase 4 (v3.1+)
-
 ## 概述 (Overview)
 
 基于反思内容自动生成提案草稿，包括问题分析、解决方案、实施任务等。

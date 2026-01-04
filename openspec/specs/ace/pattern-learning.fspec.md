@@ -1,12 +1,12 @@
+---
+status: archived
+archived: 2026-01-03
+version: 1.0.0
+tech_stack: JavaScript
+derived_path: skills/mob-seed/lib/ace/
+priority: Phase 4 (v3.1+)
+---
 # Feature: 历史模式学习
-
-> 状态: archived
-> 归档日期: 2026-01-03
-> 版本: 1.0.0
-> 技术栈: JavaScript
-> 派生路径: skills/mob-seed/lib/ace/
-> 优先级: Phase 4 (v3.1+)
-
 ## 概述 (Overview)
 
 从历史反思和提案中学习模式，提升未来反思分析的准确性和效率。

@@ -1,9 +1,10 @@
 ---
 id: init-hooks
 version: 1.0.0
-status: draft
+status: archived
 created: 2026-01-04
 updated: 2026-01-04
+archived: 2026-01-04
 ---
 
 # Init 命令 Hooks 安装规格 (Init Command Hooks Installation)

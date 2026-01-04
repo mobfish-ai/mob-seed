@@ -1,12 +1,12 @@
+---
+status: archived
+version: 1.0.0
+tech_stack: JavaScript
+derived_path: skills/mob-seed/lib/ops/
+priority: P2
+estimated_effort: 1-2天
+---
 # Feature: Task Cancellation (任务取消)
-
-> 状态: archived
-> 版本: 1.0.0
-> 技术栈: JavaScript
-> 派生路径: skills/mob-seed/lib/ops/
-> 优先级: P2
-> 预计工作量: 1-2天
-
 ## 概述
 
 支持开发过程中的任务取消和状态回滚，确保取消操作不会导致数据不一致或丢失已完成的工作。

@@ -1,12 +1,12 @@
+---
+status: archived
+version: 1.0.0
+tech_stack: JavaScript
+derived_path: skills/mob-seed/lib/router/
+priority: P0
+estimated_effort: 2-3天
+---
 # Feature: Complexity Router (复杂度路由器)
-
-> 状态: archived
-> 版本: 1.0.0
-> 技术栈: JavaScript
-> 派生路径: skills/mob-seed/lib/router/
-> 优先级: P0
-> 预计工作量: 2-3天
-
 ## 概述
 
 五维度任务复杂度评估系统，根据评分结果路由到不同的工作流（Quick/Standard/Full）。

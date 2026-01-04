@@ -1,11 +1,11 @@
+---
+status: archived
+archived: 2026-01-03
+version: 1.0.0
+tech_stack: Markdown
+derived_path: docs/, CLAUDE.md
+---
 # Feature: ACE 文档更新
-
-> 状态: archived
-> 归档日期: 2026-01-03
-> 版本: 1.0.0
-> 技术栈: Markdown
-> 派生路径: docs/, CLAUDE.md
-
 ## 概述 (Overview)
 
 更新项目文档以反映 ACE 集成后的新功能和工作流程。

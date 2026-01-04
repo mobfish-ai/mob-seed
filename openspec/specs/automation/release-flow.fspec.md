@@ -1,12 +1,12 @@
+---
+status: archived
+archived: 2026-01-01
+version: 1.0.0
+created: 2026-01-01
+updated: 2026-01-01
+priority: P1
+---
 # release-flow 规格
-
-> 版本: 1.0.0
-> 状态: archived
-> 归档日期: 2026-01-01
-> 创建时间: 2026-01-01
-> 最后更新: 2026-01-01
-> 优先级: P1
-
 ## 概述 (Overview)
 
 一键发布流程，自动化从版本更新到 GitHub Release 的完整发布流程。

@@ -1,10 +1,10 @@
+---
+status: archived
+version: 1.1.0
+tech_stack: JavaScript
+derived_path: skills/mob-seed/lib/stacks/
+---
 # Feature: 技术栈包加载器
-
-> 状态: archived
-> 版本: 1.1.0
-> 技术栈: JavaScript
-> 派生路径: skills/mob-seed/lib/stacks/
-
 ## 概述
 
 运行时自动扫描 stacks/ 目录，发现并加载所有技术栈包，支持扩展名匹配和派生提示获取。

@@ -1,7 +1,8 @@
 ---
-status: implementing
+status: archived
 created: 2026-01-04
 updated: 2026-01-04
+archived: 2026-01-04
 version: 3.4.0
 ---
 

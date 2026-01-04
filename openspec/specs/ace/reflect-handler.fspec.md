@@ -1,11 +1,11 @@
+---
+status: archived
+archived: 2026-01-03
+version: 1.0.0
+tech_stack: JavaScript
+derived_path: skills/mob-seed/lib/ace/
+---
 # Feature: Reflect 命令处理器
-
-> 状态: archived
-> 归档日期: 2026-01-03
-> 版本: 1.0.0
-> 技术栈: JavaScript
-> 派生路径: skills/mob-seed/lib/ace/
-
 ## 概述 (Overview)
 
 实现 `/mob-seed:spec reflect` 子操作，触发反思分析并展示结果。

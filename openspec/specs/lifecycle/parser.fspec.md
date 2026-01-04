@@ -1,10 +1,10 @@
+---
+status: archived
+version: 1.0.0
+tech_stack: JavaScript
+derived_path: skills/mob-seed/lib/lifecycle/
+---
 # Feature: OpenSpec 规格解析器
-
-> 状态: archived
-> 版本: 1.0.0
-> 技术栈: JavaScript
-> 派生路径: skills/mob-seed/lib/lifecycle/
-
 ## 概述
 
 OpenSpec 规格文件解析器，支持元数据提取、Delta 语法解析和规格状态管理。

@@ -1,10 +1,11 @@
+---
+status: archived
+archived: 2026-01-02
+version: 1.0.0
+tech_stack: JavaScript
+derived_path: skills/mob-seed/lib/ace/
+---
 # Feature: observe 子操作 - 手动添加观察
-
-> 状态: draft
-> 版本: 1.0.0
-> 技术栈: JavaScript
-> 派生路径: skills/mob-seed/lib/ace/
-
 ## 概述 (Overview)
 
 实现 `/mob-seed:spec observe` 子操作，允许用户手动添加观察。支持用户反馈、模式洞察等无法自动收集的信号。

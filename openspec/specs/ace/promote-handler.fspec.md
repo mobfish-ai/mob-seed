@@ -1,11 +1,11 @@
+---
+status: archived
+archived: 2026-01-03
+version: 1.0.0
+tech_stack: JavaScript
+derived_path: skills/mob-seed/lib/ace/
+---
 # Feature: Promote 命令处理器
-
-> 状态: archived
-> 归档日期: 2026-01-03
-> 版本: 1.0.0
-> 技术栈: JavaScript
-> 派生路径: skills/mob-seed/lib/ace/
-
 ## 概述 (Overview)
 
 实现 `/mob-seed:spec promote` 子操作，将观察或反思升级为正式变更提案。

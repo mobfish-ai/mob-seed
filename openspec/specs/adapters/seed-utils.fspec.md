@@ -1,10 +1,10 @@
+---
+status: archived
+version: 1.0.0
+tech_stack: JavaScript
+derived_path: skills/mob-seed/adapters/
+---
 # Feature: SEED 工具函数库
-
-> 状态: archived
-> 版本: 1.0.0
-> 技术栈: JavaScript
-> 派生路径: skills/mob-seed/adapters/
-
 ## 概述
 
 提供 SEED 命令所需的核心工具函数，包括配置管理、项目扫描、状态检查和同步支持。

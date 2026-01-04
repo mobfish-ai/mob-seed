@@ -1,15 +1,13 @@
-# ACE Skill 核心层集成规格
-
-> 版本: 1.0.0
-> 状态: archived
-> 归档日期: 2026-01-03
-> 创建时间: 2026-01-03
-> 最后更新: 2026-01-03
-> 模板: feature
-> 层级: L1 (最强强制)
-
 ---
-
+status: archived
+archived: 2026-01-03
+version: 1.0.0
+created: 2026-01-03
+updated: 2026-01-03
+模板: feature
+层级: L1 (最强强制)
+---
+# ACE Skill 核心层集成规格
 ## 概述 (Overview)
 
 ### 功能描述

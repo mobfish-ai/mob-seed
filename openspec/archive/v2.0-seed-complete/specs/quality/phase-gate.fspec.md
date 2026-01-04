@@ -1,12 +1,12 @@
+---
+status: archived
+version: 1.0.0
+tech_stack: JavaScript
+derived_path: skills/mob-seed/lib/quality/
+priority: P1
+estimated_effort: 1-2天
+---
 # Feature: Phase Gate (阶段门禁)
-
-> 状态: archived
-> 版本: 1.0.0
-> 技术栈: JavaScript
-> 派生路径: skills/mob-seed/lib/quality/
-> 优先级: P1
-> 预计工作量: 1-2天
-
 ## 概述
 
 在工作流的每个阶段转换点设置验证门禁，确保前一阶段的产出满足质量要求后才能进入下一阶段。

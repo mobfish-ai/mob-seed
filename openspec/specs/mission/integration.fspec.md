@@ -1,12 +1,12 @@
+---
+status: archived
+archived: 2026-01-01
+version: 1.0.0
+created: 2026-01-01
+updated: 2026-01-01
+priority: P1
+---
 # mission-integration 规格
-
-> 版本: 1.0.0
-> 状态: archived
-> 归档日期: 2026-01-01
-> 创建时间: 2026-01-01
-> 最后更新: 2026-01-01
-> 优先级: P1
-
 ## 概述 (Overview)
 
 Mission 集成检查，将项目使命声明集成到 SEED 各阶段，确保开发过程与项目使命保持对齐。

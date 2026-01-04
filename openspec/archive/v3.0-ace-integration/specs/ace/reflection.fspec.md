@@ -1,10 +1,11 @@
+---
+status: archived
+archived: 2026-01-02
+version: 1.0.0
+tech_stack: JavaScript
+derived_path: skills/mob-seed/lib/ace/
+---
 # Feature: 反思数据结构
-
-> 状态: draft
-> 版本: 1.0.0
-> 技术栈: JavaScript
-> 派生路径: skills/mob-seed/lib/ace/
-
 ## 概述 (Overview)
 
 定义反思（Reflection）的核心数据结构和状态机。反思是对多个观察进行模式分析后产生的高层次教训。

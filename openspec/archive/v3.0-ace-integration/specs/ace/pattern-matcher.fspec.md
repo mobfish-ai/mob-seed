@@ -1,10 +1,11 @@
+---
+status: archived
+archived: 2026-01-02
+version: 1.0.0
+tech_stack: JavaScript
+derived_path: skills/mob-seed/lib/ace/
+---
 # Feature: 规则匹配式反思
-
-> 状态: draft
-> 版本: 1.0.0
-> 技术栈: JavaScript
-> 派生路径: skills/mob-seed/lib/ace/
-
 ## 概述 (Overview)
 
 实现基于规则的模式匹配，从多个观察中自动识别共性模式，生成反思建议。

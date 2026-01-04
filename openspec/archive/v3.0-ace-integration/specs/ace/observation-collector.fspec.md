@@ -1,10 +1,11 @@
+---
+status: archived
+archived: 2026-01-02
+version: 1.0.0
+tech_stack: JavaScript
+derived_path: skills/mob-seed/lib/ace/
+---
 # Feature: 观察自动收集器
-
-> 状态: draft
-> 版本: 1.0.0
-> 技术栈: JavaScript
-> 派生路径: skills/mob-seed/lib/ace/
-
 ## 概述 (Overview)
 
 实现从 Execute 和 Defend 阶段自动收集观察的机制。当测试失败、覆盖率不足、规格偏离时，自动创建对应的观察记录。

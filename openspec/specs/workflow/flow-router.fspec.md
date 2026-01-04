@@ -1,12 +1,12 @@
+---
+status: archived
+version: 1.0.0
+tech_stack: JavaScript
+derived_path: skills/mob-seed/lib/workflow/
+priority: P0
+estimated_effort: 3-5天
+---
 # Feature: Flow Router (工作流路由)
-
-> 状态: archived
-> 版本: 1.0.0
-> 技术栈: JavaScript
-> 派生路径: skills/mob-seed/lib/workflow/
-> 优先级: P0
-> 预计工作量: 3-5天
-
 ## 概述
 
 根据 Complexity Router 的评分结果，执行对应的工作流（Quick/Standard/Full），每种工作流有不同的阶段和验证要求。

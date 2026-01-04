@@ -71,6 +71,30 @@ find_hook_script() {
     return 1
 }
 
+# 获取版本号
+get_version() {
+    # 尝试从 package.json 读取版本号
+    local version="unknown"
+    local pkg_json=""
+
+    # Layer 1: dogfooding
+    if [ -f "skills/mob-seed/package.json" ]; then
+        pkg_json="skills/mob-seed/package.json"
+    # Layer 2: 环境变量
+    elif [ -n "$SEED_PLUGIN_PATH" ] && [ -f "${SEED_PLUGIN_PATH}/package.json" ]; then
+        pkg_json="${SEED_PLUGIN_PATH}/package.json"
+    # Layer 3: Claude Code 插件
+    elif [ -f "$HOME/.claude/plugins/mobfish-ai/mob-seed/skills/mob-seed/package.json" ]; then
+        pkg_json="$HOME/.claude/plugins/mobfish-ai/mob-seed/skills/mob-seed/package.json"
+    fi
+
+    if [ -n "$pkg_json" ]; then
+        version=$(node -e "console.log(require('${pkg_json}').version)" 2>/dev/null || echo "unknown")
+    fi
+
+    echo "$version"
+}
+
 # 读取推送参数
 while read local_ref local_sha remote_ref remote_sha; do
     if [ "$local_sha" = "0000000000000000000000000000000000000000" ]; then
@@ -82,7 +106,10 @@ while read local_ref local_sha remote_ref remote_sha; do
     find_hook_script "incremental-defender" > /dev/null 2>&1 || \
         find_hook_script "incremental-defend" > /dev/null 2>&1 || true
 
-    echo -e "${BLUE}🔍 SEED 增量检查...${NC} ${SEED_MODE_LABEL}"
+    # 获取版本号
+    SEED_VERSION=$(get_version)
+
+    echo -e "${BLUE}🔍 SEED 增量检查...${NC} v${SEED_VERSION} ${SEED_MODE_LABEL}"
 
     # 获取脚本路径（现在 SEED_MODE 已设置，可以安全捕获）
     INCREMENTAL_DEFENDER=$(find_hook_script "incremental-defender" 2>/dev/null || find_hook_script "incremental-defend" 2>/dev/null || echo "")

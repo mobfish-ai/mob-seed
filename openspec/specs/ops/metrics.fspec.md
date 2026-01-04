@@ -1,12 +1,12 @@
+---
+status: archived
+version: 1.0.0
+tech_stack: JavaScript
+derived_path: skills/mob-seed/lib/ops/
+priority: P2
+estimated_effort: 2-3天
+---
 # Feature: Development Metrics (开发指标)
-
-> 状态: archived
-> 版本: 1.0.0
-> 技术栈: JavaScript
-> 派生路径: skills/mob-seed/lib/ops/
-> 优先级: P2
-> 预计工作量: 2-3天
-
 ## 概述
 
 收集开发过程中的关键指标，包括准确率、覆盖率、迭代次数等，用于评估开发效率和质量，支持持续改进。

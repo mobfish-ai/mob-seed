@@ -1,12 +1,12 @@
+---
+status: archived
+archived: 2026-01-03
+version: 1.0.0
+tech_stack: JavaScript
+derived_path: skills/mob-seed/lib/ace/
+priority: Phase 4 (v3.1+)
+---
 # Feature: LLM 辅助反思
-
-> 状态: archived
-> 归档日期: 2026-01-03
-> 版本: 1.0.0
-> 技术栈: JavaScript
-> 派生路径: skills/mob-seed/lib/ace/
-> 优先级: Phase 4 (v3.1+)
-
 ## 概述 (Overview)
 
 使用 LLM 增强反思能力，从观察中提取更深层次的洞察和模式。

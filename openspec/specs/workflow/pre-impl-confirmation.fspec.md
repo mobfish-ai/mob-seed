@@ -1,12 +1,12 @@
+---
+status: archived
+version: 1.0.0
+tech_stack: JavaScript
+derived_path: skills/mob-seed/lib/workflow/
+priority: P2
+estimated_effort: 1-2天
+---
 # Feature: Pre-Implementation Confirmation (实现前确认)
-
-> 状态: archived
-> 版本: 1.0.0
-> 技术栈: JavaScript
-> 派生路径: skills/mob-seed/lib/workflow/
-> 优先级: P2
-> 预计工作量: 1-2天
-
 ## 概述
 
 在开始实现阶段之前，展示即将执行的操作清单供用户确认，避免意外的大规模变更，确保用户对即将发生的修改有清晰的预期。

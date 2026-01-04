@@ -1,10 +1,11 @@
+---
+status: archived
+archived: 2026-01-02
+version: 1.0.0
+tech_stack: JavaScript
+derived_path: skills/mob-seed/lib/ace/
+---
 # Feature: 观察数据结构
-
-> 状态: draft
-> 版本: 1.0.0
-> 技术栈: JavaScript
-> 派生路径: skills/mob-seed/lib/ace/
-
 ## 概述 (Overview)
 
 定义 ACE 观察（Observation）的数据结构、状态机和存储格式。观察是从 Execute/Defend 结果或用户反馈中提取的轻量级信号，是规格演化的输入线索。

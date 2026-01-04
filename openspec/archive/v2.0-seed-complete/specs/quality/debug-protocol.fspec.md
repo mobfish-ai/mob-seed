@@ -1,12 +1,12 @@
+---
+status: archived
+version: 1.0.0
+tech_stack: JavaScript
+derived_path: skills/mob-seed/lib/quality/
+priority: P1
+estimated_effort: 2-3天
+---
 # Feature: Debug Protocol (调试协议)
-
-> 状态: archived
-> 版本: 1.0.0
-> 技术栈: JavaScript
-> 派生路径: skills/mob-seed/lib/quality/
-> 优先级: P1
-> 预计工作量: 2-3天
-
 ## 概述
 
 基于置信度的调试决策协议，当 AI 置信度 ≥50% 时自动尝试修复，<50% 时请求人工介入，确保调试过程的效率和可靠性。

@@ -1,12 +1,12 @@
+---
+status: archived
+version: 1.0.0
+tech_stack: JavaScript
+derived_path: skills/mob-seed/lib/automation/
+priority: P1
+estimated_effort: 2-3天
+---
 # Feature: Scenario → Test Mapper (场景测试映射器)
-
-> 状态: archived
-> 版本: 1.0.0
-> 技术栈: JavaScript
-> 派生路径: skills/mob-seed/lib/automation/
-> 优先级: P1
-> 预计工作量: 2-3天
-
 ## 概述
 
 从 fspec 文件中的 WHEN/THEN 场景描述自动生成测试代码骨架，支持多种测试框架。

@@ -1,9 +1,10 @@
 ---
 id: scripts-consolidation
 version: 1.0.0
-status: draft
+status: archived
 created: 2026-01-04
 updated: 2026-01-04
+archived: 2026-01-04
 ---
 
 # 脚本整合规格 (Scripts Consolidation)
@@ -48,9 +49,9 @@ updated: 2026-01-04
 | `scripts/reverse-engineer.js` | `skills/mob-seed/scripts/reverse-engineer.js` | Brownfield 逆向工程 |
 
 **验收标准**:
-- [ ] AC-001: 所有验证工具存在于 `skills/mob-seed/scripts/`
-- [ ] AC-002: 每个工具可独立执行 (`node script.js --help`)
-- [ ] AC-003: 工具路径在命令文档中正确引用
+- [x] AC-001: 所有验证工具存在于 `skills/mob-seed/scripts/`
+- [x] AC-002: 每个工具可独立执行 (`node script.js --help`)
+- [x] AC-003: 工具路径在命令文档中正确引用
 
 ### FR-002: Hooks 模板整合
 
@@ -66,10 +67,10 @@ updated: 2026-01-04
 | `hooks/ace-pre-push` | `skills/mob-seed/hooks/ace-pre-push` | ACE pre-push |
 
 **验收标准**:
-- [ ] AC-001: 创建 `skills/mob-seed/hooks/` 目录
-- [ ] AC-002: 所有 hook 模板存在于该目录
-- [ ] AC-003: hook 模板有正确的执行权限 (755)
-- [ ] AC-004: hook 模板引用的脚本路径正确
+- [x] AC-001: 创建 `skills/mob-seed/hooks/` 目录
+- [x] AC-002: 所有 hook 模板存在于该目录
+- [x] AC-003: hook 模板有正确的执行权限 (755)
+- [x] AC-004: hook 模板引用的脚本路径正确
 
 ### FR-003: 内部工具分离
 
@@ -84,9 +85,9 @@ updated: 2026-01-04
 | `scripts/check-proposal-tasks-sync.js` | 提案任务检查 | 仅 mob-seed 开发使用 |
 
 **验收标准**:
-- [ ] AC-001: 内部工具保留在 `scripts/` 目录
-- [ ] AC-002: 内部工具不出现在 `skills/mob-seed/scripts/`
-- [ ] AC-003: `scripts/README.md` 说明这些是内部工具
+- [x] AC-001: 内部工具保留在 `scripts/` 目录
+- [x] AC-002: 内部工具不出现在 `skills/mob-seed/scripts/`
+- [x] AC-003: `scripts/README.md` 说明这些是内部工具
 
 ### FR-004: 目录清理
 
@@ -102,10 +103,10 @@ updated: 2026-01-04
 | 保留 | `scripts/` | 只保留内部工具 |
 
 **验收标准**:
-- [ ] AC-001: `.seed/scripts/` 目录不存在（或为符号链接）
-- [ ] AC-002: `.seed/hooks/` 目录不存在（或为符号链接）
-- [ ] AC-003: `hooks/` 目录不存在
-- [ ] AC-004: `scripts/` 只包含内部工具
+- [x] AC-001: `.seed/scripts/` 目录不存在（或为符号链接）
+- [x] AC-002: `.seed/hooks/` 目录不存在（或为符号链接）
+- [x] AC-003: `hooks/` 目录不存在
+- [x] AC-004: `scripts/` 只包含内部工具
 
 ## 派生产物 (Derived Outputs)
 

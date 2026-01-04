@@ -1,12 +1,12 @@
+---
+status: archived
+version: 1.0.0
+tech_stack: JavaScript
+derived_path: skills/mob-seed/lib/quality/
+priority: P1
+estimated_effort: 2-3天
+---
 # Feature: fspec Linter (规格检查器)
-
-> 状态: archived
-> 版本: 1.0.0
-> 技术栈: JavaScript
-> 派生路径: skills/mob-seed/lib/quality/
-> 优先级: P1
-> 预计工作量: 2-3天
-
 ## 概述
 
 检查 fspec 文件质量，识别模糊词汇（"某种"、"可能"、"大概"等）、格式错误、缺失字段，确保规格文件的精确性和完整性。

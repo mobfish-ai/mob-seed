@@ -180,6 +180,42 @@ git push         → pre-push hook 检查反思阈值
 | `/mob-seed:exec` | E: 自动执行 | exec-ci.md, emit.sh |
 | `/mob-seed:defend` | D: 守护规范（含 --diff, --sync） | defend-check.md, defend-check.sh |
 | `/mob-seed:archive` | 归档提案 | lifecycle/archiver.js |
+| `/mob-seed --version` | 显示详细版本信息 | lib/runtime/ |
+| `/mob-seed --update` | 执行版本更新 | lib/runtime/ |
+
+### 版本显示（必须遵守）
+
+> **每个 mob-seed 命令执行时必须显示版本和场景信息**
+
+Claude 在执行任何 `/mob-seed:*` 命令时，**必须**在输出的第一行显示版本信息：
+
+```
+🌱 mob-seed v3.5.0 [开发模式] mob-seed dogfooding
+```
+
+**实现方式**:
+```bash
+# 获取版本信息（四层回退）
+node -e "
+  const { getVersionInfoSync } = require('./lib/runtime/version-checker');
+  const { formatVersionLine } = require('./lib/runtime/version-display');
+  console.log(formatVersionLine(getVersionInfoSync()));
+"
+```
+
+**显示格式**:
+| 入口类型 | 格式 |
+|----------|------|
+| 命令入口 | `🌱 mob-seed v{version} [{场景}] {描述}` |
+| Git Hooks | `🔍 SEED {检查类型}... v{version} [{场景}] {描述}` |
+
+**场景标签**:
+| 场景 | 标签 | 描述 |
+|------|------|------|
+| dogfooding | 开发模式 | mob-seed dogfooding |
+| user-plugin | 用户项目 | Claude Code 插件 |
+| user-env | 用户项目 | 环境变量配置 |
+| compat | 兼容模式 | .seed/scripts |
 
 ### 命令架构
 

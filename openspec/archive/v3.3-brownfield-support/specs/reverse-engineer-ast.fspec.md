@@ -1,5 +1,6 @@
 ---
-status: draft
+status: archived
+archived: 2026-01-03
 created: 2026-01-03
 updated: 2026-01-03
 architecture_decisions_completed: true

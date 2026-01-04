@@ -1,11 +1,12 @@
+---
+status: archived
+archived: 2026-01-02
+version: 1.0.0
+tech_stack: JavaScript
+derived_path: skills/mob-seed/lib/ace/
+tests_passed: 26/26 ✅
+---
 # Feature: triage 子操作 - 观察归类与提升
-
-> 状态: implementing
-> 版本: 1.0.0
-> 技术栈: JavaScript
-> 派生路径: skills/mob-seed/lib/ace/
-> 测试通过: 26/26 ✅
-
 ## 概述 (Overview)
 
 实现 `/mob-seed:spec triage` 子操作，允许用户对观察进行归类、优先级排序，并将有价值的观察提升为规格变更提案。

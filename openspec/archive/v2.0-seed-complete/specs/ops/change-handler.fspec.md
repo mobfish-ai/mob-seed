@@ -1,12 +1,12 @@
+---
+status: archived
+version: 1.0.0
+tech_stack: JavaScript
+derived_path: skills/mob-seed/lib/ops/
+priority: P2
+estimated_effort: 2-3天
+---
 # Feature: Change Handler (变更处理器)
-
-> 状态: archived
-> 版本: 1.0.0
-> 技术栈: JavaScript
-> 派生路径: skills/mob-seed/lib/ops/
-> 优先级: P2
-> 预计工作量: 2-3天
-
 ## 概述
 
 处理开发过程中的需求变更，支持变更影响分析、规格更新、代码同步，确保变更过程可控且可追溯。

@@ -1,12 +1,12 @@
+---
+status: archived
+version: 1.0.0
+tech_stack: JavaScript
+derived_path: skills/mob-seed/lib/sync/
+priority: P0
+estimated_effort: 2-3天
+---
 # Feature: Task Sync (任务同步)
-
-> 状态: archived
-> 版本: 1.0.0
-> 技术栈: JavaScript
-> 派生路径: skills/mob-seed/lib/sync/
-> 优先级: P0
-> 预计工作量: 2-3天
-
 ## 概述
 
 实现 tasks.md 文件与 Claude Code TodoWrite 工具的双向同步，支持会话崩溃后从文件恢复任务状态。

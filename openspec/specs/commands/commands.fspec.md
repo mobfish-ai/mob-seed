@@ -1,10 +1,10 @@
+---
+status: archived
+version: 2.0.0
+tech_stack: Markdown
+derived_path: commands/
+---
 # Feature: SEED 命令系统
-
-> 状态: archived
-> 版本: 2.0.0
-> 技术栈: Markdown
-> 派生路径: commands/
-
 ## 概述
 
 SEED 方法论的 Claude Code 命令集，提供完整的规格驱动开发工作流。

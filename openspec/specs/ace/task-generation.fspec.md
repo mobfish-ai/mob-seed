@@ -1,12 +1,12 @@
+---
+status: archived
+archived: 2026-01-03
+version: 1.0.0
+tech_stack: JavaScript
+derived_path: skills/mob-seed/lib/spec/
+tests_passed: 32/32 ✅
+---
 # Feature: 任务自动生成
-
-> 状态: archived
-> 归档日期: 2026-01-03
-> 版本: 1.0.0
-> 技术栈: JavaScript
-> 派生路径: skills/mob-seed/lib/spec/
-> 测试通过: 32/32 ✅
-
 ## 概述 (Overview)
 
 实现从 Proposal 自动派生 tasks.md 的功能。当 Proposal 进入 `archived` 状态时，自动从 Proposal 内容中提取任务列表并生成 tasks.md 文件。

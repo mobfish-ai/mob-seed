@@ -1,11 +1,11 @@
+---
+status: archived
+archived: 2026-01-03
+version: 1.0.0
+tech_stack: Markdown
+derived_path: docs/migration/
+---
 # Feature: v3.0 迁移指南
-
-> 状态: archived
-> 归档日期: 2026-01-03
-> 版本: 1.0.0
-> 技术栈: Markdown
-> 派生路径: docs/migration/
-
 ## 概述 (Overview)
 
 为现有 mob-seed v2.x 用户提供迁移到 v3.0 的指南，确保平滑升级。

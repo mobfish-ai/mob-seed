@@ -1,6 +1,7 @@
 ---
 version: 1.0.0
-status: draft
+status: archived
+archived: 2026-01-04
 created: 2026-01-03
 updated: 2026-01-03
 type: refactor

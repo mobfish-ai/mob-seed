@@ -1,11 +1,12 @@
+---
+status: archived
+archived: 2026-01-02
+version: 1.0.0
+tech_stack: JavaScript
+derived_path: skills/mob-seed/lib/spec/
+priority: P0 (阻塞性修复)
+---
 # Feature: 提案完整性验证
-
-> 状态: draft
-> 版本: 1.0.0
-> 技术栈: JavaScript
-> 派生路径: skills/mob-seed/lib/spec/
-> 优先级: P0 (阻塞性修复)
-
 ## 概述 (Overview)
 
 在提案状态转换 `review → implementing` 时，验证所有 Phase 的任务都有关联的 fspec 文件，防止审批不完整的提案进入实施阶段。

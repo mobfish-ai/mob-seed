@@ -1,9 +1,10 @@
 ---
 id: dogfooding
 version: 1.0.0
-status: draft
+status: archived
 created: 2026-01-04
 updated: 2026-01-04
+archived: 2026-01-04
 ---
 
 # Dogfooding 机制规格 (Dogfooding Mechanism)
@@ -71,19 +72,19 @@ mob-seed/
 | `.seed/hooks` | `../skills/mob-seed/hooks` | Hook 模板 |
 
 **验收标准**:
-- [ ] AC-001: `.seed/scripts` 是指向 `../skills/mob-seed/scripts` 的符号链接
-- [ ] AC-002: `.seed/hooks` 是指向 `../skills/mob-seed/hooks` 的符号链接
-- [ ] AC-003: 链接可正常解析（`ls -la .seed/scripts/` 显示内容）
-- [ ] AC-004: 链接使用相对路径（便于仓库移动）
+- [x] AC-001: `.seed/scripts` 是指向 `../skills/mob-seed/scripts` 的符号链接
+- [x] AC-002: `.seed/hooks` 是指向 `../skills/mob-seed/hooks` 的符号链接
+- [x] AC-003: 链接可正常解析（`ls -la .seed/scripts/` 显示内容）
+- [x] AC-004: 链接使用相对路径（便于仓库移动）
 
 ### FR-002: Git 追踪配置
 
 **描述**: 确保符号链接被 Git 正确追踪。
 
 **验收标准**:
-- [ ] AC-001: 符号链接被 Git 追踪（不在 .gitignore 中）
-- [ ] AC-002: `git status` 正确显示链接状态
-- [ ] AC-003: `git clone` 后链接自动恢复
+- [x] AC-001: 符号链接被 Git 追踪（不在 .gitignore 中）
+- [x] AC-002: `git status` 正确显示链接状态
+- [x] AC-003: `git clone` 后链接自动恢复
 
 ### FR-003: 功能验证
 
@@ -100,18 +101,18 @@ mob-seed/
 | Git push | `git push` | 触发 pre-push |
 
 **验收标准**:
-- [ ] AC-001: 所有验证命令通过
-- [ ] AC-002: 无路径解析错误
-- [ ] AC-003: 无权限错误
+- [x] AC-001: 所有验证命令通过
+- [x] AC-002: 无路径解析错误
+- [x] AC-003: 无权限错误
 
 ### FR-004: 内部工具隔离
 
 **描述**: 确保内部开发工具不受影响。
 
 **验收标准**:
-- [ ] AC-001: `scripts/bump-version.js` 可正常执行
-- [ ] AC-002: `scripts/release.sh` 可正常执行
-- [ ] AC-003: 内部工具不被 SEED 命令覆盖
+- [x] AC-001: `scripts/bump-version.js` 可正常执行
+- [x] AC-002: `scripts/release.sh` 可正常执行
+- [x] AC-003: 内部工具不被 SEED 命令覆盖
 
 ## 实施步骤 (Implementation Steps)
 

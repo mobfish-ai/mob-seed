@@ -1,10 +1,11 @@
+---
+status: archived
+archived: 2026-01-02
+version: 1.0.0
+tech_stack: JavaScript
+derived_path: skills/mob-seed/lib/ux/
+---
 # Feature: 状态面板增强 - 观察统计显示
-
-> 状态: draft
-> 版本: 1.0.0
-> 技术栈: JavaScript
-> 派生路径: skills/mob-seed/lib/ux/
-
 ## 概述 (Overview)
 
 增强现有的状态面板，显示观察统计信息。让用户在运行 `/mob-seed` 或 `/mob-seed:status` 时能看到待处理的观察数量和状态分布。

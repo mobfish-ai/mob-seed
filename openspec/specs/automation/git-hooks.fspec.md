@@ -1,11 +1,11 @@
+---
+status: archived
+version: 1.0.0
+tech_stack: Shell/JavaScript
+derived_path: .seed/hooks/, .seed/scripts/
+priority: P1
+---
 # Feature: Git Hooks (Git 钩子自动化)
-
-> 状态: archived
-> 版本: 1.0.0
-> 技术栈: Shell/JavaScript
-> 派生路径: .seed/hooks/, .seed/scripts/
-> 优先级: P1
-
 ## 概述
 
 Git 钩子自动化，在 commit/push 时自动执行 SEED 检查，确保规格与代码同步。
