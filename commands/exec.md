@@ -11,11 +11,20 @@ argument-hint: <spec-path> [--test] [--build] [--all] [--watch] [--ci]
 
 ## 📦 依赖资源
 
-- 技能目录: `.claude/skills/mob-seed/`
+- 技能目录: `{SKILL_DIR}/`（自动检测，见下方优先级）
 - 执行提示: `prompts/exec-runner.md`
 - CI 配置: `prompts/exec-ci.md`
 - 执行脚本: `scripts/exec-runner.js`
 - **项目配置**: `.seed/config.json`（由 `/mob-seed:init` 生成）
+
+### 技能目录检测优先级
+
+| 优先级 | 路径 | 说明 |
+|--------|------|------|
+| 1 | `~/.claude/plugins/marketplaces/mobfish-ai/skills/mob-seed/` | Plugin marketplace |
+| 2 | `~/.claude/plugins/cache/mobfish-ai/mob-seed/{version}/skills/mob-seed/` | Plugin cache |
+| 3 | `~/.claude/skills/mob-seed/` | 用户全局技能 |
+| 4 | `.claude/skills/mob-seed/` | 项目本地技能 |
 
 ## 执行步骤
 
@@ -34,12 +43,30 @@ const TEST_DIR = config.paths.test;
 const OUTPUT_DIR = config.paths.output;
 ```
 
-3. **动态检测技能目录**：
+3. **动态检测技能目录**（按优先级）：
 ```bash
-if [ -d ".claude/skills/mob-seed" ]; then
-    SKILL_DIR=".claude/skills/mob-seed"
+SKILL_DIR=""
+
+# 1. Plugin marketplace（最常见）
+if [ -d "$HOME/.claude/plugins/marketplaces/mobfish-ai/skills/mob-seed" ]; then
+    SKILL_DIR="$HOME/.claude/plugins/marketplaces/mobfish-ai/skills/mob-seed"
+# 2. Plugin cache（查找最新版本）
+elif [ -d "$HOME/.claude/plugins/cache/mobfish-ai/mob-seed" ]; then
+    LATEST=$(ls -1 "$HOME/.claude/plugins/cache/mobfish-ai/mob-seed" | sort -V | tail -1)
+    if [ -n "$LATEST" ]; then
+        SKILL_DIR="$HOME/.claude/plugins/cache/mobfish-ai/mob-seed/$LATEST/skills/mob-seed"
+    fi
+# 3. 用户全局技能
 elif [ -d "$HOME/.claude/skills/mob-seed" ]; then
     SKILL_DIR="$HOME/.claude/skills/mob-seed"
+# 4. 项目本地技能
+elif [ -d ".claude/skills/mob-seed" ]; then
+    SKILL_DIR=".claude/skills/mob-seed"
+fi
+
+if [ -z "$SKILL_DIR" ]; then
+    echo "❌ 错误: 未找到 mob-seed 技能目录"
+    exit 1
 fi
 ```
 
