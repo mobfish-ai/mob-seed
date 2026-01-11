@@ -8,6 +8,7 @@ output/
 # ACE directories (symlinks to external knowledge repo)
 .seed/observations
 .seed/reflections
+.seed/insights
 .seed/learning
 
 # Node modules
