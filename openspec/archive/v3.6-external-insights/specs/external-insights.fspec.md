@@ -1,9 +1,10 @@
 ---
 id: external-insights
 version: 1.1.0
-status: implementing
+status: archived
 created: 2026-01-04
 updated: 2026-01-11
+归档日期: 2026-01-11
 tech_stack: JavaScript
 derived_path: skills/mob-seed/lib/ace/
 priority: P1

@@ -324,6 +324,7 @@ defend 命令检测多种类型的偏离：
 | `/mob-seed:spec triage` | 归类观察 |
 | `/mob-seed:spec reflect` | 触发模式分析 |
 | `/mob-seed:spec promote` | 将洞察升级为提案 |
+| `/mob-seed:insight` | 外部洞见导入和管理 (v3.6+) |
 
 ## OpenSpec 生命周期
 

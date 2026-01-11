@@ -141,6 +141,7 @@ Spec → Emit → Execute → Defend
 | `/mob-seed:spec triage` | 归类待处理观察 |
 | `/mob-seed:spec reflect` | 触发反思分析 |
 | `/mob-seed:spec promote` | 反思升级为提案 |
+| `/mob-seed:insight` | 外部洞见导入和管理 (v3.6+) |
 
 ### ACE 目录结构
 
@@ -152,6 +153,9 @@ Spec → Emit → Execute → Defend
 ├── reflections/      # 反思记录
 │   ├── index.json   # 索引
 │   └── ref-xxx.md   # 单个反思
+├── insights/         # 外部洞见 (v3.6+)
+│   ├── index.json   # 索引
+│   └── ins-xxx.md   # 单个洞见
 └── learning/         # 模式学习
     ├── samples.json  # 历史样本
     └── feedback.json # 效果反馈
@@ -915,9 +919,9 @@ cd skills/mob-seed && node --test test/**/*.test.js
 
 ## 当前状态
 
-- **版本**: 3.4.0
-- **变更提案**: v3.4-scripts-consolidation (archived)
-- **模块**: 40+ 个已实现 (新增: hooks/scenario, hooks/cache-*, hooks/*-defender)
-- **测试**: 1387 pass
-- **规格**: 48 个规格 (openspec/specs/ + openspec/changes/)
-- **ACE 状态**: 已初始化，首个模式已提取 (pat-release-integrity)
+- **版本**: 3.6.0
+- **变更提案**: v3.6-external-insights (archived)
+- **模块**: 50+ 个已实现 (新增: ace/insight-* 10 个模块)
+- **测试**: 1400+ pass
+- **规格**: 49 个规格 (openspec/specs/ + openspec/archive/)
+- **ACE 状态**: 外部洞见机制已实现 (/mob-seed:insight)

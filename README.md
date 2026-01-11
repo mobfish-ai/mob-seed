@@ -324,6 +324,7 @@ When drifts are detected, mob-seed generates update proposals:
 | `/mob-seed:spec triage` | Categorize observations |
 | `/mob-seed:spec reflect` | Trigger pattern analysis |
 | `/mob-seed:spec promote` | Promote insight to proposal |
+| `/mob-seed:insight` | External insights import and management (v3.6+) |
 
 ## OpenSpec Lifecycle
 
