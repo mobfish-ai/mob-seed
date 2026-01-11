@@ -2,6 +2,15 @@
 output/
 .seed/output/
 
+# Private configuration (may contain local paths)
+.seed/config.local.json
+
+# ACE directories (symlinks to external knowledge repo)
+.seed/observations
+.seed/reflections
+.seed/insights
+.seed/learning
+
 # Node modules
 node_modules/
 package-lock.json

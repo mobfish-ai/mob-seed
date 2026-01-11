@@ -6,6 +6,66 @@
 
 ---
 
+## [3.6.0] - 2026-01-11
+
+### Added
+
+**External Insights 外部洞见积累机制**
+- `/mob-seed:insight` - 新增顶级命令，用于外部知识导入和管理
+- 洞见生命周期管理: `evaluating → piloting → adopted/partial/rejected → obsolete`
+- 模型时代追踪: claude-3-opus, claude-3.5-sonnet, claude-opus-4, claude-opus-4.5
+- 快速导入功能: 从 URL 或文本自动提取元数据
+
+**核心模块 (10 个文件)**
+- `lib/ace/insight-config.js` - ACE 输出目录配置解析（支持环境变量、本地配置）
+- `lib/ace/insight-types.js` - 洞见类型定义和常量
+- `lib/ace/insight-parser.js` - 洞见文件解析器（YAML frontmatter + Markdown）
+- `lib/ace/insight-generator.js` - 洞见文件生成器
+- `lib/ace/insight-index.js` - 洞见索引管理
+- `lib/ace/insight-lifecycle.js` - 生命周期状态机
+- `lib/ace/insight-review.js` - 模型时代复审
+- `lib/ace/insight-manager.js` - 洞见管理核心（CRUD + 统计）
+- `lib/ace/insight-extractor.js` - URL/文本内容提取（支持域名到类型/可信度映射）
+- `lib/ace/insight-importer.js` - 快速导入编排器
+
+**测试文件 (8 个文件，293 个测试)**
+- 完整覆盖所有核心模块
+- 包含边界条件和错误处理测试
+
+**提示和模板**
+- `prompts/insight-import.md` - URL/文本导入 AI 提示
+- `prompts/insight-evaluate.md` - 辩证评估引导提示
+- `templates/insight.md` - 洞见文件模板
+
+**命令文件**
+- `commands/insight.md` - 顶级命令定义
+
+### Changed
+
+- SKILL.md 关联命令表新增 `/mob-seed:insight` 条目
+- ACE 存储结构新增 `insights/` 目录支持
+
+### Tests
+
+- ACE 模块测试: 708 tests (新增 293)
+- 全部测试: 1387+ pass / 0 fail
+
+---
+
+## [3.5.0] - 2026-01-04
+
+### Added
+
+**Runtime Version 运行时版本检测**
+- 支持运行时获取插件版本号
+- fspec 格式统一化
+
+### Changed
+
+- CLAUDE.md 新增教训 #20: 禁止跳过 SEED Hook 检查
+
+---
+
 ## [3.4.0] - 2026-01-04
 
 ### Added

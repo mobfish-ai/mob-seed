@@ -115,6 +115,9 @@ git push         → pre-push hook 检查反思阈值
 ├── reflections/           # 反思记录
 │   ├── index.json         # 反思索引（JSON 格式）
 │   └── ref-*.md           # 单个反思（YAML frontmatter + Markdown）
+├── insights/              # 外部洞见
+│   ├── index.json         # 洞见索引
+│   └── ins-*.md           # 单个洞见（YAML frontmatter + Markdown）
 └── learning/              # 学习成果
     └── patterns.json      # 提取的模式
 ```
@@ -180,6 +183,7 @@ git push         → pre-push hook 检查反思阈值
 | `/mob-seed:exec` | E: 自动执行 | exec-ci.md, emit.sh |
 | `/mob-seed:defend` | D: 守护规范（含 --diff, --sync） | defend-check.md, defend-check.sh |
 | `/mob-seed:archive` | 归档提案 | lifecycle/archiver.js |
+| `/mob-seed:insight` | 外部洞见管理（导入、评估、复审） | lib/ace/insight-*.js |
 | `/mob-seed --version` | 显示详细版本信息 | lib/runtime/ |
 | `/mob-seed --update` | 执行版本更新 | lib/runtime/ |
 
@@ -226,7 +230,8 @@ node -e "
 ├── /mob-seed:emit        # E: 自动派生
 ├── /mob-seed:exec        # E: 自动执行
 ├── /mob-seed:defend      # D: 守护规范（含 --diff, --sync）
-└── /mob-seed:archive     # 归档提案
+├── /mob-seed:archive     # 归档提案
+└── /mob-seed:insight     # 外部洞见管理
 ```
 
 ---

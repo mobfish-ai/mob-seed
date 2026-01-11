@@ -112,7 +112,8 @@ function seedPrincipleCheck(files, config) {
     }
 
     // E: Emit 检查 - 检查是否有 manifest
-    if (file.endsWith('.fspec.md')) {
+    // 跳过归档目录（已完成的历史规格）
+    if (file.endsWith('.fspec.md') && !file.includes('/archive/')) {
       const manifestDir = config?.paths?.output || '.seed/output';
       const baseName = path.basename(file, '.fspec.md');
       const manifestPath = path.join(manifestDir, baseName, 'manifest.json');
@@ -124,8 +125,15 @@ function seedPrincipleCheck(files, config) {
 
     // E2: Exec 检查 - 检查测试是否存在
     if (file.endsWith('.js') && !file.includes('.test.')) {
-      const testPath = file.replace('.js', '.test.js');
-      if (!fs.existsSync(testPath)) {
+      // 尝试多种测试路径：同目录、分离目录
+      const colocatedPath = file.replace('.js', '.test.js');
+
+      // 分离目录：lib/ → test/
+      const srcDir = config?.paths?.src || 'lib';
+      const testDir = config?.paths?.test || 'test';
+      const separatePath = file.replace(srcDir, testDir).replace('.js', '.test.js');
+
+      if (!fs.existsSync(colocatedPath) && !fs.existsSync(separatePath)) {
         results.E2.issues.push(`${file}: 无对应测试`);
       }
     }
