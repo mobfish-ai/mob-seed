@@ -988,9 +988,9 @@ cd skills/mob-seed && node --test test/**/*.test.js
 
 ## 当前状态
 
-- **版本**: 3.6.0
+- **版本**: 3.6.1
 - **变更提案**: v3.6-external-insights (archived)
 - **模块**: 50+ 个已实现 (新增: ace/insight-* 10 个模块)
-- **测试**: 1400+ pass
+- **测试**: 1748 pass
 - **规格**: 49 个规格 (openspec/specs/ + openspec/archive/)
 - **ACE 状态**: 外部洞见机制已实现 (/mob-seed:insight)
