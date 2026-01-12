@@ -32,6 +32,61 @@ allowed-tools: Read, Write, Edit, Bash, Task, TodoWrite
 
 > **OpenSpec 原生支持** | 规格驱动开发 | MIT License
 
+---
+
+## 🏗️ 架构最优化顶级要求（不可违反）
+
+> **核心原则**: 行为定义集中化，命令执行引用化。
+>
+> 一处定义，处处生效。避免冗余，确保一致性。
+
+### DRY 原则在 mob-seed 中的应用
+
+| 类型 | 定义位置 | 命令文件 |
+|------|----------|----------|
+| **强制启动行为** | SKILL.md（本文件） | 引用，不重复代码 |
+| **ACE 行为约定** | SKILL.md（本文件） | 引用，不重复代码 |
+| **版本显示格式** | SKILL.md（本文件） | 引用，不重复代码 |
+| **目录检测逻辑** | `lib/runtime/` 模块 | 调用模块，不内联 |
+
+### 行为定义层次
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                     行为定义层次结构                              │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  SKILL.md (本文件)                                               │
+│      │                                                           │
+│      ├── 强制启动行为（版本显示、初始化检查）                      │
+│      ├── ACE 行为约定（观察收集、反思触发）                        │
+│      └── 输出格式规范（版本行、进度图标）                          │
+│                                                                  │
+│  commands/*.md                                                   │
+│      │                                                           │
+│      └── 引用 SKILL.md 行为 + 定义具体执行步骤                    │
+│                                                                  │
+│  lib/*.js                                                        │
+│      │                                                           │
+│      └── 实现具体逻辑（被 SKILL.md 和 commands 调用）             │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### Claude 执行 mob-seed 命令时必须遵循的顺序
+
+```
+1. 读取 SKILL.md 获取强制启动行为
+2. 执行强制启动行为（版本显示）
+3. 读取具体命令文件（commands/*.md）
+4. 按命令文件步骤执行
+5. 执行 ACE 行为（如适用）
+```
+
+**禁止**: 在命令文件中重复 SKILL.md 已定义的代码块
+
+---
+
 ## 核心概念
 
 ```
@@ -187,39 +242,53 @@ git push         → pre-push hook 检查反思阈值
 | `/mob-seed --version` | 显示详细版本信息 | lib/runtime/ |
 | `/mob-seed --update` | 执行版本更新 | lib/runtime/ |
 
-### 版本显示（必须遵守）
+### 🚀 强制启动行为（所有命令必须遵守）
 
-> **每个 mob-seed 命令执行时必须显示版本和场景信息**
+> **FR-004**: 每个 mob-seed 命令执行时必须显示版本和场景信息
+>
+> **架构原则**: 此行为在 SKILL.md 中**唯一定义**，命令文件只需引用，禁止重复代码。
 
-Claude 在执行任何 `/mob-seed:*` 命令时，**必须**在输出的第一行显示版本信息：
+Claude 在执行任何 `/mob-seed:*` 命令时，**必须**在第一行输出版本信息：
 
 ```
 🌱 mob-seed v3.5.0 [开发模式] mob-seed dogfooding
 ```
 
-**实现方式**:
+**实现方式**（单一可执行入口）:
+
 ```bash
-# 获取版本信息（四层回退）
-node -e "
-  const { getVersionInfoSync } = require('./lib/runtime/version-checker');
-  const { formatVersionLine } = require('./lib/runtime/version-display');
-  console.log(formatVersionLine(getVersionInfoSync()));
-"
+# Claude 读取 SKILL.md 时已知技能目录路径
+# 技能目录 = SKILL.md 所在目录
+node {SKILL_DIR}/scripts/show-version.js
 ```
 
+> **最优架构**: 一行命令，零重复。`show-version.js` 内置所有逻辑（目录检测、版本获取、格式化输出）。
+
 **显示格式**:
+
 | 入口类型 | 格式 |
 |----------|------|
 | 命令入口 | `🌱 mob-seed v{version} [{场景}] {描述}` |
 | Git Hooks | `🔍 SEED {检查类型}... v{version} [{场景}] {描述}` |
 
 **场景标签**:
+
 | 场景 | 标签 | 描述 |
 |------|------|------|
 | dogfooding | 开发模式 | mob-seed dogfooding |
 | user-plugin | 用户项目 | Claude Code 插件 |
 | user-env | 用户项目 | 环境变量配置 |
 | compat | 兼容模式 | .seed/scripts |
+
+**命令文件中的正确引用方式**:
+
+```markdown
+### 步骤 0: 版本显示（遵循 SKILL.md 强制启动行为）
+
+> 遵循 SKILL.md "🚀 强制启动行为" 章节定义，显示版本和场景信息。
+```
+
+**禁止**: 在命令文件中复制版本显示代码或目录检测逻辑
 
 ### 命令架构
 

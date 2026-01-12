@@ -898,6 +898,60 @@ Hook 报错
 - ❌ 禁止因为"觉得是误报"就用 `--no-verify`
 - ❌ 禁止因为时间压力走捷径
 
+### 21. init 命令必须通过脚本强制执行
+
+> **ACE 来源**: 用户报告 init 未创建 mission.md (2026-01-12)
+
+**问题**: 在用户项目中执行 `/mob-seed:init` 时，AI 没有创建 `mission.md` 文件，甚至错误地声称 "mob-seed 没有内置的 mission 机制"。
+
+**根因分析**:
+
+| 问题 | 分析 |
+|------|------|
+| AI 自行实现 | AI 没有遵循 `init.md` 定义的步骤，自己发明了初始化逻辑 |
+| 目录结构错误 | 创建了 `specs/` 而非 `openspec/specs/` |
+| 遗漏必需文件 | 7 个必需文件只创建了部分 |
+| 文档不足以约束 | 仅靠文档说明无法确保 AI 遵循步骤 |
+
+**解决方案**: 程序化强制执行
+
+创建 `scripts/init-project.js` 脚本，包含：
+- 所有初始化逻辑集中在脚本中
+- 7 个必需文件的创建和验证
+- 失败时明确报错
+
+更新 `commands/init.md`：
+- 简化为只调用脚本
+- 添加强制执行规则表
+- 移除 Write/Edit 权限，只保留 Bash/Read/AskUserQuestion
+
+**必需文件清单（7 个）**:
+```
+.seed/config.json        - SEED 配置
+.seed/mission.md         - 项目使命声明 ⭐ 关键
+.seed/observations/index.json - ACE 观察索引
+openspec/specs/.gitkeep  - 规格目录
+openspec/changes/.gitkeep - 变更目录
+openspec/project.md      - 项目约定
+openspec/AGENTS.md       - AI 工作流
+```
+
+**验证命令**:
+```bash
+# 运行初始化
+node "$SKILL_DIR/scripts/init-project.js" .
+
+# 验证初始化结果
+node "$SKILL_DIR/scripts/verify-init.js" .
+```
+
+**教训**:
+- ✅ 复杂命令必须通过脚本执行，而非依赖 AI 遵循文档
+- ✅ 移除不必要的工具权限（Write/Edit）可防止 AI 自行实现
+- ✅ 脚本内置验证步骤确保所有必需文件都创建
+- ❌ 禁止 AI 在 init 命令中手动创建文件
+- ❌ 禁止跳过 mission.md 创建
+
 ## 缓存文件说明
 
 项目运行时会生成以下缓存文件，用于加速检查和避免重复网络请求：

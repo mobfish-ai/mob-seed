@@ -20,6 +20,21 @@ const COLORS = {
 };
 
 /**
+ * 通过场景代码查找场景对象
+ * @param {string} scenarioCode - 场景代码（如 'dogfooding', 'user-env'）
+ * @returns {object} - 场景对象
+ */
+function getScenarioByCode(scenarioCode) {
+  for (const key of Object.keys(SCENARIOS)) {
+    if (SCENARIOS[key].code === scenarioCode) {
+      return SCENARIOS[key];
+    }
+  }
+  // 未知场景返回默认
+  return { code: scenarioCode, label: '[未知]', description: scenarioCode, color: COLORS.yellow };
+}
+
+/**
  * 生成场景标签（复用 scenario.js）
  */
 function getScenarioLabel(scenario) {
@@ -35,7 +50,8 @@ function getScenarioLabel(scenario) {
  */
 function formatVersionLine(versionInfo) {
   const { version, scenario } = versionInfo;
-  const scenarioLabel = formatLabel(scenario);
+  const scenarioObj = getScenarioByCode(scenario);
+  const scenarioLabel = formatLabel(scenarioObj);
 
   return `${COLORS.green}🌱 mob-seed${COLORS.reset} v${version} ${scenarioLabel}`;
 }
@@ -45,7 +61,8 @@ function formatVersionLine(versionInfo) {
  */
 function formatHookVersion(versionInfo, checkType) {
   const { version, scenario } = versionInfo;
-  const scenarioLabel = formatLabel(scenario);
+  const scenarioObj = getScenarioByCode(scenario);
+  const scenarioLabel = formatLabel(scenarioObj);
 
   const emoji = checkType === 'quick' ? '🔍' : '📊';
   const checkText = checkType === 'quick' ? '快速检查' : '增量检查';
@@ -74,12 +91,13 @@ function formatUpdateTip(versionInfo) {
  */
 function formatDetailedVersion(versionInfo) {
   const { version, scenario, latest, updateAvailable } = versionInfo;
+  const scenarioObj = getScenarioByCode(scenario);
 
   const lines = [
     `${COLORS.green}mob-seed${COLORS.reset} v${version}`,
     `Node.js ${process.version}`,
     `Platform: ${process.platform} ${process.arch}`,
-    `场景: ${formatLabel(scenario)}`
+    `场景: ${formatLabel(scenarioObj)}`
   ];
 
   if (latest) {

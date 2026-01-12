@@ -44,7 +44,11 @@ argument-hint: <proposal-name> [--all] [--dry-run] [--force]
 
 ## 执行步骤
 
-### 步骤 0: 检查初始化状态并加载配置
+### 步骤 0: 版本显示（遵循 SKILL.md 强制启动行为）
+
+> 遵循 SKILL.md "🚀 强制启动行为" 章节定义，显示版本和场景信息。
+
+### 步骤 0.5: 检查初始化状态并加载配置
 
 1. **检查 SEED 是否已初始化**：
    - 检查 `.seed/config.json` 是否存在
