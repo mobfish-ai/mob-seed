@@ -9,7 +9,9 @@
     "test:lifecycle": "node --test skills/mob-seed/test/lifecycle/*.test.js",
     "test:stacks": "node --test skills/mob-seed/test/stacks/*.test.js",
     "version:check": "node scripts/bump-version.js --check",
-    "version:sync": "node scripts/bump-version.js"
+    "version:sync": "node scripts/bump-version.js",
+    "insights:verify": "node skills/mob-seed/scripts/verify-insights.js",
+    "insights:sync": "node skills/mob-seed/scripts/verify-insights.js --fix"
   },
   "repository": {
     "type": "git",
