@@ -1,5 +1,5 @@
 ---
-name: mob-seed:init
+name: mob-seed-init
 description: SEED 初始化 - 创建 OpenSpec 标准目录结构
 allowed-tools: Bash, Read, AskUserQuestion
 argument-hint: [--force]

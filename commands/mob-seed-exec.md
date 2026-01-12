@@ -1,5 +1,5 @@
 ---
-name: mob-seed:exec
+name: mob-seed-exec
 description: SEED E阶段 - 自动执行派生的代码和测试
 allowed-tools: Read, Write, Edit, Bash, Glob, Grep
 argument-hint: <spec-path> [--test] [--build] [--all] [--watch] [--ci]

@@ -1,3 +1,10 @@
+---
+name: mob-seed-insight
+description: 外部洞见管理 - 导入、评估和采纳外部知识（论文、博客、专家意见等）
+allowed-tools: Read, Write, Edit, Bash, Task, TodoWrite, AskUserQuestion
+argument-hint: [URL] [--text] [--list] [--stats] [--review] [--update=<id>]
+---
+
 # /mob-seed:insight - 外部洞见管理
 
 > **核心理念**: 洞见是来自外部源（专家意见、论文、博客等）的知识单元，通过系统化的评估和采纳流程，融入项目的方法论体系。

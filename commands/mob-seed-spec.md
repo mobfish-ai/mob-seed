@@ -1,5 +1,5 @@
 ---
-name: mob-seed:spec
+name: mob-seed-spec
 description: SEED S阶段 - 单源规格定义（创建/验证/状态转换）
 allowed-tools: Read, Write, Edit, Bash, Task, TodoWrite, AskUserQuestion
 argument-hint: <功能名称> [--create|--validate|--edit|--submit|--reopen] [--template=feature|api|component]
