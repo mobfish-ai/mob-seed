@@ -1017,20 +1017,98 @@ wc -c skills/mob-seed/SKILL.md  # 应 < 15000
 - Claude Code Skills Guide: https://code.claude.com/docs/en/skills.md
 - Agent Skills Best Practices: https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices
 
+### 23. 简化优于优化：版本缓存移除案例
+
+> **ACE 来源**: 版本缓存一致性问题 (2026-01-12)
+
+**问题**: 版本检查缓存（24h TTL）导致版本升级后仍显示旧版本，需要三层防护机制维护一致性。
+
+**原方案分析**:
+
+| 机制 | 位置 | 复杂度 |
+|------|------|--------|
+| 被动检测 | version-checker.js: 检查版本变化 | 中 |
+| 主动清理 | bump-version.js: 版本更新时清理 | 中 |
+| 再次清理 | release.sh: 发布时再次清理 | 高 |
+
+**问题根因**:
+1. 缓存收益：节省 2-5 秒/天（10 次 × 200-500ms）
+2. 维护成本：三层防护 + 一致性问题
+3. 性价比：维护成本 >> 缓存收益
+
+**简化方案**: 移除缓存，直接请求 npm registry
+
+```
+修改前:
+checkRemoteVersion() {
+  1. 检查缓存是否存在
+  2. 检查缓存是否过期（24h）
+  3. 检查版本是否一致
+  4. 决定是否请求远程
+  5. 更新缓存
+  6. 返回结果
+}
+
+修改后:
+checkRemoteVersion() {
+  1. 请求 npm registry
+  2. 返回结果
+}
+```
+
+**代码变化**:
+- 移除：100+ 行缓存相关代码
+- 保留：核心版本检查逻辑
+- 简化：导出模块从 9 个函数 → 5 个函数
+
+**防御机制**: git hooks 验证版本一致性
+
+```bash
+# .git/hooks/pre-commit
+if 版本文件被修改; then
+  if ! node scripts/bump-version.js --check; then
+    阻止提交，提示运行版本同步
+  fi
+fi
+```
+
+**效果对比**:
+
+| 指标 | 移除前 | 移除后 | 变化 |
+|------|--------|--------|------|
+| 代码行数 | ~240 行 | ~135 行 | -105 行 (-44%) |
+| 导出函数 | 9 个 | 5 个 | -4 个 |
+| 一致性问题 | 偶发 | 无 | ✅ 解决 |
+| 响应延迟 | <10ms | 200-500ms | +200-500ms |
+| 维护复杂度 | 高（三层） | 低（无缓存） | ✅ 大幅简化 |
+
+**教训**:
+- ✅ **简洁性优先**: 移除不必要的复杂性，即使有小性能损失
+- ✅ **权衡决策**: 200-500ms 延迟 vs 维护成本，后者更重要
+- ✅ **防御前置**: 用 git hooks 提前发现问题，而非事后修复
+- ✅ **直接请求**: 现代网络条件下，直接请求往往比缓存更简单可靠
+- ❌ 禁止过度优化：缓存带来的收益无法抵消维护成本
+- ❌ 禁止为缓存而缓存：不是所有场景都需要缓存
+
+**适用场景判断**:
+- 使用缓存：高频调用（>100 次/天）、延迟敏感（实时系统）
+- 不使用缓存：低频调用（<100 次/天）、延迟不敏感（开发工具）
+- mob-seed 场景：开发工具，启动频率低 → 不需要缓存
+
 ## 缓存文件说明
 
-项目运行时会生成以下缓存文件，用于加速检查和避免重复网络请求：
+项目运行时会生成以下缓存文件，用于加速 git hook 检查：
 
 | 文件 | 创建者 | 用途 | 有效期 |
 |------|--------|------|--------|
-| `.seed/cache/version.json` | `lib/runtime/version-checker.js` | 版本检查结果缓存，避免频繁请求 npm registry | 24h |
 | `.seed/check-cache.json` | `lib/hooks/cache-updater.js` | 增量检查文件哈希缓存，加速 git hook 检查 | 24h |
 
-**注意**：这些文件已在 `.gitignore` 中，不应提交到版本控制。
+**注意**：
+- 这些文件已在 `.gitignore` 中，不应提交到版本控制
+- 版本检查已移除缓存机制，直接请求 npm registry（200-500ms 延迟可接受）
 
 **详细规格**：
 - 增量检查缓存：`openspec/specs/automation/git-hooks.fspec.md` (REQ-003)
-- 版本检查缓存：`openspec/specs/runtime/runtime-version.fspec.md` (AC-006)
 
 ## 快速开始
 

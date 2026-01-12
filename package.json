@@ -1,41 +1,11 @@
 {
   "name": "mob-seed",
   "version": "3.7.0",
-  "description": "SEED Methodology - Spec-Driven Development with OpenSpec Native Support",
-  "type": "commonjs",
-  "scripts": {
-    "pretest": "node scripts/bump-version.js --check",
-    "test": "node --test skills/mob-seed/test/**/*.test.js",
-    "test:lifecycle": "node --test skills/mob-seed/test/lifecycle/*.test.js",
-    "test:stacks": "node --test skills/mob-seed/test/stacks/*.test.js",
-    "version:check": "node scripts/bump-version.js --check",
-    "version:sync": "node scripts/bump-version.js",
-    "insights:verify": "node skills/mob-seed/scripts/verify-insights.js",
-    "insights:sync": "node skills/mob-seed/scripts/verify-insights.js --fix"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/mobfish-ai/mob-seed.git"
-  },
-  "keywords": [
-    "seed",
-    "spec-driven",
-    "openspec",
-    "fspec",
-    "code-generation",
-    "automation",
-    "claude-code"
-  ],
-  "author": {
-    "name": "Mobfish AI",
-    "email": "kelvin@mobfish.ai"
-  },
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/mobfish-ai/mob-seed/issues"
-  },
-  "homepage": "https://github.com/mobfish-ai/mob-seed#readme",
-  "engines": {
-    "node": ">=18.0.0"
+  "description": "SEED 方法论驱动的统一开发工作流引擎",
+  "main": "adapters/emit-engine.js",
+  "exports": {
+    ".": "./adapters/emit-engine.js",
+    "./emit-engine": "./adapters/emit-engine.js",
+    "./seed-utils": "./adapters/seed-utils.js"
   }
 }

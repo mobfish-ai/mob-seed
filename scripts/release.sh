@@ -292,10 +292,10 @@ main() {
     echo ""
 
     # 执行发布流程
-    log_info "Step 1/7: Validating version format"
+    log_info "Step 1/8: Validating version format"
     log_success "Version format valid: $version"
 
-    log_info "Step 2/7: Checking working directory"
+    log_info "Step 2/8: Checking working directory"
     if [[ "$dry_run" != "true" ]]; then
         check_clean_working_dir || exit 1
         check_main_branch || exit 1
@@ -303,7 +303,7 @@ main() {
         echo "    Would check working directory and branch"
     fi
 
-    log_info "Step 3/7: Running tests"
+    log_info "Step 3/8: Running tests"
     if [[ "$skip_tests" == "true" ]]; then
         log_warn "Skipping tests (--skip-tests)"
     elif [[ "$dry_run" == "true" ]]; then
@@ -312,21 +312,23 @@ main() {
         run_tests || exit 1
     fi
 
-    log_info "Step 4/7: Updating version files"
+    log_info "Step 4/8: Updating version files"
     update_versions "$version" "$dry_run" || exit 1
 
-    log_info "Step 5/7: Updating CHANGELOG"
+    log_info "Step 5/8: Updating CHANGELOG"
     update_changelog "$version" "$dry_run" || exit 1
 
-    log_info "Step 6/7: Creating commit and tag"
+    log_info "Step 6/8: Creating commit"
     if [[ "$dry_run" != "true" ]]; then
         create_commit "$version" "$dry_run" || exit 1
     else
         create_commit "$version" "$dry_run"
     fi
+
+    log_info "Step 7/8: Creating tag"
     create_tag "$version" "$dry_run" || exit 1
 
-    log_info "Step 7/7: Pushing to remote"
+    log_info "Step 8/8: Pushing to remote"
     push_to_remote "$version" "$dry_run" || exit 1
 
     echo ""
