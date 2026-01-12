@@ -6,6 +6,33 @@
 
 ---
 
+## [3.8.0] - 2026-01-12
+
+### Added
+
+- **Insights 索引验证**: 新增 `scripts/verify-insights.js` 脚本，验证 `.seed/insights/index.json` 与实际 `.md` 文件的一致性
+  - 支持自动修复模式 (`--fix`) 重建索引
+  - 支持外部知识库（通过符号链接）
+  - 新增 npm scripts: `insights:verify`, `insights:sync`
+- **Git hooks 版本检查**: pre-commit hook 现在自动检查版本文件一致性，阻止版本不一致的提交
+
+### Changed
+
+- **版本检查简化**: 移除版本缓存机制，直接请求 npm registry
+  - 简化 `version-checker.js`: 导出函数从 9 个减少到 5 个
+  - 代码行数减少 105 行 (-44%)
+  - 移除 `release.sh` 中的缓存清理步骤
+  - 移除 `bump-version.js` 中的缓存清理逻辑
+  - 缓存移除理由: 维护成本 > 缓存收益 (2-5 秒/天)
+- **CLAUDE.md**: 新增教训 23 - "简化优于优化：版本缓存移除案例"
+
+### Fixed
+
+- 增量检查脚本现在支持 `scripts/` 目录的测试路径映射
+  - `skills/mob-seed/scripts/*.js` → `skills/mob-seed/test/scripts/*.test.js`
+
+---
+
 ## [3.6.0] - 2026-01-11
 
 ### Added
