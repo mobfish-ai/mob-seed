@@ -898,6 +898,21 @@ Hook 报错
 - ❌ 禁止因为"觉得是误报"就用 `--no-verify`
 - ❌ 禁止因为时间压力走捷径
 
+## 缓存文件说明
+
+项目运行时会生成以下缓存文件，用于加速检查和避免重复网络请求：
+
+| 文件 | 创建者 | 用途 | 有效期 |
+|------|--------|------|--------|
+| `.seed/cache/version.json` | `lib/runtime/version-checker.js` | 版本检查结果缓存，避免频繁请求 npm registry | 24h |
+| `.seed/check-cache.json` | `lib/hooks/cache-updater.js` | 增量检查文件哈希缓存，加速 git hook 检查 | 24h |
+
+**注意**：这些文件已在 `.gitignore` 中，不应提交到版本控制。
+
+**详细规格**：
+- 增量检查缓存：`openspec/specs/automation/git-hooks.fspec.md` (REQ-003)
+- 版本检查缓存：`openspec/specs/runtime/runtime-version.fspec.md` (AC-006)
+
 ## 快速开始
 
 ```bash
