@@ -251,20 +251,59 @@ Mission Statement 定义项目的使命、原则和反目标，用于指导 AI �
 
 **配置文件**: `.seed/mission.md`
 
-```yaml
-version: "1.0"
-mission:
-  en: "Spec-driven AI-assisted development"
-  zh: "规格驱动的 AI 辅助开发"
-principles:
-  - id: quality_first
-    name: { en: "Quality First", zh: "质量优先" }
-anti_goals:
-  - id: feature_creep
-    name: { en: "Feature Creep", zh: "功能蔓延" }
+**格式**: YAML frontmatter + Markdown body（用于人机协作）
+
+```markdown
+---
+# YAML frontmatter（机器可解析）
+version: "1.0.0"
+bilingual: true
+
+principle_ids:
+  - quality_first
+  - simplicity_over_cleverness
+
+anti_goal_ids:
+  - feature_creep
+  - over_engineering
+
 evolution:
-  auto_apply_threshold: 0.70
+  allowed_scopes: [refactor, document, test, fix]
+  auto_apply: [document, test]
+  min_alignment_score: 0.7
+---
+
+# Project Mission | 项目使命
+
+> **The Covenant Between Human Intent and Machine Intelligence**
+
+---
+
+## Purpose: Why We Exist | 使命：为何存在
+
+### Statement | 宣言
+
+**EN:** [Your mission in 1-2 sentences]
+
+**ZH:** [用1-2句话定义使命]
+
+---
+
+## Principles: How We Operate | 原则：如何运作
+
+### 1. Quality First | 质量优先 (`quality_first`)
+
+**EN:** Write code that is correct, readable, and maintainable.
+
+**ZH:** 编写正确、可读、可维护的代码。
+
+...
 ```
+
+**格式优势**:
+- **YAML frontmatter**: 机器可解析的结构化数据（ID、配置、阈值）
+- **Markdown body**: 人类友好的可预览文档（双语、章节）
+- **预览体验**: 在任何 Markdown 编辑器中都能正确渲染
 
 ---
 

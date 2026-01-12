@@ -200,7 +200,7 @@ node "$SKILL_DIR/scripts/init-project.js" .
 │   └── detect-project.js  # 项目检测
 └── templates/
     └── openspec/
-        ├── mission.yaml   # Mission 模板
+        ├── mission.md     # Mission 模板 (frontmatter + markdown)
         ├── project.md     # 项目约定模板
         └── AGENTS.md      # AI 工作流模板
 ```

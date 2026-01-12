@@ -183,7 +183,7 @@ function step2CreateSeedConfig(projectRoot, skillDir, detected, options) {
   console.log('   ✓ .seed/config.json');
 
   // 复制 mission.md（关键步骤！）
-  const missionSrc = path.join(skillDir, 'templates/openspec/mission.yaml');
+  const missionSrc = path.join(skillDir, 'templates/openspec/mission.md');
   const missionDest = path.join(seedDir, 'mission.md');
 
   if (fs.existsSync(missionSrc)) {
@@ -194,7 +194,7 @@ function step2CreateSeedConfig(projectRoot, skillDir, detected, options) {
     console.log('   ✓ .seed/mission.md (从模板创建)');
   } else {
     // 如果模板不存在，创建基本的 mission 文件
-    console.log('   ⚠️  模板不存在: templates/openspec/mission.yaml');
+    console.log('   ⚠️  模板不存在: templates/openspec/mission.md');
     console.log('   → 创建基本 mission.md...');
 
     const basicMission = createBasicMission(detected.projectInfo);
