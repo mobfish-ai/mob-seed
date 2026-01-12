@@ -952,6 +952,71 @@ node "$SKILL_DIR/scripts/verify-init.js" .
 - ❌ 禁止 AI 在 init 命令中手动创建文件
 - ❌ 禁止跳过 mission.md 创建
 
+### 22. SKILL.md 必须遵守 Claude Code 加载限制
+
+> **ACE 来源**: 用户报告 /mob-seed 加载内容被简化 (2026-01-12)
+
+**问题**: 用户调用 `/mob-seed` 时，Claude 加载的 SKILL.md 内容被截断/简化，导致关键行为定义丢失。
+
+**根因分析**:
+
+| 限制类型 | 官方限制值 | 原 SKILL.md | 状态 |
+|----------|------------|-------------|------|
+| 行数限制 | 500 行 | 538 行 | ⚠️ 超出 |
+| 字符预算 | 15,000 字符 | 22,975 字节 | ❌ 超出 53% |
+
+**Claude Code Skill 加载机制**:
+```
+用户调用 /mob-seed
+       ↓
+Claude Code 通过 Skill tool 加载 SKILL.md
+       ↓
+检测到超出字符预算
+       ↓
+截断/简化内容以适应预算
+       ↓
+用户看到不完整版本
+```
+
+**解决方案**: 渐进式披露 (Progressive Disclosure)
+
+```
+重构后结构:
+skills/mob-seed/
+├── SKILL.md (208 行, 6095 字符) ← 核心指令，完整加载
+└── REFERENCE.md (详细参考)      ← 按需加载
+```
+
+**SKILL.md 内容规范**:
+
+| 必须保留 | 移至 REFERENCE.md |
+|----------|-------------------|
+| Frontmatter（name, description, allowed-tools） | 目录结构详解 |
+| 命令列表和路由表 | 配置说明 |
+| 强制启动行为（版本显示） | 完整工作流程图 |
+| ACE 行为约定 | Delta 规格格式 |
+| OpenSpec 生命周期（简化版） | 输出目录详解 |
+| 架构原则（精简版） | 资源引用规范 |
+
+**教训**:
+- ✅ SKILL.md 必须保持 <500 行, <15000 字符
+- ✅ 详细内容移至 REFERENCE.md，通过链接引用
+- ✅ 核心行为定义（强制启动、ACE 约定）必须在 SKILL.md 中
+- ✅ 使用渐进式披露模式，按需加载详细内容
+- ❌ 禁止在 SKILL.md 中放置大量示例代码或详细流程图
+- ❌ 禁止假设 Claude 会完整加载超长 SKILL.md
+
+**验证命令**:
+```bash
+# 检查 SKILL.md 是否符合限制
+wc -l skills/mob-seed/SKILL.md  # 应 < 500
+wc -c skills/mob-seed/SKILL.md  # 应 < 15000
+```
+
+**参考文档**:
+- Claude Code Skills Guide: https://code.claude.com/docs/en/skills.md
+- Agent Skills Best Practices: https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices
+
 ## 缓存文件说明
 
 项目运行时会生成以下缓存文件，用于加速检查和避免重复网络请求：
