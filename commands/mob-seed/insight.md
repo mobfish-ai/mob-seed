@@ -1,5 +1,5 @@
 ---
-name: mob-seed-insight
+name: mob-seed:insight
 description: 外部洞见管理 - 导入、评估和采纳外部知识（论文、博客、专家意见等）
 allowed-tools: Read, Write, Edit, Bash, Task, TodoWrite, AskUserQuestion
 argument-hint: [URL] [--text] [--list] [--stats] [--review] [--update=<id>]

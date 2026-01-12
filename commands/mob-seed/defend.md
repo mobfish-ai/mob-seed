@@ -1,5 +1,5 @@
 ---
-name: mob-seed-defend
+name: mob-seed:defend
 description: SEED D阶段 - 守护规格与代码的同步（含原则验证）
 allowed-tools: Read, Write, Edit, Bash, Glob, Grep
 argument-hint: <spec-path> [--check] [--fix] [--report] [--strict] [--no-cache] [--quick] [--incremental] [--cached]

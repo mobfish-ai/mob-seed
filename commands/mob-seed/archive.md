@@ -1,5 +1,5 @@
 ---
-name: mob-seed-archive
+name: mob-seed:archive
 description: SEED 归档 - 将完成的变更提案归档到真相源（implementing → archived）
 allowed-tools: Read, Write, Edit, Bash, Glob, Grep, Task, TodoWrite, AskUserQuestion
 argument-hint: <proposal-name> [--all] [--dry-run] [--force]
