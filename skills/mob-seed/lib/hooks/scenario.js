@@ -50,6 +50,13 @@ const RESET = '\x1b[0m';
 
 /**
  * 检测当前运行场景
+ *
+ * 优先级:
+ * 1. user-env: 用户环境变量配置
+ * 2. dogfooding: mob-seed 项目内开发
+ * 3. compat: .seed/scripts 兼容模式
+ * 4. self: 基于 __dirname 自动定位（支持任意安装路径，含 Claude Code 插件缓存）
+ *
  * @param {string} cwd - 当前工作目录
  * @returns {{ scenario: object, pluginPath: string|null }}
  */
@@ -72,13 +79,11 @@ function detectScenario(cwd = process.cwd()) {
     return { scenario: SCENARIOS.COMPAT, pluginPath: compatPath };
   }
 
-  // Layer 3: Claude Code 用户插件路径
-  const userPluginPath = path.join(
-    process.env.HOME || '',
-    '.claude/plugins/mobfish-ai/mob-seed/skills/mob-seed'
-  );
-  if (fs.existsSync(path.join(userPluginPath, 'lib/hooks'))) {
-    return { scenario: SCENARIOS.USER_PLUGIN, pluginPath: userPluginPath };
+  // Layer 3: 基于 __dirname 自动定位（最可靠，支持 Claude Code 插件缓存等任意路径）
+  // scenario.js 在 lib/hooks/，skills/mob-seed 在 ../..
+  const selfPluginPath = path.join(__dirname, '../..');
+  if (fs.existsSync(path.join(selfPluginPath, 'lib/hooks'))) {
+    return { scenario: SCENARIOS.USER_PLUGIN, pluginPath: selfPluginPath };
   }
 
   // 未找到

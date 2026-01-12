@@ -54,19 +54,21 @@ test('version-checker: getLocalVersion - dogfooding mode', (t) => {
   }
 });
 
-test('version-checker: getLocalVersion - missing package.json', (t) => {
+test('version-checker: getLocalVersion - fallback to __dirname', (t) => {
   const originalCwd = process.cwd();
   setupTestEnvironment();
   process.chdir(TEMP_DIR);
 
-  // 删除 package.json
+  // 删除临时目录中的 package.json
   fs.unlinkSync(path.join(TEMP_DIR, 'skills/mob-seed/package.json'));
 
   try {
     const result = versionChecker.getLocalVersion();
 
-    assert.strictEqual(result.version, null, '没有 package.json 时返回 null');
-    assert.strictEqual(result.scenario, 'missing', '应该标记为 missing');
+    // __dirname 定位总是有效的（如果代码能执行，就能找到自己）
+    // 所以返回实际的版本号和 user-plugin 场景，而不是 missing
+    assert.ok(result.version, '应该通过 __dirname 找到版本号');
+    assert.strictEqual(result.scenario, 'user-plugin', '应该标记为 user-plugin');
   } finally {
     process.chdir(originalCwd);
     cleanupTestEnvironment();

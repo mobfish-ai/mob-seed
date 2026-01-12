@@ -15,7 +15,13 @@ const os = require('os');
 const https = require('https');
 
 /**
- * 四层回退查找 package.json（复用 scenario 检测逻辑）
+ * 五层回退查找 package.json
+ *
+ * 优先级:
+ * 1. dogfooding: mob-seed 项目内开发
+ * 2. user-env: 用户环境变量配置
+ * 3. self: 基于 __dirname 自动定位（支持任意安装路径，含 Claude Code 插件缓存）
+ * 4. compat: .seed/package.json 兼容模式
  */
 function findPackageJson() {
   // Layer 1: dogfooding (mob-seed 项目内)
@@ -32,13 +38,11 @@ function findPackageJson() {
     }
   }
 
-  // Layer 3: Claude Code 用户插件路径
-  const ccPluginPath = path.join(
-    os.homedir(),
-    '.claude/plugins/mobfish-ai/mob-seed/skills/mob-seed/package.json'
-  );
-  if (fs.existsSync(ccPluginPath)) {
-    return { path: ccPluginPath, scenario: 'user-plugin' };
+  // Layer 3: 基于 __dirname 自动定位（最可靠，支持 Claude Code 插件缓存等任意路径）
+  // version-checker.js 在 lib/runtime/，package.json 在 ../../package.json
+  const selfPath = path.join(__dirname, '../../package.json');
+  if (fs.existsSync(selfPath)) {
+    return { path: selfPath, scenario: 'user-plugin' };
   }
 
   // Layer 4: compat (.seed/package.json)

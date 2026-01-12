@@ -109,7 +109,7 @@ describe('Scenario Detection Module', () => {
       assert.strictEqual(result.scenario.code, 'compat');
     });
 
-    it('should return MISSING when no paths found', () => {
+    it('should fallback to __dirname when no other paths found', () => {
       // 空目录，没有任何 hook 路径
       const emptyDir = path.join(tempDir, 'empty');
       fs.mkdirSync(emptyDir, { recursive: true });
@@ -119,8 +119,10 @@ describe('Scenario Detection Module', () => {
 
       const result = scenario.detectScenario(emptyDir);
 
-      assert.strictEqual(result.scenario.code, 'missing');
-      assert.strictEqual(result.pluginPath, null);
+      // __dirname 定位总是有效的（如果代码能执行，就能找到自己）
+      // 所以返回 user-plugin 而不是 missing
+      assert.strictEqual(result.scenario.code, 'user-plugin');
+      assert.ok(result.pluginPath, '应该通过 __dirname 找到插件路径');
     });
   });
 
