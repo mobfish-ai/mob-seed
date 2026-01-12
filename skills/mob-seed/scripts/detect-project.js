@@ -180,7 +180,6 @@ function detectTechStack(pkg) {
  */
 function generateConfig(detected) {
   return {
-    version: "2.0.0",
     created: new Date().toISOString(),
     updated: new Date().toISOString(),
 

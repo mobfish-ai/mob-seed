@@ -22,7 +22,6 @@ const REQUIRED_FILES = [
     validator: (content) => {
       try {
         const config = JSON.parse(content);
-        if (!config.version) return '缺少 version 字段';
         if (!config.paths) return '缺少 paths 配置';
         if (!config.mission) return '缺少 mission 配置';
         return null;

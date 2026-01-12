@@ -2,8 +2,6 @@
   "$schema": "../schemas/seed.config.schema.json",
   "_comment": "SEED 方法论配置 - 种子法则（OpenSpec 原生版）",
 
-  "version": "2.0.0",
-
   "openspec": {
     "_comment": "OpenSpec 原生模式配置（默认启用）",
     "enabled": true,

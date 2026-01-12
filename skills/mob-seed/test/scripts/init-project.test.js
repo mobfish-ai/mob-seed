@@ -104,7 +104,7 @@ describe('init-project.js', () => {
       fs.mkdirSync(path.join(project, '.seed'));
       fs.writeFileSync(
         path.join(project, '.seed/config.json'),
-        '{"version": "2.0.0"}',
+        '{"paths": {}, "mission": {}}',
         'utf8'
       );
 
@@ -149,7 +149,6 @@ describe('verify-init.js', () => {
       fs.writeFileSync(
         path.join(project, '.seed/config.json'),
         JSON.stringify({
-          version: '2.0.0',
           paths: { src: 'src', test: 'test' },
           mission: { enabled: true, path: '.seed/mission.md' }
         }, null, 2),
@@ -215,7 +214,7 @@ anti_goals:
 
       fs.writeFileSync(
         path.join(project, '.seed/config.json'),
-        JSON.stringify({ version: '2.0.0', paths: {}, mission: {} }, null, 2),
+        JSON.stringify({ paths: {}, mission: {} }, null, 2),
         'utf8'
       );
 
