@@ -11,6 +11,11 @@ output/
 .seed/insights
 .seed/learning
 
+# Cache files (runtime generated)
+.seed/cache/
+.seed/check-cache.json
+skills/mob-seed/.seed/cache/
+
 # Node modules
 node_modules/
 package-lock.json
