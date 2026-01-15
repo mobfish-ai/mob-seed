@@ -97,8 +97,12 @@ function createInsight(projectPath, insightData) {
   }
 
   // Generate ID - generateInsightId(date, slug)
+  // Slug generation: lowercase → non-alnum to dash → collapse consecutive dashes → trim ends
   const title = insightData.source?.title || 'untitled';
-  const slug = title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '').substring(0, 30);
+  const slug = title.toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')    // Non-alphanumeric → single dash
+    .replace(/^-+|-+$/g, '')        // Remove leading/trailing dashes
+    .substring(0, 30);
   const insightId = generateInsightId(new Date(), slug);
   const filePath = path.join(insightsDir, `${insightId}.md`);
 

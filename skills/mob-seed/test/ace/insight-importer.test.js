@@ -32,7 +32,7 @@ describe('insight-importer', () => {
   describe('importFromText', () => {
     it('should import text content successfully', () => {
       const text = 'Test Article Title\n\nThis is the article content about javascript and testing.';
-      const result = importFromText(tempDir, text);
+      const result = importFromText(tempDir, text, { skipDedupCheck: true });
 
       assert.strictEqual(result.success, true);
       assert.strictEqual(result.mode, ImportMode.TEXT);
@@ -44,7 +44,7 @@ describe('insight-importer', () => {
 
     it('should extract metadata from text', () => {
       const text = 'My Insight Title\nBy John Doe\n\nContent about the insight.';
-      const result = importFromText(tempDir, text);
+      const result = importFromText(tempDir, text, { skipDedupCheck: true });
 
       assert.strictEqual(result.success, true);
       assert.strictEqual(result.metadata.title, 'My Insight Title');
@@ -54,6 +54,7 @@ describe('insight-importer', () => {
     it('should use source info when provided', () => {
       const text = 'Title\n\nContent.';
       const result = importFromText(tempDir, text, {
+        skipDedupCheck: true,
         sourceInfo: {
           type: 'paper',
           author: 'Provided Author',
@@ -70,6 +71,7 @@ describe('insight-importer', () => {
     it('should add additional tags', () => {
       const text = 'Title\n\nContent about javascript.';
       const result = importFromText(tempDir, text, {
+        skipDedupCheck: true,
         additionalTags: ['custom-tag', 'another-tag']
       });
 
@@ -80,7 +82,7 @@ describe('insight-importer', () => {
 
     it('should support dry run mode', () => {
       const text = 'Dry Run Title\n\nContent.';
-      const result = importFromText(tempDir, text, { dryRun: true });
+      const result = importFromText(tempDir, text, { skipDedupCheck: true, dryRun: true });
 
       assert.strictEqual(result.success, true);
       assert.strictEqual(result.dryRun, true);
@@ -111,7 +113,7 @@ describe('insight-importer', () => {
 
     it('should create insight file with correct content', () => {
       const text = 'Insight Title\n\nThe actual content.';
-      const result = importFromText(tempDir, text);
+      const result = importFromText(tempDir, text, { skipDedupCheck: true });
 
       assert.strictEqual(result.success, true);
 
@@ -122,7 +124,7 @@ describe('insight-importer', () => {
 
     it('should handle Chinese content', () => {
       const text = '关于AI编程的思考\n作者: 张三\n\n这是一篇关于人工智能的文章。';
-      const result = importFromText(tempDir, text);
+      const result = importFromText(tempDir, text, { skipDedupCheck: true });
 
       assert.strictEqual(result.success, true);
       assert.ok(result.metadata.title.includes('关于AI编程的思考'));
@@ -313,10 +315,12 @@ describe('insight-importer', () => {
     it('should fail when importing same text twice on same day', () => {
       const text = 'Duplicate Test Title\n\nContent.';
 
-      const result1 = importFromText(tempDir, text);
+      // First import (skip dedup since no index exists yet)
+      const result1 = importFromText(tempDir, text, { skipDedupCheck: true });
       assert.strictEqual(result1.success, true);
 
-      const result2 = importFromText(tempDir, text);
+      // Second import with same title - should fail due to ID collision
+      const result2 = importFromText(tempDir, text, { skipDedupCheck: true });
       assert.strictEqual(result2.success, false);
       assert.ok(result2.error.includes('already exists'));
     });
@@ -325,13 +329,70 @@ describe('insight-importer', () => {
       const text1 = 'First Title\n\nContent 1.';
       const text2 = 'Second Title\n\nContent 2.';
 
-      const result1 = importFromText(tempDir, text1);
+      // Skip dedup check for basic import tests
+      const result1 = importFromText(tempDir, text1, { skipDedupCheck: true });
       assert.strictEqual(result1.success, true);
 
-      const result2 = importFromText(tempDir, text2);
+      const result2 = importFromText(tempDir, text2, { skipDedupCheck: true });
       assert.strictEqual(result2.success, true);
 
       assert.notStrictEqual(result1.insightId, result2.insightId);
+    });
+
+    it('should detect similar insights when dedup is enabled', () => {
+      // First create an index with existing insight
+      const indexDir = path.join(tempDir, '.seed', 'insights');
+      const existingIndex = {
+        version: '1.0',
+        updated: new Date().toISOString(),
+        insights: [
+          {
+            id: 'ins-20260115-test-insight',
+            title: 'Agent Architecture Best Practices',
+            tags: ['agent', 'architecture', 'best-practices'],
+            status: 'evaluating',
+            source: { title: 'Agent Architecture Best Practices' }
+          }
+        ]
+      };
+      fs.writeFileSync(path.join(indexDir, 'index.json'), JSON.stringify(existingIndex, null, 2));
+
+      // Try to import similar content with dedup enabled
+      const text = 'Agent Architecture Patterns\n\nBest practices for agent development.';
+      const result = importFromText(tempDir, text);
+
+      // Should detect similarity and block
+      assert.strictEqual(result.success, false);
+      assert.ok(result.error.includes('Similar'));
+      assert.ok(result.similarInsights);
+      assert.ok(result.similarInsights.length > 0);
+    });
+
+    it('should allow import with forceCreate despite similarity', () => {
+      // First create an index with existing insight
+      const indexDir = path.join(tempDir, '.seed', 'insights');
+      const existingIndex = {
+        version: '1.0',
+        updated: new Date().toISOString(),
+        insights: [
+          {
+            id: 'ins-20260115-test-insight',
+            title: 'Agent Architecture Best Practices',
+            tags: ['agent', 'architecture', 'best-practices'],
+            status: 'evaluating',
+            source: { title: 'Agent Architecture Best Practices' }
+          }
+        ]
+      };
+      fs.writeFileSync(path.join(indexDir, 'index.json'), JSON.stringify(existingIndex, null, 2));
+
+      // Import with forceCreate to bypass dedup
+      const text = 'Agent Architecture Patterns\n\nBest practices for agent development.';
+      const result = importFromText(tempDir, text, { forceCreate: true });
+
+      // Should succeed despite similarity
+      assert.strictEqual(result.success, true);
+      assert.ok(result.insightId);
     });
   });
 
@@ -339,6 +400,7 @@ describe('insight-importer', () => {
     it('should include proper frontmatter', () => {
       const text = 'Test Title\n\nContent here.';
       const result = importFromText(tempDir, text, {
+        skipDedupCheck: true,
         sourceInfo: {
           type: 'paper',
           author: 'Test Author',
@@ -360,7 +422,7 @@ describe('insight-importer', () => {
 
     it('should include content section', () => {
       const text = 'Test Title\n\nThis is the actual content of the insight.';
-      const result = importFromText(tempDir, text);
+      const result = importFromText(tempDir, text, { skipDedupCheck: true });
 
       assert.strictEqual(result.success, true);
 

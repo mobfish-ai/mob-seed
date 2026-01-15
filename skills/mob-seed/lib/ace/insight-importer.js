@@ -30,6 +30,11 @@ const {
   getInsightsDir
 } = require('./insight-config');
 
+const {
+  checkBeforeImport,
+  formatDedupResult
+} = require('./insight-dedup');
+
 /**
  * Import modes
  */
@@ -44,12 +49,14 @@ const ImportMode = {
  * @param {string} url - URL to import from
  * @param {Object} [options] - Import options
  * @param {boolean} [options.dryRun] - If true, preview without creating file
+ * @param {boolean} [options.skipDedupCheck] - If true, skip duplicate check
+ * @param {boolean} [options.forceCreate] - If true, create even if duplicates found
  * @param {Object} [options.overrides] - Override extracted metadata
  * @param {string[]} [options.additionalTags] - Additional tags to add
  * @returns {Promise<Object>} Import result
  */
 async function importFromUrl(projectPath, url, options = {}) {
-  const { dryRun = false, overrides = {}, additionalTags = [] } = options;
+  const { dryRun = false, skipDedupCheck = false, forceCreate = false, overrides = {}, additionalTags = [] } = options;
 
   const result = {
     success: false,
@@ -101,10 +108,32 @@ async function importFromUrl(projectPath, url, options = {}) {
 
   result.metadata = metadata;
 
+  // Deduplication check (unless skipped)
+  if (!skipDedupCheck) {
+    const dedupResult = checkBeforeImport(projectPath, {
+      title: metadata.title,
+      tags: metadata.tags,
+      content: '' // URL import doesn't have content yet
+    });
+
+    result.dedupCheck = dedupResult;
+
+    if (dedupResult.hasSimilar && !forceCreate) {
+      result.success = false;
+      result.error = 'Similar insight(s) already exist';
+      result.similarInsights = dedupResult.similar;
+      result.suggestions = dedupResult.suggestions;
+      return result;
+    }
+  }
+
   // If dry run, return preview
   if (dryRun) {
     const title = metadata.title || 'untitled';
-    const slug = title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '').substring(0, 30);
+    const slug = title.toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')    // Non-alphanumeric → single dash
+      .replace(/^-+|-+$/g, '')        // Remove leading/trailing dashes
+      .substring(0, 30);
     result.insightId = generateInsightId(new Date(), slug);
     result.success = true;
     return result;
@@ -143,6 +172,8 @@ async function importFromUrl(projectPath, url, options = {}) {
  * @param {string} text - Text content
  * @param {Object} [options] - Import options
  * @param {boolean} [options.dryRun] - If true, preview without creating file
+ * @param {boolean} [options.skipDedupCheck] - If true, skip duplicate check
+ * @param {boolean} [options.forceCreate] - If true, create even if duplicates found
  * @param {Object} [options.sourceInfo] - Source information
  * @param {string} [options.sourceInfo.type] - Source type
  * @param {string} [options.sourceInfo.author] - Author
@@ -152,7 +183,7 @@ async function importFromUrl(projectPath, url, options = {}) {
  * @returns {Object} Import result
  */
 function importFromText(projectPath, text, options = {}) {
-  const { dryRun = false, sourceInfo = {}, additionalTags = [] } = options;
+  const { dryRun = false, skipDedupCheck = false, forceCreate = false, sourceInfo = {}, additionalTags = [] } = options;
 
   const result = {
     success: false,
@@ -197,10 +228,32 @@ function importFromText(projectPath, text, options = {}) {
 
   result.metadata = metadata;
 
+  // Deduplication check (unless skipped)
+  if (!skipDedupCheck) {
+    const dedupResult = checkBeforeImport(projectPath, {
+      title: metadata.title,
+      tags: metadata.tags,
+      content: text // Text import has full content for better matching
+    });
+
+    result.dedupCheck = dedupResult;
+
+    if (dedupResult.hasSimilar && !forceCreate) {
+      result.success = false;
+      result.error = 'Similar insight(s) already exist';
+      result.similarInsights = dedupResult.similar;
+      result.suggestions = dedupResult.suggestions;
+      return result;
+    }
+  }
+
   // If dry run, return preview
   if (dryRun) {
     const title = metadata.title || 'untitled';
-    const slug = title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '').substring(0, 30);
+    const slug = title.toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')    // Non-alphanumeric → single dash
+      .replace(/^-+|-+$/g, '')        // Remove leading/trailing dashes
+      .substring(0, 30);
     result.insightId = generateInsightId(new Date(), slug);
     result.success = true;
     return result;
@@ -283,7 +336,27 @@ function formatImportResult(result) {
     lines.push('');
     lines.push(`   错误: ${result.error}`);
 
-    if (result.mode === ImportMode.URL) {
+    // Show similar insights if dedup check failed
+    if (result.similarInsights && result.similarInsights.length > 0) {
+      lines.push('');
+      lines.push('⚠️ 发现相似洞见:');
+      for (const match of result.similarInsights) {
+        const insight = match.insight;
+        const score = (match.similarity * 100).toFixed(0);
+        lines.push(`   📄 ${insight.id} (相似度: ${score}%)`);
+        lines.push(`      标题: ${insight.title || '(无标题)'}`);
+        lines.push(`      状态: ${insight.status}`);
+      }
+      lines.push('');
+      lines.push('💡 建议:');
+      if (result.suggestions && result.suggestions.length > 0) {
+        for (const suggestion of result.suggestions) {
+          lines.push(`   ${suggestion.message}`);
+        }
+      }
+      lines.push('');
+      lines.push('   如确需创建新洞见，使用 --force 参数');
+    } else if (result.mode === ImportMode.URL) {
       lines.push('');
       lines.push('💡 提示:');
       lines.push('   - 检查 URL 是否可访问');
@@ -392,6 +465,10 @@ module.exports = {
   // Utility functions
   formatImportResult,
   checkUrlSupport,
+
+  // Deduplication (re-exported for convenience)
+  checkBeforeImport,
+  formatDedupResult,
 
   // Constants
   ImportMode
