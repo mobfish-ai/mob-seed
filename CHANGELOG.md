@@ -6,6 +6,99 @@
 
 ---
 
+## [3.10.0] - 2026-01-22
+
+### Changed
+
+**Insight Index v2.0 双索引架构**
+
+为优化大规模洞见管理性能，重构索引系统为双索引架构：
+
+- **精简主索引 `index.json`**: 仅保留 `{id, status, date, file}` 四个字段，用于快速列表和状态查询
+- **标签倒排索引 `tags-index.json`**: 按标签快速查找洞见，仅索引出现 2 次以上的标签
+- **完整元数据存储**: 所有详细信息（author, affiliation, source, tags 等）保存在 `.md` 文件的 YAML frontmatter 中
+
+**索引操作优化**
+- `getIndex()` 返回精简索引，减少内存占用
+- `syncInsightIndex()` 同时更新主索引和标签索引
+- `findSimilarInsights()` 从实际 `.md` 文件读取完整元数据进行比较
+- `updateTagsIndexForInsight()` 增量更新标签索引
+
+**代码变更**
+- `lib/ace/insight-index.js` - 索引管理核心重构 (+375 行)
+- `lib/ace/insight-dedup.js` - 适配 v2.0 索引格式
+- `commands/insight.md` - 更新索引架构文档
+
+### Removed
+
+- `lib/ace/insight-title-generator.js` - 移除未使用的标题生成器模块 (-130 行)
+
+### Tests
+
+- 新增/更新测试: 661+ 行
+- `test/ace/insight-index.test.js` - v2.0 索引测试
+- `test/ace/insight-dedup.test.js` - 适配 v2.0 格式
+- `test/ace/insight-importer.test.js` - 适配 v2.0 格式
+- 全部测试: 1854 pass / 0 fail
+
+---
+
+## [3.9.0] - 2026-01-20
+
+### Added
+
+**文件导入功能**
+- 支持从本地文件导入洞见（Markdown、文本文件）
+- 智能标题提取：从文件名、frontmatter、首行标题自动提取
+- 新增 `prompts/insight-import.md` 导入提示模板
+
+**洞见去重机制**
+- `lib/ace/insight-dedup.js` - 新增去重模块 (377 行)
+  - 基于标题、标签、关键词的多维相似度计算
+  - Jaccard 相似度 + Levenshtein 距离
+  - 可配置阈值和权重
+- 导入前自动检测相似洞见，防止重复导入
+
+**规格文件**
+- `openspec/archive/v3.9-file-import/specs/file-import.fspec.md` - 文件导入规格
+
+### Changed
+
+- `lib/ace/insight-extractor.js` - 增强内容提取能力 (+96 行)
+- `lib/ace/insight-importer.js` - 集成去重检查和文件导入 (+332 行)
+- `templates/insight.md` - 更新洞见模板 (+103 行)
+
+### Tests
+
+- `test/ace/insight-dedup.test.js` - 去重模块测试 (640 行)
+- `test/ace/insight-importer.test.js` - 文件导入测试 (+401 行)
+- 全部测试: 1748 pass / 0 fail
+
+---
+
+## [3.8.2] - 2026-01-15
+
+### Fixed
+
+- 修复 Claude Code 插件缓存目录版本检测失败问题
+  - `lib/hooks/scenario.js` - 改进场景检测逻辑
+  - `lib/runtime/version-checker.js` - 增强版本检测容错
+
+---
+
+## [3.8.1] - 2026-01-13
+
+### Fixed
+
+- 移除 `config.json` 中硬编码的 `version` 字段（版本应从 `package.json` 读取）
+
+### Added
+
+- `test/scripts/detect-project.test.js` - 项目检测脚本测试 (260 行)
+- `test/scripts/verify-init.test.js` - 初始化验证脚本测试 (118 行)
+
+---
+
 ## [3.8.0] - 2026-01-12
 
 ### Added
@@ -571,7 +664,15 @@
 
 ---
 
-[Unreleased]: https://github.com/mobfish-ai/mob-seed/compare/v3.3.0...HEAD
+[Unreleased]: https://github.com/mobfish-ai/mob-seed/compare/v3.10.0...HEAD
+[3.10.0]: https://github.com/mobfish-ai/mob-seed/compare/v3.9.0...v3.10.0
+[3.9.0]: https://github.com/mobfish-ai/mob-seed/compare/v3.8.2...v3.9.0
+[3.8.2]: https://github.com/mobfish-ai/mob-seed/compare/v3.8.1...v3.8.2
+[3.8.1]: https://github.com/mobfish-ai/mob-seed/compare/v3.8.0...v3.8.1
+[3.8.0]: https://github.com/mobfish-ai/mob-seed/compare/v3.6.0...v3.8.0
+[3.6.0]: https://github.com/mobfish-ai/mob-seed/compare/v3.5.0...v3.6.0
+[3.5.0]: https://github.com/mobfish-ai/mob-seed/compare/v3.4.0...v3.5.0
+[3.4.0]: https://github.com/mobfish-ai/mob-seed/compare/v3.3.0...v3.4.0
 [3.3.0]: https://github.com/mobfish-ai/mob-seed/compare/v3.2.1...v3.3.0
 [3.2.1]: https://github.com/mobfish-ai/mob-seed/compare/v3.2.0...v3.2.1
 [3.2.0]: https://github.com/mobfish-ai/mob-seed/compare/v3.1.0...v3.2.0
