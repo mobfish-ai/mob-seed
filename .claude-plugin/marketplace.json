@@ -9,7 +9,7 @@
     {
       "name": "mob-seed",
       "description": "SEED Methodology - Spec-Driven Development with OpenSpec Native Support",
-      "version": "3.8.2",
+      "version": "3.9.0",
       "source": "./",
       "author": {
         "name": "Mobfish AI",

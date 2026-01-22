@@ -419,15 +419,8 @@ async function extractFromUrl(url, options = {}) {
 function extractFromText(text, hints = {}) {
   const lines = text.split('\n').filter(l => l.trim());
 
-  // Try to extract title from first non-empty line
-  let title = null;
-  if (lines.length > 0) {
-    // Remove markdown heading markers
-    title = lines[0].replace(/^#+\s*/, '').trim();
-    if (title.length > 200) {
-      title = title.substring(0, 197) + '...';
-    }
-  }
+  // Try to extract title using smart extraction
+  let title = extractSmartTitleFromText(text);
 
   // Try to extract author from common patterns
   let author = hints.author || null;
@@ -470,6 +463,89 @@ function extractFromText(text, hints = {}) {
       tags
     }
   };
+}
+
+/**
+ * Smart title extraction from text content
+ * Uses heuristics to find the most meaningful title
+ * @param {string} text - Text content
+ * @returns {string} Extracted title
+ */
+function extractSmartTitleFromText(text) {
+  const lines = text.split('\n').filter(l => l.trim());
+
+  if (lines.length === 0) {
+    return 'Untitled Insight';
+  }
+
+  // Strategy 1: Look for explicit title markers
+  for (const line of lines) {
+    const trimmed = line.trim();
+    // Check for markdown headings first
+    const headingMatch = trimmed.match(/^(#+)\s+(.+)$/);
+    if (headingMatch) {
+      const extracted = headingMatch[2].trim();
+      if (extracted && extracted.length > 2) {
+        return truncateTitle(extracted);
+      }
+    }
+    // Check for common title patterns
+    if (trimmed.match(/^(标题|题目|主题|Title|Subject)[:：]/i)) {
+      const extracted = trimmed.replace(/^(标题|题目|主题|Title|Subject)[:：]\s*/i, '');
+      if (extracted && extracted.length > 2) {
+        return truncateTitle(extracted);
+      }
+    }
+  }
+
+  // Strategy 2: Find first meaningful sentence
+  for (const line of lines) {
+    const trimmed = line.trim();
+    // Skip common non-title patterns
+    if (trimmed.match(/^(笔记|思考|学习|记录|Note|Thought|Memo|Log|今日|今天)/i)) {
+      continue;
+    }
+    // Look for sentences with structure (contains keywords, has proper length)
+    if (trimmed.length >= 5 && trimmed.length <= 100) {
+      // Contains technical keywords or has proper structure
+      if (trimmed.includes(':') || trimmed.includes('的') || trimmed.includes('是') || trimmed.match(/[A-Z][a-z]+/)) {
+        return truncateTitle(trimmed);
+      }
+    }
+  }
+
+  // Strategy 3: Use first line with markdown heading removal
+  const firstLine = lines[0].trim();
+  const withoutHeading = firstLine.replace(/^#+\s*/, '').trim();
+  if (withoutHeading && withoutHeading.length > 0) {
+    return truncateTitle(withoutHeading);
+  }
+
+  return 'Untitled Insight';
+}
+
+/**
+ * Truncate title to reasonable length
+ * @param {string} title - Original title
+ * @returns {string} Truncated title
+ */
+function truncateTitle(title) {
+  // Remove common prefixes
+  title = title.replace(/^(关于|学习|记录|笔记|思考|学习笔记|今日学习|今天)[:：]?\s*/i, '');
+
+  // Limit length
+  if (title.length > 60) {
+    // Try to break at word boundary
+    const breakPoint = title.substring(0, 60).lastIndexOf(' ');
+    if (breakPoint > 20) {
+      title = title.substring(0, breakPoint);
+    } else {
+      title = title.substring(0, 60);
+    }
+    title += '...';
+  }
+
+  return title.trim() || 'Untitled Insight';
 }
 
 /**
@@ -556,6 +632,8 @@ module.exports = {
   inferCredibility,
   generateTagsFromText,
   validateMetadata,
+  extractSmartTitleFromText,
+  truncateTitle,
 
   // Constants (for testing)
   DomainSourceTypeMap,
