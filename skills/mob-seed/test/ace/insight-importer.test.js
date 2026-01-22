@@ -342,22 +342,42 @@ describe('insight-importer', () => {
     });
 
     it('should detect similar insights when dedup is enabled', () => {
-      // First create an index with existing insight
+      // First create an index with existing insight (v2.0 format)
       const indexDir = path.join(tempDir, '.seed', 'insights');
       const existingIndex = {
-        version: '1.0',
+        version: '2.0.0',
         updated: new Date().toISOString(),
+        count: 1,
         insights: [
           {
             id: 'ins-20260115-test-insight',
-            title: 'Agent Architecture Best Practices',
-            tags: ['agent', 'architecture', 'best-practices'],
             status: 'evaluating',
-            source: { title: 'Agent Architecture Best Practices' }
+            date: '2026-01-15',
+            file: 'ins-20260115-test-insight.md'
           }
         ]
       };
       fs.writeFileSync(path.join(indexDir, 'index.json'), JSON.stringify(existingIndex, null, 2));
+
+      // Create actual insight file (v2.0 reads from files)
+      const insightContent = `---
+id: ins-20260115-test-insight
+source:
+  title: "Agent Architecture Best Practices"
+  type: blog
+  date: 2026-01-15
+  credibility: medium
+date: 2026-01-15
+status: evaluating
+model_era: claude-opus-4.5
+tags: [agent, architecture, best-practices]
+---
+
+## 原始洞见
+
+Test content.
+`;
+      fs.writeFileSync(path.join(indexDir, 'ins-20260115-test-insight.md'), insightContent);
 
       // Try to import similar content with dedup enabled
       const text = 'Agent Architecture Patterns\n\nBest practices for agent development.';
@@ -371,22 +391,42 @@ describe('insight-importer', () => {
     });
 
     it('should allow import with forceCreate despite similarity', () => {
-      // First create an index with existing insight
+      // First create an index with existing insight (v2.0 format)
       const indexDir = path.join(tempDir, '.seed', 'insights');
       const existingIndex = {
-        version: '1.0',
+        version: '2.0.0',
         updated: new Date().toISOString(),
+        count: 1,
         insights: [
           {
             id: 'ins-20260115-test-insight',
-            title: 'Agent Architecture Best Practices',
-            tags: ['agent', 'architecture', 'best-practices'],
             status: 'evaluating',
-            source: { title: 'Agent Architecture Best Practices' }
+            date: '2026-01-15',
+            file: 'ins-20260115-test-insight.md'
           }
         ]
       };
       fs.writeFileSync(path.join(indexDir, 'index.json'), JSON.stringify(existingIndex, null, 2));
+
+      // Create actual insight file (v2.0 reads from files)
+      const insightContent = `---
+id: ins-20260115-test-insight
+source:
+  title: "Agent Architecture Best Practices"
+  type: blog
+  date: 2026-01-15
+  credibility: medium
+date: 2026-01-15
+status: evaluating
+model_era: claude-opus-4.5
+tags: [agent, architecture, best-practices]
+---
+
+## 原始洞见
+
+Test content.
+`;
+      fs.writeFileSync(path.join(indexDir, 'ins-20260115-test-insight.md'), insightContent);
 
       // Import with forceCreate to bypass dedup
       const text = 'Agent Architecture Patterns\n\nBest practices for agent development.';
@@ -732,22 +772,42 @@ Content here.`;
 
     describe('Duplicate detection', () => {
       it('should detect similar insights', () => {
-        // Create existing insight
+        // Create existing insight with v2.0 index and actual .md file
         const indexDir = path.join(tempDir, '.seed', 'insights');
         const existingIndex = {
-          version: '1.0',
+          version: '2.0.0',
           updated: new Date().toISOString(),
+          count: 1,
           insights: [
             {
               id: 'ins-20260122-existing',
-              title: 'File Import Patterns',
-              tags: ['file', 'import', 'patterns'],
               status: 'evaluating',
-              source: { title: 'File Import Patterns' }
+              date: '2026-01-22',
+              file: 'ins-20260122-existing.md'
             }
           ]
         };
         fs.writeFileSync(path.join(indexDir, 'index.json'), JSON.stringify(existingIndex, null, 2));
+
+        // Create actual insight file (v2.0 reads from files)
+        const insightContent = `---
+id: ins-20260122-existing
+source:
+  title: "File Import Patterns"
+  type: blog
+  date: 2026-01-22
+  credibility: medium
+date: 2026-01-22
+status: evaluating
+model_era: claude-opus-4.5
+tags: [file, import, patterns]
+---
+
+## 原始洞见
+
+Test content.
+`;
+        fs.writeFileSync(path.join(indexDir, 'ins-20260122-existing.md'), insightContent);
 
         // Try to import similar content
         const content = '# File Import Best Practices\n\nSimilar content.';
@@ -762,22 +822,42 @@ Content here.`;
       });
 
       it('should allow import with forceCreate despite similarity', () => {
-        // Create existing insight
+        // Create existing insight with v2.0 index and actual .md file
         const indexDir = path.join(tempDir, '.seed', 'insights');
         const existingIndex = {
-          version: '1.0',
+          version: '2.0.0',
           updated: new Date().toISOString(),
+          count: 1,
           insights: [
             {
               id: 'ins-20260122-existing',
-              title: 'File Import Patterns',
-              tags: ['file', 'import'],
               status: 'evaluating',
-              source: { title: 'File Import Patterns' }
+              date: '2026-01-22',
+              file: 'ins-20260122-existing.md'
             }
           ]
         };
         fs.writeFileSync(path.join(indexDir, 'index.json'), JSON.stringify(existingIndex, null, 2));
+
+        // Create actual insight file (v2.0 reads from files)
+        const insightContent = `---
+id: ins-20260122-existing
+source:
+  title: "File Import Patterns"
+  type: blog
+  date: 2026-01-22
+  credibility: medium
+date: 2026-01-22
+status: evaluating
+model_era: claude-opus-4.5
+tags: [file, import]
+---
+
+## 原始洞见
+
+Test content.
+`;
+        fs.writeFileSync(path.join(indexDir, 'ins-20260122-existing.md'), insightContent);
 
         // Import with forceCreate
         const content = '# File Import Best Practices\n\nSimilar content.';

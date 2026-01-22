@@ -29,7 +29,9 @@ const mockInsights = [
     status: 'evaluating',
     source: {
       title: 'Agent研发经验分享',
-      type: 'experience'
+      type: 'experience',
+      date: '2026-01-04',
+      credibility: 'high'
     }
   },
   {
@@ -38,7 +40,10 @@ const mockInsights = [
     tags: ['prompt-engineering', 'automation', 'framework', 'expert-thinking'],
     status: 'evaluating',
     source: {
-      title: '高级提示词设计框架'
+      title: '高级提示词设计框架',
+      type: 'blog',
+      date: '2026-01-05',
+      credibility: 'medium'
     }
   },
   {
@@ -47,7 +52,10 @@ const mockInsights = [
     tags: ['vibe-coding', 'agent-programming', 'ai-engineering', 'productivity'],
     status: 'evaluating',
     source: {
-      title: 'AI 编程练满 2000 小时才算会用'
+      title: 'AI 编程练满 2000 小时才算会用',
+      type: 'blog',
+      date: '2026-01-04',
+      credibility: 'medium'
     }
   }
 ];
@@ -66,7 +74,47 @@ function createTempProject(indexData = mockIndex) {
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'insight-dedup-test-'));
   const seedDir = path.join(tempDir, '.seed', 'insights');
   fs.mkdirSync(seedDir, { recursive: true });
-  fs.writeFileSync(path.join(seedDir, 'index.json'), JSON.stringify(indexData, null, 2));
+
+  // Create v2.0 compact index (only id, status, date, file)
+  const compactIndex = {
+    version: '2.0.0',
+    updated: indexData.updated || new Date().toISOString(),
+    count: indexData.insights.length,
+    insights: indexData.insights.map(ins => ({
+      id: ins.id,
+      status: ins.status,
+      date: ins.source?.date || '2026-01-15',
+      file: `${ins.id}.md`
+    }))
+  };
+  fs.writeFileSync(path.join(seedDir, 'index.json'), JSON.stringify(compactIndex, null, 2));
+
+  // Create actual .md files with YAML frontmatter (v2.0 requires reading from files)
+  for (const insight of indexData.insights) {
+    const tagsYaml = insight.tags && insight.tags.length > 0
+      ? `[${insight.tags.join(', ')}]`
+      : '[]';
+
+    const content = `---
+id: ${insight.id}
+source:
+  title: "${insight.source?.title || insight.title || 'Untitled'}"
+  type: ${insight.source?.type || 'blog'}
+  date: ${insight.source?.date || '2026-01-15'}
+  credibility: ${insight.source?.credibility || 'medium'}
+date: ${insight.source?.date || '2026-01-15'}
+status: ${insight.status || 'evaluating'}
+model_era: claude-opus-4.5
+tags: ${tagsYaml}
+---
+
+## 原始洞见
+
+${insight.content || '测试内容'}
+`;
+    fs.writeFileSync(path.join(seedDir, `${insight.id}.md`), content);
+  }
+
   return tempDir;
 }
 

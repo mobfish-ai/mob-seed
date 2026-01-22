@@ -244,6 +244,7 @@ describe('insight-manager', () => {
   describe('listInsights', () => {
     beforeEach(() => {
       // Create test insights
+      // Note: Tags must appear at least 2 times to be indexed (threshold = 2)
       createInsight(tempDir, {
         source: {
           title: 'List Test 1',
@@ -252,7 +253,7 @@ describe('insight-manager', () => {
           credibility: 'medium'
         },
         content: 'Content 1.',
-        tags: ['alpha']
+        tags: ['shared', 'alpha']
       });
       createInsight(tempDir, {
         source: {
@@ -262,8 +263,12 @@ describe('insight-manager', () => {
           credibility: 'high'
         },
         content: 'Content 2.',
-        tags: ['beta']
+        tags: ['shared', 'beta']
       });
+
+      // Rebuild tags index after creating insights
+      // (incremental updates filter by threshold, so manual rebuild is needed)
+      syncInsightIndex(tempDir);
     });
 
     it('should list all insights', () => {
@@ -282,8 +287,9 @@ describe('insight-manager', () => {
     });
 
     it('should filter by tag', () => {
-      const insights = listInsights(tempDir, { tag: 'alpha' });
-      assert.strictEqual(insights.length, 1);
+      // 'shared' tag appears 2 times, meeting the index threshold
+      const insights = listInsights(tempDir, { tag: 'shared' });
+      assert.strictEqual(insights.length, 2);
     });
 
     it('should limit results', () => {

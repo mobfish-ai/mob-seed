@@ -8,8 +8,10 @@
  * @module ace/insight-dedup
  */
 
+const path = require('path');
 const { getIndex } = require('./insight-index');
-const { getInsight } = require('./insight-manager');
+const { parseInsightFile } = require('./insight-parser');
+const { getInsightsDir } = require('./insight-config');
 const { jaccardSimilarity, levenshteinSimilarity } = require('./similarity-matcher');
 
 // ============================================================================
@@ -196,7 +198,7 @@ function findSimilarInsights(projectPath, newInsightData, config = {}) {
   };
 
   // Get existing insights from index
-  const { index, error } = getIndex(projectPath);
+  const { index, insightsDir, error } = getIndex(projectPath);
 
   if (error || !index || !Array.isArray(index.insights)) {
     result.error = error || 'Failed to load insights index';
@@ -210,9 +212,30 @@ function findSimilarInsights(projectPath, newInsightData, config = {}) {
   }
 
   // Calculate similarity with each existing insight
+  // Note: v2.0 compact index doesn't include tags/title, so we read from files
   const matches = [];
 
-  for (const existing of existingInsights) {
+  for (const compactMeta of existingInsights) {
+    // Read full insight from file for comparison
+    const filePath = path.join(insightsDir, compactMeta.file || `${compactMeta.id}.md`);
+    const parseResult = parseInsightFile(filePath);
+
+    // Skip if file can't be parsed
+    if (!parseResult.success || !parseResult.insight) {
+      continue;
+    }
+
+    const fullInsight = parseResult.insight;
+
+    // Build comparison object with title, tags, content
+    const existing = {
+      id: fullInsight.id,
+      title: fullInsight.source?.title || '',
+      tags: fullInsight.tags || [],
+      content: fullInsight.content || '',
+      status: fullInsight.status
+    };
+
     const similarity = calculateInsightSimilarity(newInsightData, existing, cfg.weights);
 
     if (similarity.score >= cfg.threshold) {

@@ -1,58 +1,86 @@
 'use strict';
 
 /**
- * Insight Index Module
+ * Insight Index Module (v2.0)
  *
- * Maintains the insights index file for quick querying.
+ * Maintains a dual-index architecture for insights:
+ * - index.json: Compact index with minimal fields (id, status, date, file)
+ * - tags-index.json: Inverted index for tag-based queries
+ *
+ * Full metadata is read from individual insight files on demand.
  */
 
 const fs = require('fs');
 const path = require('path');
-const { parseInsightFile, extractMetadata } = require('./insight-parser');
-const { getInsightsDir, ensureInsightsDir } = require('./insight-config');
+const { parseInsightFile } = require('./insight-parser');
+const { getInsightsDir } = require('./insight-config');
 const { InsightStatusValues } = require('./insight-types');
 
+// Configuration
+const INDEX_VERSION = '2.0.0';
+const TAGS_INDEX_VERSION = '1.0.0';
+const TAG_THRESHOLD = 2; // Only index tags appearing 2+ times
+
 /**
- * Default index structure
+ * Create empty compact index
+ * @returns {object} Empty index structure
  */
 function createEmptyIndex() {
   return {
-    version: '1.0.0',
+    version: INDEX_VERSION,
     updated: new Date().toISOString(),
-    insights: [],
-    stats: {
-      total: 0,
-      byStatus: Object.fromEntries(InsightStatusValues.map(s => [s, 0])),
-      bySourceType: {}
-    }
+    count: 0,
+    insights: []
   };
 }
 
 /**
- * Calculate stats from insights list
- * @param {Array} insights - List of insight metadata
- * @returns {object} Stats object
+ * Create empty tags index
+ * @returns {object} Empty tags index structure
  */
-function calculateStats(insights) {
-  const byStatus = Object.fromEntries(InsightStatusValues.map(s => [s, 0]));
-  const bySourceType = {};
-
-  for (const insight of insights) {
-    // Count by status
-    if (insight.status && byStatus[insight.status] !== undefined) {
-      byStatus[insight.status]++;
-    }
-
-    // Count by source type
-    if (insight.sourceType) {
-      bySourceType[insight.sourceType] = (bySourceType[insight.sourceType] || 0) + 1;
-    }
-  }
-
+function createEmptyTagsIndex() {
   return {
-    total: insights.length,
-    byStatus,
-    bySourceType
+    version: TAGS_INDEX_VERSION,
+    updated: new Date().toISOString(),
+    stats: {
+      total_tags: 0,
+      indexed_tags: 0,
+      threshold: TAG_THRESHOLD
+    },
+    tags: []
+  };
+}
+
+/**
+ * Extract compact metadata for index (only essential fields)
+ * @param {object} insight - Full insight object
+ * @param {string} file - Filename
+ * @returns {object} Compact metadata
+ */
+function extractCompactMetadata(insight, file) {
+  return {
+    id: insight.id,
+    status: insight.status,
+    date: insight.date,
+    file: file
+  };
+}
+
+/**
+ * Extract full metadata for backward compatibility
+ * @param {object} insight - Full insight object
+ * @returns {object} Full metadata
+ */
+function extractFullMetadata(insight) {
+  return {
+    id: insight.id,
+    source: insight.source?.title || '',
+    sourceType: insight.source?.type || '',
+    author: insight.source?.author || '',
+    status: insight.status,
+    modelEra: insight.modelEra,
+    tags: insight.tags || [],
+    date: insight.date
   };
 }
 
@@ -65,12 +93,40 @@ function loadIndex(indexPath) {
   try {
     if (fs.existsSync(indexPath)) {
       const content = fs.readFileSync(indexPath, 'utf-8');
-      return JSON.parse(content);
+      const index = JSON.parse(content);
+
+      // Migrate old format if needed
+      if (!index.version || index.version.startsWith('1.')) {
+        return migrateIndexV1toV2(index);
+      }
+
+      return index;
     }
   } catch (err) {
     // Return empty index on error
   }
   return createEmptyIndex();
+}
+
+/**
+ * Migrate v1 index to v2 compact format
+ * @param {object} oldIndex - v1 index with full metadata
+ * @returns {object} v2 compact index
+ */
+function migrateIndexV1toV2(oldIndex) {
+  const newIndex = createEmptyIndex();
+
+  if (oldIndex.insights && Array.isArray(oldIndex.insights)) {
+    newIndex.insights = oldIndex.insights.map(item => ({
+      id: item.id,
+      status: item.status,
+      date: item.date,
+      file: item.file || `${item.id}.md`
+    }));
+    newIndex.count = newIndex.insights.length;
+  }
+
+  return newIndex;
 }
 
 /**
@@ -81,17 +137,13 @@ function loadIndex(indexPath) {
  */
 function saveIndex(indexPath, index) {
   try {
-    // Ensure directory exists
     const dir = path.dirname(indexPath);
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir, { recursive: true });
     }
 
-    // Update timestamp
     index.updated = new Date().toISOString();
-
-    // Recalculate stats
-    index.stats = calculateStats(index.insights);
+    index.count = index.insights.length;
 
     fs.writeFileSync(indexPath, JSON.stringify(index, null, 2), 'utf-8');
     return true;
@@ -101,18 +153,174 @@ function saveIndex(indexPath, index) {
 }
 
 /**
- * Rebuild index from insight files in directory
- * @param {string} insightsDir - Insights directory path
- * @returns {object} Rebuilt index
+ * Load tags index from file
+ * @param {string} tagsIndexPath - Path to tags-index.json
+ * @returns {object} Tags index object or empty
  */
-function rebuildIndex(insightsDir) {
+function loadTagsIndex(tagsIndexPath) {
+  try {
+    if (fs.existsSync(tagsIndexPath)) {
+      const content = fs.readFileSync(tagsIndexPath, 'utf-8');
+      return JSON.parse(content);
+    }
+  } catch (err) {
+    // Return empty on error
+  }
+  return createEmptyTagsIndex();
+}
+
+/**
+ * Save tags index to file
+ * @param {string} tagsIndexPath - Path to tags-index.json
+ * @param {object} tagsIndex - Tags index object
+ * @returns {boolean} Success status
+ */
+function saveTagsIndex(tagsIndexPath, tagsIndex) {
+  try {
+    const dir = path.dirname(tagsIndexPath);
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+
+    tagsIndex.updated = new Date().toISOString();
+
+    fs.writeFileSync(tagsIndexPath, JSON.stringify(tagsIndex, null, 2), 'utf-8');
+    return true;
+  } catch (err) {
+    return false;
+  }
+}
+
+/**
+ * Build tags index from insight files
+ * @param {string} insightsDir - Insights directory path
+ * @param {number} [threshold] - Minimum tag occurrences to index
+ * @returns {object} Tags index
+ */
+function buildTagsIndex(insightsDir, threshold = TAG_THRESHOLD) {
+  const tagCounts = new Map();
+  const tagInsights = new Map();
+
+  if (!fs.existsSync(insightsDir)) {
+    return createEmptyTagsIndex();
+  }
+
+  // Scan all insight files
+  const files = fs.readdirSync(insightsDir)
+    .filter(f => f.endsWith('.md') && f.startsWith('ins-'));
+
+  for (const file of files) {
+    const filePath = path.join(insightsDir, file);
+    const result = parseInsightFile(filePath);
+
+    if (result.success && result.insight && result.insight.tags) {
+      const insightId = result.insight.id;
+
+      for (const tag of result.insight.tags) {
+        const normalizedTag = tag.toLowerCase().trim();
+        tagCounts.set(normalizedTag, (tagCounts.get(normalizedTag) || 0) + 1);
+
+        if (!tagInsights.has(normalizedTag)) {
+          tagInsights.set(normalizedTag, []);
+        }
+        tagInsights.get(normalizedTag).push(insightId);
+      }
+    }
+  }
+
+  // Filter tags by threshold and build index
+  const indexedTags = [];
+  for (const [tag, count] of tagCounts.entries()) {
+    if (count >= threshold) {
+      indexedTags.push({
+        tag,
+        count,
+        insights: tagInsights.get(tag)
+      });
+    }
+  }
+
+  // Sort by count descending
+  indexedTags.sort((a, b) => b.count - a.count);
+
+  return {
+    version: TAGS_INDEX_VERSION,
+    updated: new Date().toISOString(),
+    stats: {
+      total_tags: tagCounts.size,
+      indexed_tags: indexedTags.length,
+      threshold
+    },
+    tags: indexedTags
+  };
+}
+
+/**
+ * Update tags index when adding/removing insight
+ * @param {object} tagsIndex - Current tags index
+ * @param {string} insightId - Insight ID
+ * @param {Array} oldTags - Previous tags (for removal)
+ * @param {Array} newTags - New tags (for addition)
+ * @returns {object} Updated tags index
+ */
+function updateTagsIndexForInsight(tagsIndex, insightId, oldTags = [], newTags = []) {
+  const tagsMap = new Map(tagsIndex.tags.map(t => [t.tag, { ...t }]));
+
+  // Remove from old tags
+  for (const tag of oldTags) {
+    const normalizedTag = tag.toLowerCase().trim();
+    const entry = tagsMap.get(normalizedTag);
+    if (entry) {
+      entry.insights = entry.insights.filter(id => id !== insightId);
+      entry.count = entry.insights.length;
+      if (entry.count < TAG_THRESHOLD) {
+        tagsMap.delete(normalizedTag);
+      }
+    }
+  }
+
+  // Add to new tags
+  for (const tag of newTags) {
+    const normalizedTag = tag.toLowerCase().trim();
+    let entry = tagsMap.get(normalizedTag);
+    if (!entry) {
+      entry = { tag: normalizedTag, count: 0, insights: [] };
+      tagsMap.set(normalizedTag, entry);
+    }
+    if (!entry.insights.includes(insightId)) {
+      entry.insights.push(insightId);
+      entry.count = entry.insights.length;
+    }
+  }
+
+  // Rebuild tags array, filtering by threshold
+  const filteredTags = Array.from(tagsMap.values())
+    .filter(t => t.count >= TAG_THRESHOLD)
+    .sort((a, b) => b.count - a.count);
+
+  return {
+    ...tagsIndex,
+    updated: new Date().toISOString(),
+    stats: {
+      ...tagsIndex.stats,
+      indexed_tags: filteredTags.length
+    },
+    tags: filteredTags
+  };
+}
+
+/**
+ * Rebuild both indexes from insight files
+ * @param {string} insightsDir - Insights directory path
+ * @returns {object} { index, tagsIndex }
+ */
+function rebuildIndexes(insightsDir) {
   const index = createEmptyIndex();
 
   if (!fs.existsSync(insightsDir)) {
-    return index;
+    return { index, tagsIndex: createEmptyTagsIndex() };
   }
 
-  // Find all .md files (excluding index.json)
   const files = fs.readdirSync(insightsDir)
     .filter(f => f.endsWith('.md') && f.startsWith('ins-'));
 
@@ -121,21 +329,65 @@ function rebuildIndex(insightsDir) {
     const result = parseInsightFile(filePath);
 
     if (result.success && result.insight) {
-      const meta = extractMetadata(result.insight);
-      meta.file = file;
-      index.insights.push(meta);
+      index.insights.push(extractCompactMetadata(result.insight, file));
     }
   }
 
   // Sort by date descending
-  index.insights.sort((a, b) => {
-    return new Date(b.date) - new Date(a.date);
-  });
+  index.insights.sort((a, b) => new Date(b.date) - new Date(a.date));
+  index.count = index.insights.length;
 
-  // Calculate stats
-  index.stats = calculateStats(index.insights);
+  // Build tags index
+  const tagsIndex = buildTagsIndex(insightsDir);
 
+  return { index, tagsIndex };
+}
+
+/**
+ * Legacy function for backward compatibility
+ * @deprecated Use rebuildIndexes instead
+ */
+function rebuildIndex(insightsDir) {
+  const { index } = rebuildIndexes(insightsDir);
   return index;
+}
+
+/**
+ * Calculate stats from insights (for backward compatibility)
+ * Requires reading insight files for full metadata
+ * @param {Array} insights - List of compact insight metadata
+ * @param {string} insightsDir - Directory containing insight files
+ * @returns {object} Stats object
+ */
+function calculateStats(insights, insightsDir) {
+  const byStatus = Object.fromEntries(InsightStatusValues.map(s => [s, 0]));
+  const bySourceType = {};
+
+  for (const item of insights) {
+    // Count by status (available in compact format)
+    if (item.status && byStatus[item.status] !== undefined) {
+      byStatus[item.status]++;
+    }
+
+    // For source type, need to read from file if not in compact
+    if (item.sourceType) {
+      bySourceType[item.sourceType] = (bySourceType[item.sourceType] || 0) + 1;
+    } else if (insightsDir && item.file) {
+      // Read from file for full stats
+      const filePath = path.join(insightsDir, item.file);
+      const result = parseInsightFile(filePath);
+      if (result.success && result.insight?.source?.type) {
+        const sourceType = result.insight.source.type;
+        bySourceType[sourceType] = (bySourceType[sourceType] || 0) + 1;
+      }
+    }
+  }
+
+  return {
+    total: insights.length,
+    byStatus,
+    bySourceType
+  };
 }
 
 /**
@@ -147,12 +399,16 @@ function rebuildIndex(insightsDir) {
 function getIndex(projectPath, options = {}) {
   const insightsDir = getInsightsDir(projectPath, options);
   const indexPath = path.join(insightsDir, 'index.json');
+  const tagsIndexPath = path.join(insightsDir, 'tags-index.json');
 
   const index = loadIndex(indexPath);
+  const tagsIndex = loadTagsIndex(tagsIndexPath);
 
   return {
     index,
+    tagsIndex,
     indexPath,
+    tagsIndexPath,
     insightsDir
   };
 }
@@ -160,31 +416,48 @@ function getIndex(projectPath, options = {}) {
 /**
  * Add insight to index
  * @param {string} projectPath - Project root path
- * @param {object} insightMeta - Insight metadata
+ * @param {object} insightMeta - Insight metadata (can be full or compact)
  * @param {object} [options] - Options
  * @returns {object} Result
  */
 function addToIndex(projectPath, insightMeta, options = {}) {
-  const { index, indexPath } = getIndex(projectPath, options);
+  const { index, tagsIndex, indexPath, tagsIndexPath } = getIndex(projectPath, options);
+
+  // Extract compact metadata
+  const compactMeta = {
+    id: insightMeta.id,
+    status: insightMeta.status,
+    date: insightMeta.date,
+    file: insightMeta.file || `${insightMeta.id}.md`
+  };
 
   // Check if already exists
-  const existingIdx = index.insights.findIndex(i => i.id === insightMeta.id);
+  const existingIdx = index.insights.findIndex(i => i.id === compactMeta.id);
+  const oldTags = [];
+
   if (existingIdx >= 0) {
     // Update existing
-    index.insights[existingIdx] = insightMeta;
+    index.insights[existingIdx] = compactMeta;
   } else {
     // Add new
-    index.insights.push(insightMeta);
+    index.insights.push(compactMeta);
   }
 
   // Sort by date descending
   index.insights.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-  const success = saveIndex(indexPath, index);
+  // Update tags index if tags provided
+  const newTags = insightMeta.tags || [];
+  const updatedTagsIndex = updateTagsIndexForInsight(tagsIndex, compactMeta.id, oldTags, newTags);
+
+  // Save both indexes
+  const indexSuccess = saveIndex(indexPath, index);
+  const tagsSuccess = saveTagsIndex(tagsIndexPath, updatedTagsIndex);
 
   return {
-    success,
+    success: indexSuccess && tagsSuccess,
     index,
+    tagsIndex: updatedTagsIndex,
     action: existingIdx >= 0 ? 'updated' : 'added'
   };
 }
@@ -197,23 +470,41 @@ function addToIndex(projectPath, insightMeta, options = {}) {
  * @returns {object} Result
  */
 function removeFromIndex(projectPath, insightId, options = {}) {
-  const { index, indexPath } = getIndex(projectPath, options);
+  const { index, tagsIndex, indexPath, tagsIndexPath, insightsDir } = getIndex(projectPath, options);
 
-  const initialLength = index.insights.length;
-  index.insights = index.insights.filter(i => i.id !== insightId);
-
-  if (index.insights.length === initialLength) {
+  const existingIdx = index.insights.findIndex(i => i.id === insightId);
+  if (existingIdx === -1) {
     return {
       success: false,
       error: `Insight not found: ${insightId}`
     };
   }
 
-  const success = saveIndex(indexPath, index);
+  // Get tags from file before removing (for tags index update)
+  const insightFile = index.insights[existingIdx].file;
+  let oldTags = [];
+  if (insightFile) {
+    const filePath = path.join(insightsDir, insightFile);
+    const result = parseInsightFile(filePath);
+    if (result.success && result.insight) {
+      oldTags = result.insight.tags || [];
+    }
+  }
+
+  // Remove from index
+  index.insights.splice(existingIdx, 1);
+
+  // Update tags index
+  const updatedTagsIndex = updateTagsIndexForInsight(tagsIndex, insightId, oldTags, []);
+
+  // Save both indexes
+  const indexSuccess = saveIndex(indexPath, index);
+  const tagsSuccess = saveTagsIndex(tagsIndexPath, updatedTagsIndex);
 
   return {
-    success,
+    success: indexSuccess && tagsSuccess,
     index,
+    tagsIndex: updatedTagsIndex,
     action: 'removed'
   };
 }
@@ -255,10 +546,10 @@ function updateStatus(projectPath, insightId, newStatus, options = {}) {
  * @param {string} projectPath - Project root path
  * @param {object} filters - Query filters
  * @param {object} [options] - Options
- * @returns {Array} Matching insights
+ * @returns {Array} Matching insights (compact format)
  */
 function queryInsights(projectPath, filters = {}, options = {}) {
-  const { index } = getIndex(projectPath, options);
+  const { index, tagsIndex, insightsDir } = getIndex(projectPath, options);
   let results = [...index.insights];
 
   // Filter by status
@@ -266,21 +557,34 @@ function queryInsights(projectPath, filters = {}, options = {}) {
     results = results.filter(i => i.status === filters.status);
   }
 
-  // Filter by source type
-  if (filters.sourceType) {
-    results = results.filter(i => i.sourceType === filters.sourceType);
-  }
-
-  // Filter by tag
+  // Filter by tag using tags index
   if (filters.tag) {
-    results = results.filter(i =>
-      i.tags && i.tags.includes(filters.tag)
-    );
+    const normalizedTag = filters.tag.toLowerCase().trim();
+    const tagEntry = tagsIndex.tags.find(t => t.tag === normalizedTag);
+    if (tagEntry) {
+      const tagInsightIds = new Set(tagEntry.insights);
+      results = results.filter(i => tagInsightIds.has(i.id));
+    } else {
+      results = []; // Tag not in index
+    }
   }
 
-  // Filter by model era
-  if (filters.modelEra) {
-    results = results.filter(i => i.modelEra === filters.modelEra);
+  // For filters requiring full metadata, read from files
+  if (filters.sourceType || filters.modelEra) {
+    results = results.filter(item => {
+      const filePath = path.join(insightsDir, item.file);
+      const parseResult = parseInsightFile(filePath);
+      if (!parseResult.success) return false;
+
+      const insight = parseResult.insight;
+      if (filters.sourceType && insight.source?.type !== filters.sourceType) {
+        return false;
+      }
+      if (filters.modelEra && insight.modelEra !== filters.modelEra) {
+        return false;
+      }
+      return true;
+    });
   }
 
   // Filter by date range
@@ -302,18 +606,43 @@ function queryInsights(projectPath, filters = {}, options = {}) {
 }
 
 /**
+ * Query insights by tag using tags index
+ * @param {string} projectPath - Project root path
+ * @param {string} tag - Tag to search
+ * @param {object} [options] - Options
+ * @returns {Array} Matching insight IDs
+ */
+function queryByTag(projectPath, tag, options = {}) {
+  const { tagsIndex } = getIndex(projectPath, options);
+  const normalizedTag = tag.toLowerCase().trim();
+  const tagEntry = tagsIndex.tags.find(t => t.tag === normalizedTag);
+  return tagEntry ? tagEntry.insights : [];
+}
+
+/**
+ * Get all tags with counts
+ * @param {string} projectPath - Project root path
+ * @param {object} [options] - Options
+ * @returns {Array} Tags with counts
+ */
+function getAllTags(projectPath, options = {}) {
+  const { tagsIndex } = getIndex(projectPath, options);
+  return tagsIndex.tags;
+}
+
+/**
  * Get insight stats
  * @param {string} projectPath - Project root path
  * @param {object} [options] - Options
  * @returns {object} Stats
  */
 function getStats(projectPath, options = {}) {
-  const { index } = getIndex(projectPath, options);
-  return index.stats;
+  const { index, insightsDir } = getIndex(projectPath, options);
+  return calculateStats(index.insights, insightsDir);
 }
 
 /**
- * Sync index with files on disk
+ * Sync both indexes with files on disk
  * @param {string} projectPath - Project root path
  * @param {object} [options] - Options
  * @returns {object} Result
@@ -321,9 +650,10 @@ function getStats(projectPath, options = {}) {
 function syncIndex(projectPath, options = {}) {
   const insightsDir = getInsightsDir(projectPath, options);
   const indexPath = path.join(insightsDir, 'index.json');
+  const tagsIndexPath = path.join(insightsDir, 'tags-index.json');
 
   const oldIndex = loadIndex(indexPath);
-  const newIndex = rebuildIndex(insightsDir);
+  const { index: newIndex, tagsIndex: newTagsIndex } = rebuildIndexes(insightsDir);
 
   const added = newIndex.insights.filter(
     n => !oldIndex.insights.find(o => o.id === n.id)
@@ -333,28 +663,56 @@ function syncIndex(projectPath, options = {}) {
     o => !newIndex.insights.find(n => n.id === o.id)
   ).length;
 
-  const success = saveIndex(indexPath, newIndex);
+  const indexSuccess = saveIndex(indexPath, newIndex);
+  const tagsSuccess = saveTagsIndex(tagsIndexPath, newTagsIndex);
 
   return {
-    success,
+    success: indexSuccess && tagsSuccess,
     added,
     removed,
     total: newIndex.insights.length,
-    index: newIndex
+    index: newIndex,
+    tagsIndex: newTagsIndex
   };
 }
 
 module.exports = {
+  // Index structure
   createEmptyIndex,
-  calculateStats,
+  createEmptyTagsIndex,
+
+  // Metadata extraction
+  extractCompactMetadata,
+  extractFullMetadata,
+
+  // Index I/O
   loadIndex,
   saveIndex,
+  loadTagsIndex,
+  saveTagsIndex,
+
+  // Index building
   rebuildIndex,
+  rebuildIndexes,
+  buildTagsIndex,
+  updateTagsIndexForInsight,
+
+  // Main API
   getIndex,
   addToIndex,
   removeFromIndex,
   updateStatus,
   queryInsights,
+  queryByTag,
+  getAllTags,
   getStats,
-  syncIndex
+  syncIndex,
+
+  // Backward compatibility
+  calculateStats,
+
+  // Constants
+  INDEX_VERSION,
+  TAGS_INDEX_VERSION,
+  TAG_THRESHOLD
 };
