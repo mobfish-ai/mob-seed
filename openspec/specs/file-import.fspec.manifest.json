@@ -1,0 +1,44 @@
+{
+  "specId": "file-import",
+  "specVersion": "1.0.0",
+  "emittedAt": "2026-01-22T10:00:00.000Z",
+  "outputs": [
+    {
+      "type": "code",
+      "path": "skills/mob-seed/lib/ace/insight-importer.js",
+      "features": [
+        "FR-001: 文件导入模式",
+        "FR-002: 文件内容解析",
+        "FR-003: 元数据自动提取",
+        "FR-004: 文件验证",
+        "FR-005: 与去重机制集成"
+      ]
+    },
+    {
+      "type": "test",
+      "path": "skills/mob-seed/test/ace/insight-importer.test.js",
+      "acceptance": [
+        "AC-001", "AC-002", "AC-003", "AC-004", "AC-005", "AC-006",
+        "AC-007", "AC-008", "AC-009", "AC-010", "AC-011", "AC-012",
+        "AC-013", "AC-014", "AC-015", "AC-016", "AC-017", "AC-018",
+        "AC-019", "AC-020", "AC-021", "AC-022", "AC-023", "AC-024",
+        "AC-025", "AC-026", "AC-027", "AC-028", "AC-029", "AC-030",
+        "AC-031", "AC-032"
+      ]
+    },
+    {
+      "type": "prompt",
+      "path": "skills/mob-seed/prompts/insight-import.md"
+    }
+  ],
+  "coverage": {
+    "features": {
+      "total": 6,
+      "covered": 6
+    },
+    "acceptance": {
+      "total": 32,
+      "covered": 32
+    }
+  }
+}
