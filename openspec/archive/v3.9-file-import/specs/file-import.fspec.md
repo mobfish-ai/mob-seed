@@ -1,8 +1,9 @@
 ---
 id: file-import
 version: 1.0.0
-status: implementing
+status: archived
 created: 2026-01-22
+archived: 2026-01-22
 release: v3.9
 tech_stack: JavaScript
 derived_path: skills/mob-seed/lib/ace/
