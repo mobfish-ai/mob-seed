@@ -96,13 +96,37 @@ cd mob-seed
 
 After installation, restart Claude Code to load the plugin.
 
+### ACE Knowledge Base Setup (Required)
+
+mob-seed uses **symbolic links** to separate the open-source project from your private ACE (Agentic Context Engineering) knowledge assets:
+
+```bash
+# Run the setup wizard
+node scripts/setup-ace.js
+
+# Or manually configure
+mkdir -p ~/ace-knowledge/{insights,observations,reflections,learning}
+ln -s ~/ace-knowledge/insights /path/to/mob-seed/.seed/insights
+ln -s ~/ace-knowledge/observations /path/to/mob-seed/.seed/observations
+ln -s ~/ace-knowledge/reflections /path/to/mob-seed/.seed/reflections
+ln -s ~/ace-knowledge/learning /path/to/mob-seed/.seed/learning
+```
+
+**Why?** This design keeps your personal insights and observations private while sharing the mob-seed methodology openly.
+
+See [ACE Knowledge Setup Guide](./docs/guide/ace-knowledge-setup.md) for detailed instructions.
+
 ## Project Structure
 
 ```
 mob-seed/                          # Project root
 ├── .seed/                         # SEED configuration
 │   ├── config.json               # Core config (paths, patterns, emit settings)
-│   └── mission.md              # Mission statement
+│   ├── mission.md                # Mission statement
+│   ├── insights/ ->              # 🔗 Symbolic link to private ACE knowledge
+│   ├── observations/ ->          # 🔗 Symbolic link to private ACE knowledge
+│   ├── reflections/ ->           # 🔗 Symbolic link to private ACE knowledge
+│   └── learning/ ->              # 🔗 Symbolic link to private ACE knowledge
 ├── openspec/                      # OpenSpec specifications
 │   ├── specs/                    # Stable specs (archived)
 │   ├── changes/                  # Change proposals (implementing)
