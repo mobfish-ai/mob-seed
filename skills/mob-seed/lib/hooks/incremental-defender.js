@@ -113,18 +113,42 @@ function seedPrincipleCheck(files, config) {
 
     // E: Emit 检查 - 检查是否有 manifest
     // 跳过归档目录（已完成的历史规格）
+    // 跳过 draft/review 状态的规格（仅 implementing 状态需要派生清单）
     if (file.endsWith('.fspec.md') && !file.includes('/archive/')) {
-      const manifestDir = config?.paths?.output || '.seed/output';
-      const baseName = path.basename(file, '.fspec.md');
-      const manifestPath = path.join(manifestDir, baseName, 'manifest.json');
+      // 读取规格状态
+      let specStatus = 'draft';
+      try {
+        const specContent = fs.readFileSync(file, 'utf8');
+        const frontmatter = extractFrontmatter(specContent);
+        const statusMatch = frontmatter.match(/status:\s*(\w+)/);
+        if (statusMatch) {
+          specStatus = statusMatch[1];
+        }
+      } catch {
+        // 无法读取时保守处理，假设 draft
+      }
 
-      if (!fs.existsSync(manifestPath)) {
-        results.E.issues.push(`${file}: 无派生清单`);
+      // 仅 implementing 状态需要派生清单
+      if (specStatus === 'implementing') {
+        const manifestDir = config?.paths?.output || '.seed/output';
+        const baseName = path.basename(file, '.fspec.md');
+        const manifestPath = path.join(manifestDir, baseName, 'manifest.json');
+
+        if (!fs.existsSync(manifestPath)) {
+          results.E.issues.push(`${file}: 无派生清单`);
+        }
       }
     }
 
     // E2: Exec 检查 - 检查测试是否存在
     if (file.endsWith('.js') && !file.includes('.test.')) {
+      // 跳过根目录 scripts/（工具脚本，非核心代码）
+      // 仅检查 skills/mob-seed/ 下的代码
+      if (file.startsWith('scripts/') && !file.includes('skills/')) {
+        // 根目录脚本是工具脚本，不强制要求测试
+        continue;
+      }
+
       // 尝试多种测试路径：同目录、分离目录、scripts 目录
       const colocatedPath = file.replace('.js', '.test.js');
 
@@ -133,7 +157,7 @@ function seedPrincipleCheck(files, config) {
       const testDir = config?.paths?.test || 'test';
       const separatePath = file.replace(srcDir, testDir).replace('.js', '.test.js');
 
-      // 特殊处理 scripts/ 目录 → test/scripts/
+      // 特殊处理 skills/mob-seed/scripts/ 目录 → test/scripts/
       let scriptsPath = null;
       if (file.includes('/scripts/') && file.includes('skills/mob-seed/scripts/')) {
         scriptsPath = file.replace('skills/mob-seed/scripts/', 'skills/mob-seed/test/scripts/').replace('.js', '.test.js');

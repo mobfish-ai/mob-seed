@@ -164,8 +164,9 @@ anti_goals:
       assert.strictEqual(results.S.pass, true);
     });
 
-    it('should check E (Emit) - warn when manifest does not exist', () => {
-      fs.writeFileSync('test.fspec.md', '# Test Spec');
+    it('should check E (Emit) - warn when manifest does not exist for implementing spec', () => {
+      // 只有 implementing 状态的规格才需要派生清单
+      fs.writeFileSync('test.fspec.md', '---\nstatus: implementing\n---\n# Test Spec');
       const config = { paths: { output: '.seed/output' } };
 
       const results = seedPrincipleCheck('test.fspec.md', config);
@@ -174,8 +175,18 @@ anti_goals:
       assert.ok(results.E.issues.some(i => i.includes('无派生清单')));
     });
 
+    it('should skip E check for draft spec', () => {
+      // draft 状态的规格不需要派生清单
+      fs.writeFileSync('test.fspec.md', '---\nstatus: draft\n---\n# Test Spec');
+      const config = { paths: { output: '.seed/output' } };
+
+      const results = seedPrincipleCheck('test.fspec.md', config);
+
+      assert.strictEqual(results.E.pass, true);
+    });
+
     it('should pass E when manifest exists', () => {
-      fs.writeFileSync('test.fspec.md', '# Test Spec');
+      fs.writeFileSync('test.fspec.md', '---\nstatus: implementing\n---\n# Test Spec');
       fs.mkdirSync('.seed/output/test', { recursive: true });
       fs.writeFileSync('.seed/output/test/manifest.json', '{}');
       const config = { paths: { output: '.seed/output' } };
