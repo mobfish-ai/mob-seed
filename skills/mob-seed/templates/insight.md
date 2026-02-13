@@ -99,6 +99,20 @@ tags: [{{tags}}]
 
 ## 相关变更
 
+### 关联洞见
+
+{必须通过 Grep 搜索 tags/关键词，找到相关洞见并用 [[wikilink]] 链接}
+
+- 关联洞见: [[ins-YYYYMMDD-xxx]] (简要说明关联关系)
+- 关联洞见: [[ins-YYYYMMDD-yyy]] (简要说明关联关系)
+
+### 来源追溯
+
+- 来源: {{source_url}}
+- 原文存档: （如有 archive 文件，用 [[wikilink]] 链接）
+
+### 潜在行动
+
 - **潜在规格**: {{potential_spec}}
 - **文档改进**: {{doc_improvement}}
 - **代码改进**: {{code_improvement}}
@@ -139,6 +153,9 @@ tags: [{{tags}}]
 □ 采纳决策明确（分三类：采纳/观望/不采纳）
 □ 局限性有识别（至少 2-3 条）
 □ 可操作的下一步（潜在规格/改进方向）
+□ 关联洞见已检索并链接（Grep 搜索相关 tags/关键词，用 [[wikilink]] 链接）
+□ 来源追溯已链接（原文 URL/archive 的链接）
+□ 元数据从原文明确提取（无推测）
 
 状态转换:
 - evaluating → piloting: 开始试点验证

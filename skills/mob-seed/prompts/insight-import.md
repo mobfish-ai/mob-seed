@@ -179,6 +179,9 @@ grep -rn "bash.*适配\|CLI" .seed/insights/
 □ 采纳决策明确（分三类：采纳/观望/不采纳）
 □ 局限性有识别（至少 2-3 条）
 □ 可操作的下一步（潜在规格/改进方向）
+□ 关联洞见已检索并链接（Grep 搜索相关 tags/关键词，用 [[wikilink]] 链接）
+□ 来源追溯已链接（原文 URL/archive 的链接）
+□ 元数据从原文明确提取（无推测）
 
 ⚠️ 任何检查项未通过，禁止创建文件
 ```
@@ -194,7 +197,7 @@ grep -rn "bash.*适配\|CLI" .seed/insights/
 id: ins-{YYYYMMDD}-{slug}
 source:
   title: "{完整标题}"
-  type: {blog|paper|documentation|discussion|expert_opinion|experience}
+  type: {blog|expert_opinion|experience|documentation|paper|discussion|video|interview|report|article|community|ai_generated}
   author: "{作者}"
   affiliation: "{机构}"
   date: {YYYY-MM-DD}
@@ -206,7 +209,7 @@ source:
       url: "{URL}"
 date: {今天日期}
 status: evaluating
-model_era: claude-opus-4.5
+model_era: claude-opus-4-6
 review_trigger: manual
 tags: [{标签列表}]
 ---
@@ -286,6 +289,20 @@ tags: [{标签列表}]
   1. **决策1** - 原因
 
 ## 相关变更
+
+### 关联洞见
+
+{必须通过 Grep 搜索 tags/关键词，找到相关洞见并用 [[wikilink]] 链接}
+
+- 关联洞见: [[ins-YYYYMMDD-xxx]] (简要说明关联关系)
+- 关联洞见: [[ins-YYYYMMDD-yyy]] (简要说明关联关系)
+
+### 来源追溯
+
+- 来源: {URL}
+- 原文存档: （如有 archive 文件，用 [[wikilink]] 链接）
+
+### 潜在行动
 
 - **潜在规格**: [可能创建的 fspec]
 - **文档改进**: [需要更新的文档]
@@ -367,12 +384,17 @@ tags: [{标签列表}]
 📋 请提供来源信息:
 
 1. 来源类型:
+   [ ] blog - 技术博客/文章
    [ ] expert_opinion - 专家意见
-   [ ] paper - 学术论文
-   [ ] blog - 技术博客
-   [ ] documentation - 官方文档
-   [ ] discussion - 社区讨论
    [ ] experience - 实践经验
+   [ ] documentation - 官方文档
+   [ ] paper - 学术论文
+   [ ] discussion - 社区讨论
+   [ ] video - 视频内容
+   [ ] interview - 采访/对话
+   [ ] report - 行业报告
+   [ ] article - 新闻/综合文章
+   [ ] community - 社区生态内容
    [ ] ai_generated - AI 生成
 
 2. 作者 (可选): _______________

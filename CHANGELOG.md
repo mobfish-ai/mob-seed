@@ -6,6 +6,35 @@
 
 ---
 
+## [3.11.0] - 2026-02-13
+
+### Changed
+
+**Insight 关联检索与来源追溯 (跨项目一致性修复)**
+
+- **统一 source.type 枚举**: 基于 230+ 条洞见的实际使用统计，统一为 12 种类型:
+  `blog | expert_opinion | experience | documentation | paper | discussion | video | interview | report | article | community | ai_generated`
+  - 同步更新: `commands/insight.md`, `prompts/insight-import.md`, `templates/insight.md`
+- **更新 model_era**: `claude-opus-4.5` → `claude-opus-4-6`
+- **commands/insight.md**: 内联模板替换为引用 `templates/insight.md`，避免模板分叉
+- **来源类型说明表**: 从 7 种扩展到 12 种，覆盖实际使用的所有类型
+
+### Added
+
+**模板和导入流程增强**
+
+- **templates/insight.md**: "相关变更" 扩展为三个子章节:
+  - `### 关联洞见` — 要求 Grep 搜索并用 `[[wikilink]]` 链接
+  - `### 来源追溯` — 原文 URL/archive 链接
+  - `### 潜在行动` — 规格/文档/代码改进
+- **prompts/insight-import.md**: 同步更新模板和质量检查清单
+- **质量检查清单新增 3 项**:
+  - `□ 关联洞见已检索并链接`
+  - `□ 来源追溯已链接`
+  - `□ 元数据从原文明确提取（无推测）`
+
+---
+
 ## [3.10.0] - 2026-01-22
 
 ### Changed
