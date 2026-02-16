@@ -62,9 +62,9 @@ argument-hint: [URL] [--text] [--list] [--stats] [--review] [--update=<id>]
     "output_dir": "~/knowledge-base/mob-seed",
     "insight": {
       "template": "path/to/custom-template.md",
-      "methodologies": ["ACE", "SEED", "LINKS", "FLEET"],
+      "methodologies": ["my-methodology-A", "my-methodology-B"],
       "comparison_label": "方法论关联",
-      "comparison_note": "与项目核心方法论中相关的做对比"
+      "comparison_note": "与项目核心方法论做对比"
     }
   }
 }
