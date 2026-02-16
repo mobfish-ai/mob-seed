@@ -51,9 +51,9 @@ tags: [{{tags}}]
 
 ### 方法论关联
 
-> 从 `.seed/config.json` → `ace.insight.methodologies` 读取方法论列表。
-> 默认对比 mob-seed 自身；项目可 override 为自定义方法论列表。
-> 只对比有交集的方法论，不必每条都填。
+> 从 `.seed/config.json` → `ace.insight.methodologies` 读取对比目标。
+> 默认对比 mob-seed 自身；项目可 override 为自定义列表。
+> 只对比有交集的，不必每条都填。
 
 | 方法论 | 关联点 | 启发/差异 |
 |--------|--------|-----------|
@@ -141,7 +141,7 @@ tags: [{{tags}}]
 <!--
 模板说明:
 1. 替换 {{变量}} 为实际值
-2. 填写评估笔记表格（包括方法论关联分析，按 config.methodologies）
+2. 填写评估笔记表格（包括方法论关联，按 config.methodologies）
 3. 完成关键洞察、潜在改进、局限性章节
 4. 做出采纳决策（三类：采纳/观望/不采纳）
 5. 使用 /mob-seed:insight --update <id> <status> 更新状态

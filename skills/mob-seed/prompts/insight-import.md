@@ -13,7 +13,7 @@
 用户输入 → 提取元数据 → 创建空壳文件 → 手动填充
 
 正确流程（分析式）:
-用户输入 → 配置加载 → 去重检查 → 深度分析 → 方法论关联 → 生成完整洞见 → 创建文件
+用户输入 → 配置加载 → 去重检查 → 深度分析 → 对比分析 → 生成完整洞见 → 创建文件
 ```
 
 **质量标准**: 新创建的洞见必须与现有高质量洞见（如 `ins-20260114-ralph-loop-automation.md`）具有相同深度。
@@ -26,10 +26,8 @@
 
 ```
 读取 .seed/config.json → ace.insight 字段：
-  - template:           自定义模板路径（默认: mob-seed 内置模板）
-  - methodologies:      对比方法论列表（默认: ["mob-seed"]）
-  - comparison_label:   对比章节标题（默认: "方法论关联"）
-  - comparison_note:    对比说明文字（默认: "与 mob-seed 做对比分析"）
+  - template:       自定义模板路径（默认: mob-seed 内置模板）
+  - methodologies:  对比目标列表（默认: ["mob-seed"]）
 ```
 
 **配置示例** (`.seed/config.json`):
@@ -38,15 +36,14 @@
   "ace": {
     "insight": {
       "template": "path/to/custom-template.md",
-      "methodologies": ["my-methodology-A", "my-methodology-B"],
-      "comparison_label": "方法论关联",
-      "comparison_note": "与项目核心方法论做对比，只对比有交集的"
+      "methodologies": ["my-methodology-A", "my-methodology-B"]
     }
   }
 }
 ```
 
-**未配置时的默认行为**: 对比 mob-seed 自身（`["mob-seed"]`）。
+**未配置时的默认行为**: 使用内置模板，对比 mob-seed 自身。
+**自定义章节标题/说明文字**: 直接修改模板文件即可。
 
 ---
 
@@ -147,15 +144,11 @@ grep -rn "bash.*适配\|CLI" .seed/insights/
 | ... | ... | ... |
 ```
 
-### 2.3 方法论关联分析（关键）
+### 2.3 对比分析（关键）
 
-> **从配置读取**: `.seed/config.json` → `ace.insight.methodologies` 获取对比方法论列表。
-> **默认**: 对比 mob-seed 自身；项目可 override 为自定义方法论列表。
-> 只对比有交集的方法论，不必每条都填。
-
-| 方法论 | 关联点 | 启发/差异 |
-|--------|--------|-----------|
-| [从 config 读取] | 洞见与该方法论的交集 | 可借鉴什么 / 有何不同 |
+> 对比目标从 `.seed/config.json` → `ace.insight.methodologies` 读取。
+> 默认对比 mob-seed 自身；项目可 override。
+> 章节格式按模板（`ace.insight.template`）定义。
 
 ### 2.4 评估笔记
 
@@ -204,7 +197,7 @@ grep -rn "bash.*适配\|CLI" .seed/insights/
 □ 核心概念清晰定义（1-2 句话能说清楚是什么）
 □ 问题和痛点明确（不是泛泛而谈）
 □ 架构/方法论有具体分析（图表或结构化描述）
-□ 方法论关联已分析（按 config.methodologies，表格形式）
+□ 对比分析已完成（按 config.methodologies 和模板格式）
 □ 评估笔记完整（每个观点都有适用性判断）
 □ 采纳决策明确（分三类：采纳/观望/不采纳）
 □ 局限性有识别（至少 2-3 条）
@@ -276,15 +269,7 @@ tags: [{标签列表}]
 |------|--------|------|
 | ... | ... | ... |
 
-### 方法论关联
-
-> 从 `.seed/config.json` → `ace.insight.methodologies` 读取方法论列表。
-> 默认对比 mob-seed 自身；项目可 override 为自定义方法论列表。
-> 只对比有交集的方法论，不必每条都填。
-
-| 方法论 | 关联点 | 启发/差异 |
-|--------|--------|-----------|
-| ... | ... | ... |
+### [按模板 + config.methodologies 生成对比章节]
 
 ### 可借鉴的设计
 
@@ -450,7 +435,7 @@ tags: [{标签列表}]
 1. 阅读并理解输入内容
 2. 提取核心概念和方法论
 3. 分析架构或流程
-4. **方法论关联分析**（按 config.methodologies）
+4. **对比分析**（按 config.methodologies）
 5. 评估每个观点的适用性
 6. 做出采纳决策
 7. 识别局限性
@@ -466,7 +451,7 @@ tags: [{标签列表}]
 
    标题: {title}
    核心概念: {concept}
-   方法论关联: {relation}
+   对比分析: {relation}
    采纳决策: {decisions}
 
 确认创建? [Y/n]
@@ -569,7 +554,7 @@ grep -rn "{content_keywords}" .seed/insights/
 执行完整的第二阶段分析流程：
 1. 核心概念提取
 2. 架构/方法论分析
-3. **方法论关联分析**（按 config.methodologies）
+3. **对比分析**（按 config.methodologies）
 4. 评估笔记
 5. 采纳决策
 6. 局限性分析
@@ -599,7 +584,7 @@ grep -rn "{content_keywords}" .seed/insights/
    来源文件: {file_path}
    标题: {title}
    核心概念: {concept}
-   方法论关联: {relation}
+   对比分析: {relation}
    采纳决策: {decisions}
 
 确认创建? [Y/n]
@@ -661,7 +646,7 @@ grep -rn "{content_keywords}" .seed/insights/
 解决问题: {problem}
 架构分析: {architecture_summary}
 
-=== 方法论关联 ===
+=== 对比分析 ===
 {comparison_table}
 
 === 采纳决策 ===
@@ -696,7 +681,7 @@ grep -rn "{content_keywords}" .seed/insights/
 ❌ 质量检查未通过
 
 缺失内容:
-   - [ ] 方法论关联分析
+   - [ ] 对比分析
    - [ ] 采纳决策
 
 请补充以上内容后重新创建。
@@ -735,7 +720,7 @@ grep -rn "{content_keywords}" .seed/insights/
 ## 质量参考
 
 高质量洞见示例：
-- `ins-20260114-ralph-loop-automation.md` - 完整的评估笔记和方法论关联分析
+- `ins-20260114-ralph-loop-automation.md` - 完整的评估笔记和对比分析
 - `ins-20260115-google-stitch-ai-studio-workflow.md` - 深度研究验证和对比分析
 
 创建新洞见时，应以这些文件的深度和结构为参考标准。

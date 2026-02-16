@@ -62,9 +62,7 @@ argument-hint: [URL] [--text] [--list] [--stats] [--review] [--update=<id>]
     "output_dir": "~/knowledge-base/mob-seed",
     "insight": {
       "template": "path/to/custom-template.md",
-      "methodologies": ["my-methodology-A", "my-methodology-B"],
-      "comparison_label": "方法论关联",
-      "comparison_note": "与项目核心方法论做对比"
+      "methodologies": ["my-methodology-A", "my-methodology-B"]
     }
   }
 }
@@ -74,10 +72,8 @@ argument-hint: [URL] [--text] [--list] [--stats] [--review] [--update=<id>]
 
 | 配置项 | 默认值 | 说明 |
 |--------|--------|------|
-| `template` | mob-seed 内置模板 | 自定义洞见模板路径 |
-| `methodologies` | `["mob-seed"]` | 对比方法论列表 |
-| `comparison_label` | `"方法论关联"` | 对比章节标题 |
-| `comparison_note` | `"与 mob-seed 做对比分析"` | 对比说明文字 |
+| `template` | mob-seed 内置模板 | 自定义洞见模板路径（章节标题/说明文字直接改模板） |
+| `methodologies` | `["mob-seed"]` | 对比目标列表 |
 
 配置后，系统会在目标目录创建 `insights/` 子目录，并在 `.seed/` 下创建软链接。
 
