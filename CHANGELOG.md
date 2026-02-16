@@ -6,6 +6,20 @@
 
 ---
 
+## [3.12.0] - 2026-02-16
+
+### Changed
+
+**Insight 方法论关联：配置化 Override 支持**
+
+- **"与 mob-seed 对比分析" → "方法论关联"**: 移除所有硬编码的 mob-seed 对比引用，改为从 `.seed/config.json` → `ace.insight.methodologies` 读取
+- **新增第〇阶段: 配置加载**: `insight-import.md` 导入流程新增 Phase 0，强制读取 config 获取可覆盖配置
+- **4 项可覆盖配置**: `template`（自定义模板路径）、`methodologies`（对比方法论列表）、`comparison_label`（章节标题）、`comparison_note`（说明文字）
+- **默认行为不变**: 未配置时仍对比 mob-seed 自身，向后兼容
+- **受影响文件**: `prompts/insight-import.md`（12 处）、`templates/insight.md`（5 处）、`commands/insight.md`（2 处）
+
+---
+
 ## [3.11.0] - 2026-02-13
 
 ### Changed

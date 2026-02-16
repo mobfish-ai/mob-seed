@@ -59,10 +59,25 @@ argument-hint: [URL] [--text] [--list] [--stats] [--review] [--update=<id>]
 // .seed/config.json 或 .seed/config.local.json
 {
   "ace": {
-    "output_dir": "~/knowledge-base/mob-seed"
+    "output_dir": "~/knowledge-base/mob-seed",
+    "insight": {
+      "template": "path/to/custom-template.md",
+      "methodologies": ["ACE", "SEED", "LINKS", "FLEET"],
+      "comparison_label": "方法论关联",
+      "comparison_note": "与项目核心方法论中相关的做对比"
+    }
   }
 }
 ```
+
+### 洞见配置项 (`ace.insight`)
+
+| 配置项 | 默认值 | 说明 |
+|--------|--------|------|
+| `template` | mob-seed 内置模板 | 自定义洞见模板路径 |
+| `methodologies` | `["mob-seed"]` | 对比方法论列表 |
+| `comparison_label` | `"方法论关联"` | 对比章节标题 |
+| `comparison_note` | `"与 mob-seed 做对比分析"` | 对比说明文字 |
 
 配置后，系统会在目标目录创建 `insights/` 子目录，并在 `.seed/` 下创建软链接。
 
@@ -370,7 +385,7 @@ tags: [tag1, tag2]
 
 **必需章节**（详见模板）:
 - `## 原始洞见` — 核心概念、解决的问题、架构设计/方法论、详细分析
-- `## 评估笔记` — 适用性表格、与 mob-seed 对比分析、可借鉴设计、关键洞察、局限性
+- `## 评估笔记` — 适用性表格、方法论关联分析（可配置）、可借鉴设计、关键洞察、局限性
 - `## 采纳决策` — 采纳/观望/不采纳三分类
 - `## 相关变更` — 关联洞见（`[[wikilink]]`）、来源追溯、潜在行动
 - `## 补充说明` — 项目/来源信息、关键引用、核心价值
